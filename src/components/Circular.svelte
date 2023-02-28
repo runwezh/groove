@@ -3,13 +3,13 @@
 	import { onDestroy, onMount } from "svelte";
 	import { t } from "$stores/misc.js";
 	import viewport from "$stores/viewport.js";
-	import { scaleLinear, range } from "d3";
+	import { scaleLinear, range, line, lineRadial } from "d3";
 
 	export let data;
 
 	let interval;
 	const height = 500;
-	const duration = 3000;
+	const duration = 2800;
 	const start = 0;
 	const end = 4;
 
@@ -28,6 +28,18 @@
 		}, duration);
 	};
 
+	const lineGenerator = line()
+		.x((d) => d.x)
+		.y((d) => d.y);
+
+	$: console.log(
+		lineGenerator([
+			{ x: 0, y: 0 },
+			{ x: 1, y: 1 },
+			{ x: 2, y: 2 }
+		])
+	);
+
 	onDestroy(() => {
 		clearInterval(interval);
 	});
@@ -35,6 +47,14 @@
 
 <svg width={"100%"} {height}>
 	<circle r={height / 2 - 100} cx={"50%"} cy={"50%"} />
+	{#each range(0, 4, 0.25) as i}
+		<line
+			x1={$viewport.width / 2}
+			y1={height / 2}
+			x2={$viewport.width / 2 + (height / 2 - 100) * Math.cos(rScale(i))}
+			y2={height / 2 + (height / 2 - 100) * Math.sin(rScale(i))}
+		/>
+	{/each}
 
 	{#key data}
 		{#each Object.keys(data) as instrument, i}
@@ -62,7 +82,7 @@
 		fill: none;
 	}
 	line {
-		stroke: black;
+		stroke: var(--color-gray-300);
 		stroke-width: 1px;
 	}
 </style>

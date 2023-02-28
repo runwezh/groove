@@ -5,7 +5,7 @@
 	import { range } from "d3";
 
 	let value = 0;
-	let options = ["triplet", "quintuplet", "septuplet", "straight"];
+	let options = ["straight", "septuplet", "quintuplet", "triplet"];
 
 	const swing = (ratio) => {
 		return [0, ratio, 1, 1 + ratio, 2, 2 + ratio, 3, 3 + ratio];
@@ -36,7 +36,7 @@
 		snare: [1, 3],
 		kick: [0, 2]
 	};
-	const data = [triplet, quintuplet, septuplet, straight];
+	const data = [straight, septuplet, quintuplet, triplet];
 </script>
 
 <Circular data={data[value]} />
