@@ -1,8 +1,56 @@
 <script>
-	import Rectangle from "$components/Rectangle.svelte";
+	import Linear from "$components/Linear.svelte";
+	import Range from "$components/helpers/Range.svelte";
+	import Circular from "$components/Circular.svelte";
+	import { range } from "d3";
+
+	let value = 0;
+	let options = ["triplet", "quintuplet", "septuplet", "straight"];
+
+	const swing = (ratio) => {
+		return [0, ratio, 1, 1 + ratio, 2, 2 + ratio, 3, 3 + ratio];
+	};
+
+	const straight = {
+		hihat: swing(0.5),
+		snare: [1, 3],
+		kick: [0, 2]
+	};
+	const triplet = {
+		hihat: swing(2 / 3),
+		snare: [1, 3],
+		kick: [0, 2]
+	};
+	const quintuplet = {
+		hihat: swing(3 / 5),
+		snare: [1, 3],
+		kick: [0, 2]
+	};
+	const septuplet = {
+		hihat: swing(4 / 7),
+		snare: [1, 3],
+		kick: [0, 2]
+	};
+	const fallInLove = {
+		hihat: [1 / 7, 4 / 7, 8 / 7, 11 / 7, 15 / 7, 18 / 7, 22 / 7, 25 / 7],
+		snare: [1, 3],
+		kick: [0, 2]
+	};
+	const data = [triplet, quintuplet, septuplet, straight];
 </script>
 
-<Rectangle ratio={1} />
-<Rectangle ratio={2 / 1} />
-<Rectangle ratio={3 / 2} />
-<Rectangle ratio={4 / 3} />
+<Circular data={data[value]} />
+
+<h2>{options[value]}</h2>
+<div style="width: 50%">
+	<Range
+		min={0}
+		max={options.length - 1}
+		step={1}
+		showTicks={true}
+		bind:value
+	/>
+</div>
+
+<!-- <Linear data={straight} /> -->
+<!-- <Linear data={fallInLove} /> -->
