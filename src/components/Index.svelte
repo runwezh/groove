@@ -52,5 +52,17 @@
 	/>
 </div>
 
+<details>
+	<summary>more info</summary>
+	<p>
+		Swinging a groove means instead of every note being equally spaced, there's
+		a long-short-long-short pattern (see red notes), so the notes are spaced
+		slightly unevenly. The most common type is a triplet swing, where the length
+		of the first note (long) is twice the length of the second (short). That's
+		one way to do it, and there are other ways to divide the beat to create
+		different feels.
+	</p>
+</details>
+
 <!-- <Linear data={straight} /> -->
 <!-- <Linear data={fallInLove} /> -->
