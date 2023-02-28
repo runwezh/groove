@@ -3,19 +3,32 @@
 	import { onDestroy, onMount } from "svelte";
 	import { t } from "$stores/misc.js";
 	import viewport from "$stores/viewport.js";
-	import { scaleLinear, range, line, lineRadial } from "d3";
+	import { scaleLinear, range, arc } from "d3";
 
 	export let data;
+	export let parts;
+	export let showPercentage;
+	export let showDivisions;
 
 	let interval;
 	const height = 500;
-	const duration = 2800;
+	const duration = 800;
 	const start = 0;
-	const end = 4;
+	const end = 1;
 
 	$: rScale = scaleLinear()
-		.domain([0, 4])
-		.range([0, 2 * Math.PI]);
+		.domain([0, end])
+		.range([-Math.PI / 2, (3 / 2) * Math.PI]); // to make 0 at the top
+
+	const circleR = height / 2 - 100;
+	const x = (theta) => circleR * Math.cos(theta);
+	const y = (theta) => circleR * Math.sin(theta);
+
+	$: percentageArc = arc()
+		.innerRadius(0)
+		.outerRadius(circleR)
+		.startAngle(rScale(data.hihat[0]) + Math.PI / 2)
+		.endAngle(rScale(data.hihat[1]) + Math.PI / 2);
 
 	const pause = () => {
 		clearInterval(interval);
@@ -28,33 +41,40 @@
 		}, duration);
 	};
 
-	const lineGenerator = line()
-		.x((d) => d.x)
-		.y((d) => d.y);
-
-	$: console.log(
-		lineGenerator([
-			{ x: 0, y: 0 },
-			{ x: 1, y: 1 },
-			{ x: 2, y: 2 }
-		])
-	);
-
 	onDestroy(() => {
 		clearInterval(interval);
 	});
 </script>
 
 <svg width={"100%"} {height}>
-	<circle r={height / 2 - 100} cx={"50%"} cy={"50%"} />
-	{#each range(0, 4, 0.25) as i}
-		<line
-			x1={$viewport.width / 2}
-			y1={height / 2}
-			x2={$viewport.width / 2 + (height / 2 - 100) * Math.cos(rScale(i))}
-			y2={height / 2 + (height / 2 - 100) * Math.sin(rScale(i))}
+	<circle id="outer" r={circleR} cx={"50%"} cy={"50%"} />
+
+	{#if showPercentage}
+		<path
+			fill="gold"
+			d={percentageArc()}
+			style:transform="translate(50%, 50%)"
 		/>
-	{/each}
+	{/if}
+	{#if showDivisions}
+		{#each range(0, 1, 1 / parts) as i}
+			<line
+				x1={$viewport.width / 2}
+				y1={height / 2}
+				x2={$viewport.width / 2 + (height / 2 - 100) * Math.cos(rScale(i))}
+				y2={height / 2 + (height / 2 - 100) * Math.sin(rScale(i))}
+			/>
+		{/each}
+	{/if}
+
+	<line
+		id="marker"
+		x1={0}
+		y1={0}
+		x2={x(rScale($t))}
+		y2={y(rScale($t))}
+		style:transform="translate(50%, 50%)"
+	/>
 
 	{#key data}
 		{#each Object.keys(data) as instrument, i}
@@ -76,13 +96,17 @@
 	svg {
 		background: var(--color-gray-100);
 	}
-	circle {
+	#outer {
 		stroke: var(--color-gray-500);
 		stroke-width: 1px;
 		fill: none;
 	}
+	#marker {
+		stroke: var(--color-gray-700);
+		stroke-width: 3px;
+	}
 	line {
-		stroke: var(--color-gray-300);
+		stroke: var(--color-gray-400);
 		stroke-width: 1px;
 	}
 </style>

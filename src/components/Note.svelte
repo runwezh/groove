@@ -10,12 +10,12 @@
 	export let rScale;
 	export let type;
 	export let innerRadius;
+	export let i;
 
-	const defaultDuration = 0.1;
+	const defaultDuration = 0.05;
 	const defaultHeight = 20;
 
 	$: playing = $t >= note && $t < note + defaultDuration;
-
 	$: if (playing) sound();
 
 	const sounds = {
@@ -29,6 +29,10 @@
 			src: ["assets/sound/snare.mp3"]
 		})
 	};
+
+	// given theta, calculate x and y on circle
+	const x = (theta) => innerRadius * Math.cos(theta);
+	const y = (theta) => innerRadius * Math.sin(theta);
 
 	let noteArc = arc()
 		.innerRadius(innerRadius)
@@ -50,17 +54,26 @@
 		class:playing
 	/>
 {:else if type === "circular"}
-	<path
+	<!-- <path
 		d={noteArc()}
 		fill={color}
 		class:playing
 		style:transform={"translate(50%, 50%)"}
+	/> -->
+	<circle
+		fill={i === 0 ? "cornflowerblue" : "lightblue"}
+		r={i === 0 ? 16 : 10}
+		cx={x(rScale(note))}
+		cy={y(rScale(note))}
+		style:transform={"translate(50%, 50%)"}
+		class:playing
 	/>
 {/if}
 
 <style>
 	rect,
-	path {
+	path,
+	circle {
 		opacity: 0.3;
 	}
 	.playing {

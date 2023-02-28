@@ -6,6 +6,7 @@
 	export let showTicks = false;
 	export let value = min;
 	export let label = "";
+	export let ticks;
 
 	const getDecimalCount = (value) => {
 		if (Math.floor(value) === value) return 0;
@@ -13,7 +14,7 @@
 	};
 
 	$: decimals = getDecimalCount(step);
-	$: ticks = showTicks ? range(min, max + step, step) : [];
+	$: ticks = ticks ? ticks : showTicks ? range(min, max + step, step) : [];
 </script>
 
 <div class="range">

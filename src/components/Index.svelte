@@ -3,33 +3,33 @@
 	import Range from "$components/helpers/Range.svelte";
 	import Circular from "$components/Circular.svelte";
 	import { range } from "d3";
+	import Toggle from "$components/helpers/Toggle.svelte";
 
 	let value = 0;
-	let options = ["straight", "septuplet", "quintuplet", "triplet"];
+	let options = [
+		"straight",
+		"septuplet swing",
+		"quintuplet swing",
+		"triplet swing"
+	];
+	let showPercentage = false;
+	let showDivisions = false;
 
 	const swing = (ratio) => {
-		return [0, ratio, 1, 1 + ratio, 2, 2 + ratio, 3, 3 + ratio];
+		// could have parameter "beats" if we want more
+		return [0, ratio];
 	};
-
 	const straight = {
-		hihat: swing(0.5),
-		snare: [1, 3],
-		kick: [0, 2]
+		hihat: swing(0.5)
 	};
 	const triplet = {
-		hihat: swing(2 / 3),
-		snare: [1, 3],
-		kick: [0, 2]
+		hihat: swing(2 / 3)
 	};
 	const quintuplet = {
-		hihat: swing(3 / 5),
-		snare: [1, 3],
-		kick: [0, 2]
+		hihat: swing(3 / 5)
 	};
 	const septuplet = {
-		hihat: swing(4 / 7),
-		snare: [1, 3],
-		kick: [0, 2]
+		hihat: swing(4 / 7)
 	};
 	const fallInLove = {
 		hihat: [1 / 7, 4 / 7, 8 / 7, 11 / 7, 15 / 7, 18 / 7, 22 / 7, 25 / 7],
@@ -37,9 +37,15 @@
 		kick: [0, 2]
 	};
 	const data = [straight, septuplet, quintuplet, triplet];
+	const parts = [2, 7, 5, 3];
 </script>
 
-<Circular data={data[value]} />
+<Circular
+	data={data[value]}
+	parts={parts[value]}
+	{showPercentage}
+	{showDivisions}
+/>
 
 <h2>{options[value]}</h2>
 <div style="width: 50%">
@@ -48,21 +54,34 @@
 		max={options.length - 1}
 		step={1}
 		showTicks={true}
+		ticks={[50, 57, 60, 66]}
 		bind:value
 	/>
 </div>
 
-<details>
-	<summary>more info</summary>
+{#if value === 0}
 	<p>
-		Swinging a groove means instead of every note being equally spaced, there's
-		a long-short-long-short pattern (see red notes), so the notes are spaced
-		slightly unevenly. The most common type is a triplet swing, where the length
-		of the first note (long) is twice the length of the second (short). That's
-		one way to do it, and there are other ways to divide the beat to create
-		different feels.
+		This rhythm is completely <strong>straight</strong>. Each beat is equally
+		spaced apart.
 	</p>
-</details>
+{:else}
+	<p>
+		This rhythm is <strong>swung</strong>. Swing means that there's a long-short
+		pattern, so the first note takes up more space than the second.
+	</p>
+{/if}
+<p>
+	In this case, the first beat takes up <strong
+		>{(data[value].hihat[1] * 100).toFixed(1)}%</strong
+	> of the beat.
+</p>
+<Toggle label="Show percentage" style="inner" bind:value={showPercentage} />
 
-<!-- <Linear data={straight} /> -->
-<!-- <Linear data={fallInLove} /> -->
+{#if value !== 0}
+	<p>
+		It's called a <strong>{options[value]} swing</strong> because the beat is
+		divided into {parts[value]} parts. Since we're dividing the beat into an odd
+		number of parts, it will be uneven and have this slightly off-kilter feeling.
+	</p>
+	<Toggle label="Show divisions" style="inner" bind:value={showDivisions} />
+{/if}

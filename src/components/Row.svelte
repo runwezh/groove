@@ -19,7 +19,7 @@
 		{/each}
 	</g>
 {:else if type === "circular"}
-	{#each data as note}
+	{#each data as note, noteNum}
 		<Note
 			{note}
 			color={colors[id]}
@@ -27,6 +27,7 @@
 			{rScale}
 			{type}
 			innerRadius={150 + i * 20}
+			i={noteNum}
 		/>
 	{/each}
 {/if}
