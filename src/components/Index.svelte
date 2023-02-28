@@ -87,7 +87,7 @@
 	<Toggle label="Show divisions" style="inner" bind:value={showDivisions} />
 {/if}
 
-<h3 style="margin-top: 4em">
+<h3 style="margin-top: 2em">
 	[WIP] visualizing a song (including other drum parts)
 </h3>
 <Circular data={fallInLove} beats={4} />
