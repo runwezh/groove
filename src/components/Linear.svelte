@@ -1,7 +1,6 @@
 <script>
 	import Row from "$components/Row.svelte";
 	import { onDestroy, onMount } from "svelte";
-	import { t } from "$stores/misc.js";
 	import viewport from "$stores/viewport.js";
 	import { scaleLinear, range } from "d3";
 

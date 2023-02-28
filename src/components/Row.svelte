@@ -8,6 +8,7 @@
 	export let yScale;
 	export let rScale;
 	export let type;
+	export let t;
 
 	const colors = { hihat: "red", kick: "black", snare: "purple" };
 </script>
@@ -28,6 +29,7 @@
 			{type}
 			innerRadius={150 + i * 20}
 			i={noteNum}
+			{t}
 		/>
 	{/each}
 {/if}

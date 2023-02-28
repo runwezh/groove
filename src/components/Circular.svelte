@@ -1,20 +1,22 @@
 <script>
 	import Row from "$components/Row.svelte";
 	import { onDestroy, onMount } from "svelte";
-	import { t } from "$stores/misc.js";
 	import viewport from "$stores/viewport.js";
 	import { scaleLinear, range, arc } from "d3";
+	import { tweened } from "svelte/motion";
 
 	export let data;
+	export let beats;
 	export let parts;
 	export let showPercentage;
 	export let showDivisions;
 
+	export const t = tweened(0);
 	let interval;
 	const height = 500;
-	const duration = 800;
+	const duration = beats === 1 ? 900 : 2800;
 	const start = 0;
-	const end = 1;
+	$: end = beats;
 
 	$: rScale = scaleLinear()
 		.domain([0, end])
@@ -84,6 +86,7 @@
 				data={data[instrument]}
 				{rScale}
 				type={"circular"}
+				t={$t}
 			/>
 		{/each}
 	{/key}

@@ -1,5 +1,4 @@
 <script>
-	import { t } from "$stores/misc.js";
 	import { Howl, Howler } from "howler";
 	import { arc } from "d3";
 
@@ -11,11 +10,12 @@
 	export let type;
 	export let innerRadius;
 	export let i;
+	export let t;
 
 	const defaultDuration = 0.05;
 	const defaultHeight = 20;
 
-	$: playing = $t >= note && $t < note + defaultDuration;
+	$: playing = t >= note && t < note + defaultDuration;
 	$: if (playing) sound();
 
 	const sounds = {

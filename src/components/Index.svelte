@@ -42,6 +42,7 @@
 
 <Circular
 	data={data[value]}
+	beats={1}
 	parts={parts[value]}
 	{showPercentage}
 	{showDivisions}
@@ -85,3 +86,8 @@
 	</p>
 	<Toggle label="Show divisions" style="inner" bind:value={showDivisions} />
 {/if}
+
+<h3 style="margin-top: 4em">
+	[WIP] visualizing a song (including other drum parts)
+</h3>
+<Circular data={fallInLove} beats={4} />
