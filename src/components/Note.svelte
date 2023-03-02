@@ -1,24 +1,24 @@
 <script>
 	import { Howl } from "howler";
 	import { tweened } from "svelte/motion";
+	import { getContext } from "svelte";
 
 	export let color;
 	export let note;
 	export let id;
-	export let xScale;
-	export let angleScale;
-	export let type;
 	export let innerRadius;
-	export let i;
-	export let t;
-	export let isOn;
+
+	const { getAngleScale, getT, getInstrumentToggles } = getContext("song");
+	const angleScale = getAngleScale();
+	const t = getT();
+	const instrumentToggles = getInstrumentToggles();
 
 	const defaultDuration = 0.05;
-	const defaultHeight = 20;
 	const defaultR = 10;
 	const playingR = 20;
 
-	$: playing = t >= note && t < note + defaultDuration;
+	$: playing = $t >= note && $t < note + defaultDuration;
+	$: isOn = instrumentToggles[id] === "on";
 	$: if (playing && isOn) playNote();
 
 	const sounds = {
@@ -48,23 +48,13 @@
 	};
 </script>
 
-{#if type === "linear"}
-	<rect
-		x={xScale(note)}
-		width={xScale(defaultDuration)}
-		height={defaultHeight}
-		fill={color}
-		class:playing
-	/>
-{:else if type === "circular"}
-	<circle
-		fill={color}
-		r={$r}
-		cx={x(angleScale(note))}
-		cy={y(angleScale(note))}
-		class:muted={!isOn}
-	/>
-{/if}
+<circle
+	fill={color}
+	r={$r}
+	cx={x(angleScale(note))}
+	cy={y(angleScale(note))}
+	class:muted={!isOn}
+/>
 
 <style>
 	circle {

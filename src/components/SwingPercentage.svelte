@@ -37,7 +37,7 @@
 	data={data[value]}
 	beatsPerRotation={1}
 	division={divisions[value]}
-	bpm={120}
+	bpm={60}
 	{showPercentage}
 	{showDivisions}
 />

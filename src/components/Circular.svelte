@@ -1,6 +1,6 @@
 <script>
 	import Instrument from "$components/Instrument.svelte";
-	import { onDestroy } from "svelte";
+	import { onDestroy, setContext } from "svelte";
 	import viewport from "$stores/viewport.js";
 	import { scaleLinear, range, arc } from "d3";
 	import { tweened } from "svelte/motion";
@@ -13,10 +13,19 @@
 	export let showPercentage;
 	export let showDivisions;
 
+	setContext("song", {
+		beatsPerRotation,
+		division,
+		bpm,
+		getT: () => t,
+		getAngleScale: () => angleScale,
+		getInstrumentToggles: () => instrumentToggles
+	});
+
 	let interval;
 
 	const instrumentToggles = {
-		hihat: "off",
+		hihat: "on",
 		snare: "on",
 		kick: "on"
 	};
@@ -100,15 +109,7 @@
 
 	{#key data}
 		{#each Object.keys(data) as instrument, i}
-			<Instrument
-				id={instrument}
-				{i}
-				data={data[instrument]}
-				{angleScale}
-				type={"circular"}
-				t={$t}
-				isOn={instrumentToggles[instrument] === "on"}
-			/>
+			<Instrument id={instrument} {i} data={data[instrument]} />
 		{/each}
 	{/key}
 </svg>
