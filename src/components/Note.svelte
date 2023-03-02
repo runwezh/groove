@@ -1,22 +1,25 @@
 <script>
-	import { Howl, Howler } from "howler";
-	import { arc } from "d3";
+	import { Howl } from "howler";
+	import { tweened } from "svelte/motion";
 
 	export let color;
 	export let note;
 	export let id;
 	export let xScale;
-	export let rScale;
+	export let angleScale;
 	export let type;
 	export let innerRadius;
 	export let i;
 	export let t;
+	export let isOn;
 
 	const defaultDuration = 0.05;
 	const defaultHeight = 20;
+	const defaultR = 10;
+	const playingR = 20;
 
 	$: playing = t >= note && t < note + defaultDuration;
-	$: if (playing) sound();
+	$: if (playing && isOn) playNote();
 
 	const sounds = {
 		hihat: new Howl({
@@ -29,19 +32,19 @@
 			src: ["assets/sound/snare.mp3"]
 		})
 	};
-
-	// given theta, calculate x and y on circle
 	const x = (theta) => innerRadius * Math.cos(theta);
 	const y = (theta) => innerRadius * Math.sin(theta);
+	const r = tweened(defaultR);
 
-	let noteArc = arc()
-		.innerRadius(innerRadius)
-		.outerRadius(innerRadius + 15)
-		.startAngle(rScale(note))
-		.endAngle(rScale(note + defaultDuration));
+	const playNote = () => {
+		if (sounds[id].state() === "loaded") sounds[id].play();
 
-	const sound = () => {
-		sounds[id].play();
+		if (id !== "hihat") {
+			r.set(defaultR, { duration: 0 });
+			r.set(playingR, { duration: 250 }).then(() =>
+				r.set(defaultR, { duration: 250 })
+			);
+		}
 	};
 </script>
 
@@ -54,29 +57,20 @@
 		class:playing
 	/>
 {:else if type === "circular"}
-	<!-- <path
-		d={noteArc()}
-		fill={color}
-		class:playing
-		style:transform={"translate(50%, 50%)"}
-	/> -->
 	<circle
-		fill={i === 0 ? "cornflowerblue" : "lightblue"}
-		r={i === 0 ? 16 : 10}
-		cx={x(rScale(note))}
-		cy={y(rScale(note))}
-		style:transform={"translate(50%, 50%)"}
-		class:playing
+		fill={color}
+		r={$r}
+		cx={x(angleScale(note))}
+		cy={y(angleScale(note))}
+		class:muted={!isOn}
 	/>
 {/if}
 
 <style>
-	rect,
-	path,
 	circle {
-		opacity: 0.3;
+		transform: translate(50%, 50%);
 	}
-	.playing {
-		opacity: 1;
+	.muted {
+		opacity: 0.5;
 	}
 </style>
