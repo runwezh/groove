@@ -16,10 +16,10 @@
 	setContext("song", {
 		beatsPerRotation,
 		division,
-		bpm,
 		getT: () => t,
 		getAngleScale: () => angleScale,
-		getInstrumentToggles: () => instrumentToggles
+		getInstrumentToggles: () => instrumentToggles,
+		getCycleDuration: () => duration
 	});
 
 	let interval;

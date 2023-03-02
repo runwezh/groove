@@ -8,18 +8,25 @@
 	export let id;
 	export let innerRadius;
 
-	const { getAngleScale, getT, getInstrumentToggles } = getContext("song");
+	const {
+		beatsPerRotation,
+		getCycleDuration,
+		getAngleScale,
+		getT,
+		getInstrumentToggles
+	} = getContext("song");
 	const angleScale = getAngleScale();
 	const t = getT();
 	const instrumentToggles = getInstrumentToggles();
+	const cycleDuration = getCycleDuration();
 
-	const defaultDuration = 0.05;
+	const buffer = 0.05;
 	const defaultR = 10;
 	const playingR = 20;
-
-	$: playing = $t >= note && $t < note + defaultDuration;
-	$: isOn = instrumentToggles[id] === "on";
-	$: if (playing && isOn) playNote();
+	const animationDuration = cycleDuration / beatsPerRotation / 2;
+	// TODO: finish this. don't make the sound come earlier, just the animation (seperate those in playNote)
+	const beatsToPauseBeforeAnimating =
+		(animationDuration * beatsPerRotation) / cycleDuration;
 
 	const sounds = {
 		hihat: new Howl({
@@ -36,13 +43,17 @@
 	const y = (theta) => innerRadius * Math.sin(theta);
 	const r = tweened(defaultR);
 
+	$: playing = $t >= note && $t < note + buffer;
+	$: isOn = instrumentToggles[id] === "on";
+	$: if (playing && isOn) playNote();
+
 	const playNote = () => {
 		if (sounds[id].state() === "loaded") sounds[id].play();
 
 		if (id !== "hihat") {
 			r.set(defaultR, { duration: 0 });
-			r.set(playingR, { duration: 250 }).then(() =>
-				r.set(defaultR, { duration: 250 })
+			r.set(playingR, { duration: animationDuration }).then(() =>
+				r.set(defaultR, { duration: animationDuration })
 			);
 		}
 	};
