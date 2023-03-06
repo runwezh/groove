@@ -11,6 +11,12 @@
 			.flat();
 	};
 
+	const basic = {
+		hihat: range(0, 4, 0.5),
+		snare: [1, 3],
+		kick: [0, 2]
+	};
+
 	const quintuplet = {
 		hihat: swing(3 / 5, 4),
 		snare: [0.95, 2.95],
@@ -37,15 +43,18 @@
 	};
 </script>
 
-<SwingPercentage />
+<h3>Basic 4/4</h3>
+<Circular data={basic} beatsPerRotation={4} division={4} bpm={100} />
 
-<h3>Quintuplet swing</h3>
+<h3>Quintuplet swing with a slightly early snare</h3>
 <Circular data={quintuplet} beatsPerRotation={4} division={5} bpm={100} />
 
-<h3>With the love of my heart - Jacob Collier</h3>
+<h3>With the love of my heart - Jacob Collier (lots of weird stuff)</h3>
 <Circular
 	data={withTheLoveInMyHeart}
 	beatsPerRotation={5}
 	division={7}
 	bpm={100}
 />
+
+<SwingPercentage />
