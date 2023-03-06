@@ -1,6 +1,7 @@
 <script>
 	import Instrument from "$components/Instrument.svelte";
 	import { onDestroy, setContext } from "svelte";
+	import { writable } from "svelte/store";
 	import viewport from "$stores/viewport.js";
 	import { scaleLinear, range, arc } from "d3";
 	import { tweened } from "svelte/motion";
@@ -24,11 +25,11 @@
 
 	let interval;
 
-	const instrumentToggles = {
+	const instrumentToggles = writable({
 		hihat: "on",
 		snare: "on",
 		kick: "on"
-	};
+	});
 	let showGrid = "off";
 
 	const t = tweened(0);
@@ -117,9 +118,9 @@
 <button on:click={play}>play</button>
 <button on:click={pause}>pause</button>
 <Toggle label="Show grid" style="inner" bind:value={showGrid} />
-<Toggle label="Hi-hat" style="inner" bind:value={instrumentToggles["hihat"]} />
-<Toggle label="Kick" style="inner" bind:value={instrumentToggles["kick"]} />
-<Toggle label="Snare" style="inner" bind:value={instrumentToggles["snare"]} />
+<Toggle label="Hi-hat" style="inner" bind:value={$instrumentToggles["hihat"]} />
+<Toggle label="Kick" style="inner" bind:value={$instrumentToggles["kick"]} />
+<Toggle label="Snare" style="inner" bind:value={$instrumentToggles["snare"]} />
 
 <style>
 	svg {

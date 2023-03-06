@@ -44,7 +44,7 @@
 	const r = tweened(defaultR);
 
 	$: playing = $t >= note && $t < note + buffer;
-	$: isOn = instrumentToggles[id] === "on";
+	$: isOn = $instrumentToggles[id] === "on";
 	$: if (playing && isOn) playNote();
 
 	const playNote = () => {
@@ -72,6 +72,6 @@
 		transform: translate(50%, 50%);
 	}
 	.muted {
-		opacity: 0.5;
+		opacity: 0.2;
 	}
 </style>
