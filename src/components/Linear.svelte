@@ -1,4 +1,5 @@
 <script>
+	import RightBrain from "$components/RightBrain.svelte";
 	import Toggle from "$components/helpers/Toggle.svelte";
 	import Instrument from "$components/Linear.Instrument.svelte";
 	import { onDestroy, setContext } from "svelte";
@@ -23,6 +24,7 @@
 		getCycleDuration: () => duration
 	});
 
+	let brain = "left";
 	let showGrid = "off";
 	let showDivision = "off";
 	let interval;
@@ -68,26 +70,31 @@
 	});
 </script>
 
-<svg width={"100%"} {height}>
-	<g class="wrapper" transform={`translate(${padding.left}, ${padding.top})`}>
-		{#each Object.keys(data) as instrument, i}
-			<g
-				class="instrument"
-				transform={`translate(0, ${yScale(instrument)})`}
-				on:click={() => toggleSound(instrument)}
-			>
-				<Instrument
-					data={data[instrument]}
-					id={instrument}
-					height={barHeight}
-				/>
-				<text x={-10} y={barHeight / 2}>{instrument}</text>
-			</g>
-		{/each}
-		{#if showGrid === "on"}
+<!-- <Toggle label="" style="inner" bind:value={brain} options={["left", "right"]} /> -->
+
+{#if brain === "left"}
+	<svg width={"100%"} {height}>
+		<g class="wrapper" transform={`translate(${padding.left}, ${padding.top})`}>
+			{#each Object.keys(data) as instrument, i}
+				<g
+					class="instrument"
+					transform={`translate(0, ${yScale(instrument)})`}
+					on:click={() => toggleSound(instrument)}
+				>
+					<Instrument
+						data={data[instrument]}
+						id={instrument}
+						height={barHeight}
+					/>
+					<text x={-10} y={barHeight / 2}>{instrument}</text>
+				</g>
+			{/each}
+
 			{#each range(0, beatsPerRotation, 1 / division) as bar}
 				{@const thick = bar % 1 === 0}
 				<line
+					class="grid"
+					class:visible={showGrid === "on"}
 					class:thick
 					x1={xScale(bar)}
 					x2={xScale(bar)}
@@ -95,32 +102,46 @@
 					y2={height}
 				/>
 			{/each}
-		{/if}
 
-		<!-- {#if showDivision === "on"}
+			<!-- {#if showDivision === "on"}
 			{#each range(0, 4 / 3, 1 / 3) as div}
 				<line x1={xScale(div)} x2={xScale(div)} y1={0} y2={height} />
 			{/each}
 		{/if} -->
 
-		<line class="marker" x1={xScale($t)} x2={xScale($t)} y1={0} y2={height} />
-	</g>
-</svg>
+			<line class="marker" x1={xScale($t)} x2={xScale($t)} y1={0} y2={height} />
+		</g>
+	</svg>
+{:else if brain === "right"}
+	<RightBrain />
+{/if}
 
 <button on:click={play}>play</button>
 <button on:click={pause}>pause</button>
-<Toggle label="Show grid" style="inner" bind:value={showGrid} />
 
-<!-- <Toggle label="Show division" style="inner" bind:value={showDivision} /> -->
+{#if brain === "left"}
+	<Toggle label="Show grid" style="inner" bind:value={showGrid} />
+	<ul>
+		<li>click a track to mute it</li>
+		<li>blue notes are ones that don't fall on the 16th note grid</li>
+	</ul>
+
+	<!-- <Toggle label="Show division" style="inner" bind:value={showDivision} /> -->
+{/if}
+
 <style>
 	svg {
 		background: var(--color-gray-100);
 	}
-	line {
+	.grid {
 		stroke: var(--color-gray-400);
 		stroke-width: 1px;
+		opacity: 0;
 	}
-	line.thick {
+	.grid.visible {
+		opacity: 1;
+	}
+	.thick {
 		stroke: var(--color-gray-600);
 		stroke-width: 3px;
 	}

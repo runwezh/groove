@@ -1,4 +1,6 @@
 <script>
+	import Story from "$components/Story.svelte";
+	import Toggle from "$components/helpers/Toggle.svelte";
 	import Balls from "$components/Balls.svelte";
 	import SwingPercentage from "$components/SwingPercentage.svelte";
 	import Circular from "$components/Circular.svelte";
@@ -62,12 +64,14 @@
 	let currentGroove = basic;
 </script>
 
-<Linear data={currentGroove} beatsPerRotation={4} division={4} bpm={80} />
+<Story />
+
+<!-- <Linear data={currentGroove} beatsPerRotation={4} division={4} bpm={80} />
 <div style="margin-top: 2em">
 	<button on:click={() => (currentGroove = basic)}>straight</button>
 	<button on:click={() => (currentGroove = triplet)}>swing</button>
 	<button on:click={() => (currentGroove = dilla)}>dilla</button>
-</div>
+</div> -->
 
 <!-- <Balls data={basic} beatsPerRotation={4} bpm={100} /> -->
 

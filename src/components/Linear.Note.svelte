@@ -40,7 +40,7 @@
 <rect
 	class:playing={playing && isOn}
 	class:off-grid={offGrid}
-	transition:fade={{ duration: 1500 }}
+	transition:fade
 	{x}
 	{height}
 	{width}
