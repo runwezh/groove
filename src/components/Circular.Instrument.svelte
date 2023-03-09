@@ -1,6 +1,6 @@
 <script>
 	import { getContext } from "svelte";
-	import Note from "$components/Note.svelte";
+	import Note from "$components/Circular.Note.svelte";
 
 	export let id;
 	export let i;

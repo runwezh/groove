@@ -1,5 +1,5 @@
 <script>
-	import Instrument from "$components/Instrument.svelte";
+	import Instrument from "$components/Circular.Instrument.svelte";
 	import { onDestroy, setContext } from "svelte";
 	import { writable } from "svelte/store";
 	import viewport from "$stores/viewport.js";

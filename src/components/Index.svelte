@@ -1,4 +1,5 @@
 <script>
+	import Balls from "$components/Balls.svelte";
 	import SwingPercentage from "$components/SwingPercentage.svelte";
 	import Circular from "$components/Circular.svelte";
 	import Linear from "$components/Linear.svelte";
@@ -40,20 +41,37 @@
 		snare: [1, 3],
 		kick: [0, 2]
 	};
-
+	const triplet = {
+		hihat: swing(2 / 3, 4),
+		snare: [1, 3],
+		kick: [0, 2]
+	};
 	const quintuplet = {
 		hihat: swing(3 / 5, 4),
 		snare: [0.95, 2.95],
 		kick: [0, 2]
 	};
-
+	const dilla = {
+		hihat: swing(4 / 7, 4),
+		snare: [0.95, 2.95],
+		kick: [0, 2]
+	};
 	const withTheLoveInMyHeart = jsonToBeat(heart, 5);
-
 	const kamaalGroove = jsonToBeat(kamaal, 4);
 
-	$: console.log({ kamaalGroove });
+	let currentGroove = basic;
 </script>
 
+<Linear data={currentGroove} beatsPerRotation={4} division={4} bpm={80} />
+<div style="margin-top: 2em">
+	<button on:click={() => (currentGroove = basic)}>straight</button>
+	<button on:click={() => (currentGroove = triplet)}>swing</button>
+	<button on:click={() => (currentGroove = dilla)}>dilla</button>
+</div>
+
+<!-- <Balls data={basic} beatsPerRotation={4} bpm={100} /> -->
+
+<!-- 
 <h3>Basic 4/4</h3>
 <Circular data={basic} beatsPerRotation={4} division={4} bpm={100} />
 
@@ -63,7 +81,7 @@
 <h3>Kamaal</h3>
 <Circular data={kamaalGroove} beatsPerRotation={4} division={4} bpm={50} />
 
-<!-- <h3>With the love of my heart - Jacob Collier (lots of weird stuff)</h3>
+<h3>With the love of my heart - Jacob Collier (lots of weird stuff)</h3>
 <Circular
 	data={withTheLoveInMyHeart}
 	beatsPerRotation={5}
