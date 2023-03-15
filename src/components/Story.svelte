@@ -21,7 +21,7 @@
 	};
 	const quintuplet = {
 		hihat: swing(3 / 5, 4),
-		snare: [0.95, 2.95],
+		snare: [1, 3],
 		kick: [0, 2]
 	};
 	const dilla = {

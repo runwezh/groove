@@ -45,13 +45,15 @@
 	});
 </script>
 
-<svg width={"100%"} {height}>
+<!-- <svg width={"100%"} {height}> -->
+<div>
 	{#each Object.keys(data).filter((d) => d === "snare") as instrument, i}
-		<g transform={`translate(${xScale(instrument)}, 0)`}>
-			<Ball id={instrument} {i} data={data[instrument]} />
-		</g>
+		<!-- <g transform={`translate(${xScale(instrument)}, 0)`}> -->
+		<Ball id={instrument} {i} data={data[instrument]} />
+		<!-- </g> -->
 	{/each}
-</svg>
+</div>
+<!-- </svg> -->
 
 <button on:click={play}>play</button>
 <button on:click={pause}>pause</button>
@@ -59,5 +61,10 @@
 <style>
 	svg {
 		background: var(--color-gray-100);
+	}
+	div {
+		background: var(--color-gray-100);
+		height: 400px;
+		position: relative;
 	}
 </style>
