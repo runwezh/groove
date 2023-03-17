@@ -64,7 +64,9 @@
 	let currentGroove = basic;
 </script>
 
-<Story />
+<Balls data={triplet} beatsPerRotation={4} bpm={90} />
+
+<!-- <Story /> -->
 
 <!-- <Linear data={currentGroove} beatsPerRotation={4} division={4} bpm={80} />
 <div style="margin-top: 2em">
@@ -72,8 +74,6 @@
 	<button on:click={() => (currentGroove = triplet)}>swing</button>
 	<button on:click={() => (currentGroove = dilla)}>dilla</button>
 </div> -->
-
-<!-- <Balls data={basic} beatsPerRotation={4} bpm={100} /> -->
 
 <!-- 
 <h3>Basic 4/4</h3>

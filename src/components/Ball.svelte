@@ -2,8 +2,7 @@
 	import { Howl } from "howler";
 	import { getContext } from "svelte";
 	import { tweened } from "svelte/motion";
-	import { easeCubicOut, easeCubicIn, easeQuadIn } from "d3-ease";
-	import { Droplet } from "lucide-svelte";
+	import { scaleLinear, scaleSequential } from "d3";
 
 	export let data;
 	export let id;
@@ -12,10 +11,10 @@
 	const { getT, beatsPerRotation, getCycleDuration } = getContext("song");
 	const t = getT();
 	const duration = getCycleDuration();
-	const r = 40;
-	const cy = tweened(400 - r);
 	$: msInBeat = duration / beatsPerRotation;
-	$: playing = data.some((d) => Math.abs($t, d) < 0.1);
+
+	const buffer = 0.05;
+	$: playing = data.some((d) => $t >= d && $t < d + buffer);
 
 	const sounds = {
 		hihat: new Howl({
@@ -29,41 +28,40 @@
 		})
 	};
 
-	const start = () => {
-		rise(msInBeat);
-	};
-	const rise = (dur) => {
-		cy.set(r, { duration: dur, easing: easeCubicOut }).then(() =>
-			fall(msInBeat)
-		);
-	};
-	const fall = (dur) => {
-		cy.set(400 - r, { duration: dur, easeQuadIn });
-	};
-
-	const buffer = 0.05;
-	$: hitGround = $t >= 1 && $t < 1 + buffer;
-	$: if (hitGround) playNote();
-
+	$: if (playing) playNote();
 	const playNote = () => {
-		fall(msInBeat / 2);
+		if (sounds[id].state() === "loaded") sounds[id].play();
 	};
 
-	// $: console.log($t);
+	const gap = data[1] - data[0];
+	const leftSide = 10;
+	const rightSide = 400 - 10 - 25;
+	const xScale = scaleLinear()
+		.domain([data[0], data[1]])
+		.range([leftSide, rightSide]);
+
+	$: tValue =
+		$t % (gap * 2) >= data[0] && $t % (gap * 2) <= data[1]
+			? $t % (gap * 2)
+			: flip($t % (gap * 2));
+
+	const flip = (n) => {
+		if (n > data[1]) {
+			return data[1] - (n - data[1]);
+		} else {
+			return data[0] + (data[0] - n);
+		}
+	};
+
+	$: x = xScale(tValue);
 </script>
 
-<!-- <circle
-	class:playing
-	fill="cornflowerblue"
-	{r}
-	cx={r}
-	cy={$cy}
-	on:click={start}
-/> -->
+<div class="wall left" />
+<div class="wall right" />
 
-<div class="ball" style={`transform: translateY(${$cy}px)`} />
-<button on:click={start}>start</button>
+<div class="ball" style={`--x: ${x}px`} />
 
+<!-- <p>{tValue}</p> -->
 <style>
 	.ball {
 		height: 50px;
@@ -71,49 +69,16 @@
 		background-color: red;
 		border-radius: 50%;
 		position: absolute;
-		top: 0;
-		left: 50%;
-		/* animation: bounce 0.9s infinite; */
+		bottom: 0px;
+		left: var(--x);
 	}
-
-	@keyframes bounce-down {
-		0% {
-			transform: translateY(0px);
-		}
-		100% {
-			transform: translateY(240px);
-		}
+	.wall {
+		height: 100%;
+		width: 10px;
+		background-color: black;
 	}
-
-	@keyframes bounce-up {
-		0% {
-			transform: translateY(240px);
-		}
-		100% {
-			transform: translateY(0px);
-		}
-	}
-
-	@keyframes bounce {
-		10% {
-			height: 50px;
-			width: 50px;
-		}
-		/* 30% {
-			height: 50px;
-			width: 40px;
-		} */
-		40% {
-			/* height: 30px;
-			width: 57px; */
-			transform: translateY(240px);
-		}
-		75% {
-			/* height: 50px;
-			width: 57px; */
-		}
-		100% {
-			transform: translateY(0px);
-		}
+	.right {
+		position: absolute;
+		left: 400px;
 	}
 </style>
