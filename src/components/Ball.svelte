@@ -1,12 +1,12 @@
 <script>
 	import { Howl } from "howler";
-	import { getContext } from "svelte";
+	import { getContext, onMount, tick } from "svelte";
 	import { tweened } from "svelte/motion";
 	import { scaleLinear, scaleSequential } from "d3";
 
 	export let data;
 	export let id;
-	export let i;
+	export let simulationOn;
 
 	const { getT, beatsPerRotation, getCycleDuration } = getContext("song");
 	const t = getT();
@@ -28,44 +28,60 @@
 		})
 	};
 
-	$: if (playing) playNote();
-	const playNote = () => {
-		if (sounds[id].state() === "loaded") sounds[id].play();
+	$: intervals = [
+		...data.map((d, i) => (i > 0 ? d - data[i - 1] : d)).slice(1),
+		4 + data[0] - data[data.length - 1]
+	];
+	$: durations = intervals.map((d) => d * msInBeat);
+	// $: distances = intervals.map((d) => 200 * d);
+
+	const ballWidth = 40;
+	const wallWidth = 10;
+	let i = 0;
+	let direction = 1; // -1 for left
+	$: currentInterval = intervals[i];
+	$: currentDuration = durations[i];
+	// $: currentDistance = distances[i];
+
+	const distance = id === "hihat" ? 130 : 400;
+
+	$: x = tweened(wallWidth);
+	$: if (simulationOn) start();
+
+	const start = async () => {
+		await tick();
+
+		x.set(
+			direction === 1 ? $x + distance - ballWidth : $x - distance + ballWidth,
+			{
+				duration: currentDuration
+			}
+		).then(() => {
+			sounds[id].play();
+			next();
+		});
 	};
 
-	const gap = data[1] - data[0];
-	const leftSide = 10;
-	const rightSide = 400 - 10 - 25;
-	const xScale = scaleLinear()
-		.domain([data[0], data[1]])
-		.range([leftSide, rightSide]);
-
-	$: tValue =
-		$t % (gap * 2) >= data[0] && $t % (gap * 2) <= data[1]
-			? $t % (gap * 2)
-			: flip($t % (gap * 2));
-
-	const flip = (n) => {
-		if (n > data[1]) {
-			return data[1] - (n - data[1]);
+	const next = () => {
+		if (i < intervals.length - 1) {
+			i++;
 		} else {
-			return data[0] + (data[0] - n);
+			i = 0;
 		}
+		direction *= -1;
+		start();
 	};
-
-	$: x = xScale(tValue);
 </script>
 
 <div class="wall left" />
-<div class="wall right" />
+<div class="wall right" style={`--left: ${distance}px`} />
 
-<div class="ball" style={`--x: ${x}px`} />
+<div class="ball" style={`--x: ${$x}px`} />
 
-<!-- <p>{tValue}</p> -->
 <style>
 	.ball {
-		height: 50px;
-		width: 50px;
+		height: 40px;
+		width: 40px;
 		background-color: red;
 		border-radius: 50%;
 		position: absolute;
@@ -76,9 +92,9 @@
 		height: 100%;
 		width: 10px;
 		background-color: black;
+		transition: all 500ms;
 	}
 	.right {
-		position: absolute;
-		left: 400px;
+		margin-left: var(--left);
 	}
 </style>

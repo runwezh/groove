@@ -30,7 +30,7 @@
 	$: offGrid = note % 0.0625 !== 0; // 16th note
 	$: playing = $t >= note && $t < note + buffer;
 	$: isOn = $instrumentToggles[instrumentId] === "on";
-	$: if (playing && isOn) playNote();
+	// $: if (playing && isOn) playNote();
 
 	const playNote = () => {
 		if (sounds[instrumentId].state() === "loaded") sounds[instrumentId].play();
@@ -50,13 +50,13 @@
 	rect {
 		fill: var(--color-gray-400);
 		opacity: 0.4;
-		transition: x 1.5s;
+		transition: all 100ms;
 	}
 	.playing {
 		fill: red;
 		opacity: 1;
 	}
 	.off-grid {
-		fill: cornflowerblue;
+		/* fill: cornflowerblue; */
 	}
 </style>

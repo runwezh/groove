@@ -15,6 +15,7 @@
 		getCycleDuration: () => duration
 	});
 
+	let simulationOn = false;
 	const start = 0;
 	const end = 4;
 	const height = 500;
@@ -28,16 +29,10 @@
 
 	let interval;
 	const pause = () => {
-		clearInterval(interval);
-		t.set(end, { duration: 0 });
+		simulationOn = false;
 	};
 	const play = () => {
-		t.set(start, { duration: 0 });
-		t.set(end, { duration });
-		interval = setInterval(() => {
-			t.set(start, { duration: 0 });
-			t.set(end, { duration });
-		}, duration);
+		simulationOn = true;
 	};
 
 	onDestroy(() => {
@@ -48,7 +43,7 @@
 <div class="background">
 	{#each Object.keys(data) as instrument, i}
 		<div class="row">
-			<Ball id={instrument} {i} data={data[instrument]} />
+			<Ball id={instrument} {i} data={data[instrument]} {simulationOn} />
 		</div>
 	{/each}
 </div>
@@ -66,10 +61,11 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
+		/* align-items: center; */
 	}
 	.row {
 		display: flex;
-		height: 100px;
 		position: relative;
+		height: 100px;
 	}
 </style>

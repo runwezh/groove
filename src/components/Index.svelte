@@ -5,9 +5,11 @@
 	import SwingPercentage from "$components/SwingPercentage.svelte";
 	import Circular from "$components/Circular.svelte";
 	import Linear from "$components/Linear.svelte";
+	import { Howl } from "howler";
 	import { range, scaleLinear, extent } from "d3";
 	import heart from "$data/wtlimh.json";
 	import kamaal from "$data/kamaal.json";
+	import sincerity from "$data/sincerity.json";
 
 	const swing = (ratio, beats) => {
 		return range(beats)
@@ -15,7 +17,7 @@
 			.flat();
 	};
 
-	const jsonToBeat = (json, beatsPerMeasure) => {
+	const jsonToBeat = (json, beatsPerMeasure, codes) => {
 		const bpm = json.header.tempos[0].bpm;
 		const ppq = json.header.ppq;
 		const msPerTick = 60000 / bpm / ppq;
@@ -30,9 +32,13 @@
 		}));
 
 		return {
-			hihat: beats.filter((d) => d.instrument === 42).map((d) => d.beat),
-			snare: beats.filter((d) => d.instrument === 38).map((d) => d.beat),
-			kick: beats.filter((d) => d.instrument === 36).map((d) => d.beat)
+			hihat: beats
+				.filter((d) => d.instrument === codes.hihat)
+				.map((d) => d.beat),
+			snare: beats
+				.filter((d) => d.instrument === codes.snare)
+				.map((d) => d.beat),
+			kick: beats.filter((d) => d.instrument === codes.kick).map((d) => d.beat)
 		};
 	};
 
@@ -58,18 +64,30 @@
 		snare: [0.95, 2.95],
 		kick: [0, 2]
 	};
-	const withTheLoveInMyHeart = jsonToBeat(heart, 5);
-	const kamaalGroove = jsonToBeat(kamaal, 4);
+
+	const sincerityAudio = new Howl({
+		src: ["assets/sound/sincerity_audio.mp3"],
+		loop: true
+	});
+	const sincerityGroove = jsonToBeat(sincerity, 16, {
+		hihat: 45,
+		snare: 52,
+		kick: 55
+	});
 
 	let currentGroove = basic;
 </script>
 
-<Balls data={triplet} beatsPerRotation={4} bpm={90} />
-
 <!-- <Story /> -->
 
-<!-- <Linear data={currentGroove} beatsPerRotation={4} division={4} bpm={80} />
-<div style="margin-top: 2em">
+<Linear
+	audio={sincerityAudio}
+	data={sincerityGroove}
+	beatsPerRotation={16}
+	division={2}
+/>
+
+<!-- <div style="margin-top: 2em">
 	<button on:click={() => (currentGroove = basic)}>straight</button>
 	<button on:click={() => (currentGroove = triplet)}>swing</button>
 	<button on:click={() => (currentGroove = dilla)}>dilla</button>
