@@ -23,7 +23,6 @@
 	});
 
 	const currentBeat = writable(0);
-	$: currentBeat.set(seek === 0 ? 0 : timeToBeat(seek * 1000));
 
 	let animationFrameId;
 	let seek = 0;
@@ -47,6 +46,7 @@
 	});
 
 	$: duration = audio.duration() * 1000;
+	$: $currentBeat = seek === 0 ? 0 : timeToBeat(seek * 1000);
 	$: xScale = scaleLinear()
 		.domain([0, beatsPerRotation])
 		.range([0, $viewport.width - padding.left - padding.right]);
@@ -56,16 +56,19 @@
 		.padding(0.25);
 	$: barHeight = yScale.bandwidth();
 
-	const updateSeek = () => {
-		seek = audio.seek();
+	audio.on("end", () => {
+		play();
+	});
+	const play = () => {
+		audio.play();
 		animationFrameId = requestAnimationFrame(updateSeek);
 	};
 	const pause = () => {
 		cancelAnimationFrame(animationFrameId);
 		audio.pause();
 	};
-	const play = () => {
-		audio.play();
+	const updateSeek = () => {
+		seek = audio.seek();
 		animationFrameId = requestAnimationFrame(updateSeek);
 	};
 	const toggleSound = (id) => {
@@ -119,6 +122,7 @@
 	</g>
 </svg>
 
+<p>{seek.toFixed(1)}</p>
 <button on:click={play}>play</button>
 <button on:click={pause}>pause</button>
 

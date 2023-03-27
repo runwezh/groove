@@ -23,11 +23,11 @@
 		const msPerTick = 60000 / bpm / ppq;
 
 		const beatScale = scaleLinear()
-			.domain(extent(json.tracks[0].notes.map((d) => d.ticks)))
+			.domain([0, 10.698229166666666]) // TODO: get this from the audio file
 			.range([0, beatsPerMeasure]);
 
 		const beats = json.tracks[0].notes.map((d) => ({
-			beat: beatScale(d.ticks),
+			beat: beatScale(d.time),
 			instrument: d.midi
 		}));
 
@@ -66,16 +66,14 @@
 	};
 
 	const sincerityAudio = new Howl({
-		src: ["assets/sound/sincerity_audio.mp3"],
-		loop: true
+		src: ["assets/sound/sincerity_audio.mp3"]
 	});
+
 	const sincerityGroove = jsonToBeat(sincerity, 16, {
 		hihat: 45,
 		snare: 52,
 		kick: 55
 	});
-
-	let currentGroove = basic;
 </script>
 
 <!-- <Story /> -->
