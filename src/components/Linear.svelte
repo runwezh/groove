@@ -1,9 +1,10 @@
 <script>
 	import Toggle from "$components/helpers/Toggle.svelte";
 	import Instrument from "$components/Linear.Instrument.svelte";
+	import Grid from "$components/Linear.Grid.svelte";
 	import { setContext } from "svelte";
 	import viewport from "$stores/viewport.js";
-	import { scaleLinear, scaleBand, range } from "d3";
+	import { scaleLinear, scaleBand } from "d3";
 	import { writable } from "svelte/store";
 
 	export let data;
@@ -24,7 +25,7 @@
 
 	let animationFrameId;
 	let seek = 0;
-	let showGrid = "off";
+	let showGrid = "on";
 	let showDivision = "off";
 	let interval;
 	const height = 500;
@@ -84,21 +85,6 @@
 		{#each Object.keys(data) as instrument, i}
 			<Instrument data={data[instrument]} id={instrument} height={barHeight} />
 		{/each}
-
-		<div class="grid">
-			{#each range(0, beatsPerRotation, 1 / division) as bar}
-				{@const thick = bar % 1 === 0}
-				{@const left = xScale(bar)}
-				{@const visible = showGrid === "on"}
-				<div
-					class="gridline"
-					class:thick
-					class:visible
-					style:left={`${left}px`}
-					style:height={`${height}px`}
-				/>
-			{/each}
-		</div>
 	</div>
 </div>
 
@@ -121,13 +107,13 @@
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
+		justify-content: space-around;
 		position: relative;
 	}
 	.labels {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
+		justify-content: space-around;
 		width: 100px;
 	}
 	.label {
@@ -137,26 +123,11 @@
 		justify-content: center;
 		color: white;
 	}
-	.grid {
-		position: absolute;
-	}
-	.gridline {
-		position: absolute;
-		background: var(--color-gray-400);
-		width: 1px;
-		opacity: 0;
-	}
-	.gridline.visible {
-		opacity: 1;
-	}
-	.thick {
-		background: var(--color-gray-600);
-		width: 2px;
-	}
 	.marker {
 		position: absolute;
-		background: black;
+		background: burlywood;
 		width: 5px;
 		height: 100%;
+		z-index: 100;
 	}
 </style>

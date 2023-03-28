@@ -1,5 +1,6 @@
 <script>
 	import Note from "$components/Linear.Note.svelte";
+	import Grid from "$components/Linear.Grid.svelte";
 	import { getContext } from "svelte";
 
 	export let data;
@@ -24,6 +25,7 @@
 	on:click={() => toggleSound(id)}
 	on:keydown={() => toggleSound(id)}
 >
+	<Grid />
 	<div class="notes">
 		{#each data as note, i (`${id}-${i}`)}
 			{@const x = xScale(note)}
@@ -37,6 +39,7 @@
 		display: flex;
 		align-items: center;
 		background: var(--color-gray-100);
+		position: relative;
 	}
 	.instrument:hover {
 		cursor: pointer;
