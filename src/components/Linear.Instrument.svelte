@@ -7,9 +7,11 @@
 	export let id;
 	export let height;
 
-	const { getXScale, getInstrumentToggles } = getContext("song");
+	const { getXScale, getInstrumentToggles, getGridToggles } =
+		getContext("song");
 	const xScale = getXScale();
 	const instrumentToggles = getInstrumentToggles();
+	const gridToggles = getGridToggles();
 
 	const noteWidth = 10;
 
@@ -25,7 +27,10 @@
 	on:click={() => toggleSound(id)}
 	on:keydown={() => toggleSound(id)}
 >
-	<Grid />
+	{#if $gridToggles[id] === "on"}
+		<Grid />
+	{/if}
+
 	<div class="notes">
 		{#each data as note, i (`${id}-${i}`)}
 			{@const x = xScale(note)}

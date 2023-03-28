@@ -1,15 +1,18 @@
 <script>
 	import { range } from "d3";
 	import { getContext } from "svelte";
+	import { slide } from "svelte/transition";
+	import { quintOut } from "svelte/easing";
 
 	const { beatsPerRotation, division, getXScale } = getContext("song");
 	const xScale = getXScale();
-
-	// TODO slide in
 </script>
 
-<div class="grid">
-	{#each range(0, beatsPerRotation, 1 / division) as bar, i}
+<div
+	class="grid"
+	transition:slide={{ delay: 100, duration: 400, easing: quintOut }}
+>
+	{#each range(0, beatsPerRotation, 1 / division) as bar}
 		{@const thick = bar % 1 === 0}
 		{@const left = xScale(bar)}
 

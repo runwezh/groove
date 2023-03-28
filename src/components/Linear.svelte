@@ -1,9 +1,7 @@
 <script>
 	import Toggle from "$components/helpers/Toggle.svelte";
 	import Instrument from "$components/Linear.Instrument.svelte";
-	import Grid from "$components/Linear.Grid.svelte";
 	import { setContext } from "svelte";
-	import viewport from "$stores/viewport.js";
 	import { scaleLinear, scaleBand } from "d3";
 	import { writable } from "svelte/store";
 
@@ -18,6 +16,7 @@
 		getT: () => currentBeat,
 		getXScale: () => xScale,
 		getInstrumentToggles: () => instrumentToggles,
+		getGridToggles: () => gridToggles,
 		getCycleDuration: () => duration
 	});
 
@@ -25,17 +24,18 @@
 
 	let animationFrameId;
 	let seek = 0;
-	let showGrid = "on";
-	let showDivision = "off";
-	let interval;
 	const height = 500;
-	const start = 0;
 	const instrumentToggles = writable({
 		hihat: "on",
 		snare: "on",
 		kick: "on"
 	});
-	const padding = { top: 0, right: 0, bottom: 0, left: 60 };
+	const gridToggles = writable({
+		hihat: "off",
+		snare: "off",
+		kick: "off"
+	});
+	let instrumentsWidth;
 
 	let timeToBeat = () => 0;
 	audio.on("load", () => {
@@ -48,10 +48,10 @@
 	$: $currentBeat = seek === 0 ? 0 : timeToBeat(seek * 1000);
 	$: xScale = scaleLinear()
 		.domain([0, beatsPerRotation])
-		.range([0, $viewport.width - padding.left - padding.right]);
+		.range([0, instrumentsWidth]);
 	$: yScale = scaleBand()
 		.domain(Object.keys(data))
-		.range([0, height - padding.top - padding.bottom])
+		.range([0, height])
 		.padding(0.25);
 	$: barHeight = yScale.bandwidth();
 
@@ -75,27 +75,36 @@
 <div class="container" style:height={`${height}px`}>
 	<div class="labels">
 		{#each Object.keys(data) as instrument, i}
-			<div class="label" style:height={`${barHeight}px`}>{instrument}</div>
+			<div class="sidebar" style:height={`${barHeight}px`}>
+				<div class="label">{instrument}</div>
+				<div class="toggle">
+					<Toggle
+						label="Show grid"
+						style="inner"
+						bind:value={$gridToggles[instrument]}
+					/>
+				</div>
+			</div>
 		{/each}
 	</div>
 
-	<div class="instruments">
+	<div class="instruments" bind:clientWidth={instrumentsWidth}>
 		<div class="marker" style:left={`${xScale($currentBeat)}px`} />
 
-		{#each Object.keys(data) as instrument, i}
-			<Instrument data={data[instrument]} id={instrument} height={barHeight} />
-		{/each}
+		{#if instrumentsWidth}
+			{#each Object.keys(data) as instrument, i}
+				<Instrument
+					data={data[instrument]}
+					id={instrument}
+					height={barHeight}
+				/>
+			{/each}
+		{/if}
 	</div>
 </div>
 
 <button on:click={play}>play</button>
 <button on:click={pause}>pause</button>
-
-<Toggle label="Show grid" style="inner" bind:value={showGrid} />
-<ul>
-	<li>click a track to mute it</li>
-	<li>blue notes are ones that don't fall on the 16th note grid</li>
-</ul>
 
 <style>
 	.container {
@@ -116,12 +125,21 @@
 		justify-content: space-around;
 		width: 100px;
 	}
+	.sidebar {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 	.label {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		color: white;
+	}
+	.toggle {
+		color: white;
+		font-size: 12px;
 	}
 	.marker {
 		position: absolute;
