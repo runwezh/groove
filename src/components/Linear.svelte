@@ -1,11 +1,9 @@
 <script>
-	import { Howl } from "howler";
 	import Toggle from "$components/helpers/Toggle.svelte";
 	import Instrument from "$components/Linear.Instrument.svelte";
-	import { onDestroy, setContext } from "svelte";
+	import { setContext } from "svelte";
 	import viewport from "$stores/viewport.js";
 	import { scaleLinear, scaleBand, range } from "d3";
-	import { tweened } from "svelte/motion";
 	import { writable } from "svelte/store";
 
 	export let data;
@@ -38,7 +36,7 @@
 	});
 	const padding = { top: 0, right: 0, bottom: 0, left: 60 };
 
-	let timeToBeat;
+	let timeToBeat = () => 0;
 	audio.on("load", () => {
 		timeToBeat = scaleLinear()
 			.domain([0, audio.duration() * 1000])
@@ -71,58 +69,39 @@
 		seek = audio.seek();
 		animationFrameId = requestAnimationFrame(updateSeek);
 	};
-	const toggleSound = (id) => {
-		$instrumentToggles[id] = $instrumentToggles[id] === "on" ? "off" : "on";
-	};
 </script>
 
-<svg width={"100%"} {height}>
-	<g class="wrapper" transform={`translate(${padding.left}, ${padding.top})`}>
+<div class="container" style:height={`${height}px`}>
+	<div class="labels">
 		{#each Object.keys(data) as instrument, i}
-			<g
-				class="instrument"
-				transform={`translate(0, ${yScale(instrument)})`}
-				on:click={() => toggleSound(instrument)}
-			>
-				<Instrument
-					data={data[instrument]}
-					id={instrument}
-					height={barHeight}
+			<div class="label" style:height={`${barHeight}px`}>{instrument}</div>
+		{/each}
+	</div>
+
+	<div class="instruments">
+		<div class="marker" style:left={`${xScale($currentBeat)}px`} />
+
+		{#each Object.keys(data) as instrument, i}
+			<Instrument data={data[instrument]} id={instrument} height={barHeight} />
+		{/each}
+
+		<div class="grid">
+			{#each range(0, beatsPerRotation, 1 / division) as bar}
+				{@const thick = bar % 1 === 0}
+				{@const left = xScale(bar)}
+				{@const visible = showGrid === "on"}
+				<div
+					class="gridline"
+					class:thick
+					class:visible
+					style:left={`${left}px`}
+					style:height={`${height}px`}
 				/>
-				<text x={-10} y={barHeight / 2}>{instrument}</text>
-			</g>
-		{/each}
-
-		{#each range(0, beatsPerRotation, 1 / division) as bar}
-			{@const thick = bar % 1 === 0}
-			<line
-				class="grid"
-				class:visible={showGrid === "on"}
-				class:thick
-				x1={xScale(bar)}
-				x2={xScale(bar)}
-				y1={0}
-				y2={height}
-			/>
-		{/each}
-
-		<!-- {#if showDivision === "on"}
-			{#each range(0, 4 / 3, 1 / 3) as div}
-				<line x1={xScale(div)} x2={xScale(div)} y1={0} y2={height} />
 			{/each}
-		{/if} -->
+		</div>
+	</div>
+</div>
 
-		<line
-			class="marker"
-			x1={xScale($currentBeat)}
-			x2={xScale($currentBeat)}
-			y1={0}
-			y2={height}
-		/>
-	</g>
-</svg>
-
-<p>{seek.toFixed(1)}</p>
 <button on:click={play}>play</button>
 <button on:click={pause}>pause</button>
 
@@ -132,32 +111,52 @@
 	<li>blue notes are ones that don't fall on the 16th note grid</li>
 </ul>
 
-<!-- <Toggle label="Show division" style="inner" bind:value={showDivision} /> -->
 <style>
-	svg {
-		background: var(--color-gray-100);
+	.container {
+		width: 100%;
+		background: #080e1c;
+		display: flex;
+	}
+	.instruments {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		position: relative;
+	}
+	.labels {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		width: 100px;
+	}
+	.label {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		color: white;
 	}
 	.grid {
-		stroke: var(--color-gray-400);
-		stroke-width: 1px;
+		position: absolute;
+	}
+	.gridline {
+		position: absolute;
+		background: var(--color-gray-400);
+		width: 1px;
 		opacity: 0;
 	}
-	.grid.visible {
+	.gridline.visible {
 		opacity: 1;
 	}
 	.thick {
-		stroke: var(--color-gray-600);
-		stroke-width: 3px;
+		background: var(--color-gray-600);
+		width: 2px;
 	}
-	line.marker {
-		stroke-width: 4px;
-		stroke: var(--color-gray-800);
-	}
-	.instrument:hover {
-		cursor: pointer;
-	}
-	text {
-		text-anchor: end;
-		alignment-baseline: middle;
+	.marker {
+		position: absolute;
+		background: black;
+		width: 5px;
+		height: 100%;
 	}
 </style>

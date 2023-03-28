@@ -6,42 +6,46 @@
 	export let id;
 	export let height;
 
-	const { getXScale, beatsPerRotation, getInstrumentToggles } =
-		getContext("song");
+	const { getXScale, getInstrumentToggles } = getContext("song");
 	const xScale = getXScale();
 	const instrumentToggles = getInstrumentToggles();
 
 	const noteWidth = 10;
+
+	const toggleSound = (id) => {
+		$instrumentToggles[id] = $instrumentToggles[id] === "on" ? "off" : "on";
+	};
 </script>
 
-{#each data as note, i (`${id}-${i}`)}
-	{@const x = xScale(note)}
-	{@const first = i === 0}
-	{@const last = i === data.length - 1}
-	{@const barX = first ? noteWidth : xScale(data[i - 1]) + noteWidth}
-	{@const barWidth = first ? x : Math.abs(x - barX)}
-	{@const muted = $instrumentToggles[id] === "off"}
-
-	<rect class:muted {height} width={barWidth} x={barX} />
-	{#if last}
-		<rect
-			class:muted
-			{height}
-			width={Math.abs(xScale(beatsPerRotation) - x)}
-			{x}
-		/>
-	{/if}
-
-	<Note {note} instrumentId={id} {height} width={noteWidth} {x} />
-{/each}
+<div
+	class="instrument"
+	style:height={`${height}px`}
+	class:muted={$instrumentToggles[id] === "off"}
+	on:click={() => toggleSound(id)}
+	on:keydown={() => toggleSound(id)}
+>
+	<div class="notes">
+		{#each data as note, i (`${id}-${i}`)}
+			{@const x = xScale(note)}
+			<Note {note} instrumentId={id} {height} width={noteWidth} {x} />
+		{/each}
+	</div>
+</div>
 
 <style>
-	rect {
-		fill: lightyellow;
-		transition: all 1s;
+	.instrument {
+		display: flex;
+		align-items: center;
+		background: var(--color-gray-100);
+	}
+	.instrument:hover {
+		cursor: pointer;
+	}
+	.notes {
+		height: 100%;
 	}
 	.muted {
-		fill: var(--color-gray-300);
+		background: var(--color-gray-300);
 		opacity: 0.5;
 	}
 </style>

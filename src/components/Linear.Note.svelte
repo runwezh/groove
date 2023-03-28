@@ -1,7 +1,7 @@
 <script>
 	import { Howl } from "howler";
 	import { getContext } from "svelte";
-	import { fade } from "svelte/transition";
+	import { fade, scale } from "svelte/transition";
 
 	export let note;
 	export let instrumentId;
@@ -28,7 +28,7 @@
 	};
 
 	$: offGrid = note % 0.0625 !== 0; // 16th note
-	$: playing = $t >= note && $t < note + buffer;
+	$: playing = $t !== 0 && $t >= note && $t < note + buffer;
 	$: isOn = $instrumentToggles[instrumentId] === "on";
 	// $: if (playing && isOn) playNote();
 
@@ -37,24 +37,31 @@
 	};
 </script>
 
-<rect
-	class:playing={playing && isOn}
+<div
+	class:playing
+	class:played={$t > note + buffer}
 	class:off-grid={offGrid}
 	transition:fade
-	{x}
-	{height}
-	{width}
+	style:height={`${height}px`}
+	style:width={`${width}px`}
+	style:left={`${x}px`}
 />
 
 <style>
-	rect {
-		fill: var(--color-gray-400);
+	div {
+		background: var(--color-gray-600);
+		position: absolute;
 		opacity: 0.4;
 		transition: all 100ms;
 	}
 	.playing {
-		fill: red;
+		background: gold;
+		/* background: #5bffe2; */
 		opacity: 1;
+		transform: scale(1.5);
+	}
+	.played {
+		background: gold;
 	}
 	.off-grid {
 		/* fill: cornflowerblue; */
