@@ -38,8 +38,7 @@
 </script>
 
 <div
-	class:playing
-	class:played={$t > note + buffer}
+	class:played={$t >= note - buffer}
 	class:off-grid={offGrid}
 	transition:fade
 	style:height={`${height}px`}
@@ -55,15 +54,26 @@
 		transition: all 100ms;
 	}
 	.playing {
-		background: gold;
-		/* background: #5bffe2; */
+		background: #5bffe2;
 		opacity: 1;
-		transform: scale(1.5);
 	}
 	.played {
-		background: gold;
+		background: #5bffe2;
+		animation: 500ms ease-in-out grow;
 	}
 	.off-grid {
 		/* fill: cornflowerblue; */
+	}
+
+	@keyframes grow {
+		0% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.2);
+		}
+		100% {
+			transform: scale(1);
+		}
 	}
 </style>
