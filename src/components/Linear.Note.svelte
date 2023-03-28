@@ -48,17 +48,15 @@
 
 <style>
 	div {
-		background: var(--color-gray-600);
+		background: var(--color-gray-300);
 		position: absolute;
-		opacity: 0.4;
 		transition: all 100ms;
 	}
 	.playing {
-		background: #5bffe2;
 		opacity: 1;
 	}
 	.played {
-		background: #5bffe2;
+		background: var(--color-gray-600);
 		animation: 500ms ease-in-out grow;
 	}
 	.off-grid {
@@ -68,12 +66,15 @@
 	@keyframes grow {
 		0% {
 			transform: scale(1);
+			background: gold;
 		}
 		50% {
 			transform: scale(1.2);
+			background: gold;
 		}
 		100% {
 			transform: scale(1);
+			background: var(--color-gray-600);
 		}
 	}
 </style>
