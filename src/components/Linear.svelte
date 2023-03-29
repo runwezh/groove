@@ -1,6 +1,7 @@
 <script>
 	import Toggle from "$components/helpers/Toggle.svelte";
 	import Instrument from "$components/Linear.Instrument.svelte";
+	import Raindrops from "$components/Linear.Raindrops.svelte";
 	import { setContext } from "svelte";
 	import { scaleLinear, scaleBand } from "d3";
 	import { writable } from "svelte/store";
@@ -24,7 +25,7 @@
 
 	let animationFrameId;
 	let seek = 0;
-	const height = 500;
+	const height = 800;
 	const instrumentToggles = writable({
 		hihat: "on",
 		snare: "on",
@@ -52,7 +53,7 @@
 	$: yScale = scaleBand()
 		.domain(Object.keys(data))
 		.range([0, height])
-		.padding(0.25);
+		.padding(0.45);
 	$: barHeight = yScale.bandwidth();
 
 	audio.on("end", () => {
@@ -73,6 +74,8 @@
 </script>
 
 <div class="container" style:height={`${height}px`}>
+	<Raindrops {data} />
+
 	<div class="labels">
 		{#each Object.keys(data) as instrument, i}
 			<div class="sidebar" style:height={`${barHeight}px`}>
@@ -111,6 +114,7 @@
 		width: 100%;
 		background: #080e1c;
 		display: flex;
+		position: relative;
 	}
 	.instruments {
 		width: 100%;

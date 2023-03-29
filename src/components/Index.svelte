@@ -76,8 +76,6 @@
 	});
 </script>
 
-<!-- <Story /> -->
-
 <h3>Sincerity is Scary - The 1975</h3>
 <Linear
 	audio={sincerityAudio}
@@ -85,29 +83,3 @@
 	beatsPerRotation={16}
 	division={2}
 />
-
-<!-- <div style="margin-top: 2em">
-	<button on:click={() => (currentGroove = basic)}>straight</button>
-	<button on:click={() => (currentGroove = triplet)}>swing</button>
-	<button on:click={() => (currentGroove = dilla)}>dilla</button>
-</div> -->
-
-<!-- 
-<h3>Basic 4/4</h3>
-<Circular data={basic} beatsPerRotation={4} division={4} bpm={100} />
-
-<h3>Quintuplet swing with a slightly early snare</h3>
-<Circular data={quintuplet} beatsPerRotation={4} division={5} bpm={100} />
-
-<h3>Kamaal</h3>
-<Circular data={kamaalGroove} beatsPerRotation={4} division={4} bpm={50} />
-
-<h3>With the love of my heart - Jacob Collier (lots of weird stuff)</h3>
-<Circular
-	data={withTheLoveInMyHeart}
-	beatsPerRotation={5}
-	division={7}
-	bpm={100}
-/>
-
-<SwingPercentage /> -->
