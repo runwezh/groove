@@ -1,15 +1,16 @@
 <script>
 	import Toggle from "$components/helpers/Toggle.svelte";
 	import Instrument from "$components/Linear.Instrument.svelte";
-	import Raindrops from "$components/Linear.Raindrops.svelte";
 	import { setContext } from "svelte";
-	import { scaleLinear, scaleBand } from "d3";
+	import { scaleLinear, scaleBand, range } from "d3";
 	import { writable } from "svelte/store";
 
+	export let id;
 	export let data;
 	export let audio;
 	export let beatsPerRotation;
-	export let division;
+
+	let division = 2;
 
 	setContext("song", {
 		beatsPerRotation,
@@ -22,10 +23,11 @@
 	});
 
 	const currentBeat = writable(0);
+	const xScale = writable(undefined);
 
 	let animationFrameId;
 	let seek = 0;
-	const height = 800;
+	const height = 500;
 	const instrumentToggles = writable({
 		hihat: "on",
 		snare: "on",
@@ -40,14 +42,19 @@
 
 	let timeToBeat = () => 0;
 	audio.on("load", () => {
+		updateTimeScale();
+	});
+
+	const updateTimeScale = () => {
 		timeToBeat = scaleLinear()
 			.domain([0, audio.duration() * 1000])
 			.range([0, beatsPerRotation]);
-	});
+	};
 
+	$: id, updateTimeScale();
 	$: duration = audio.duration() * 1000;
 	$: $currentBeat = seek === 0 ? 0 : timeToBeat(seek * 1000);
-	$: xScale = scaleLinear()
+	$: $xScale = scaleLinear()
 		.domain([0, beatsPerRotation])
 		.range([0, instrumentsWidth]);
 	$: yScale = scaleBand()
@@ -74,7 +81,7 @@
 </script>
 
 <div class="container" style:height={`${height}px`}>
-	<Raindrops {data} />
+	<!-- <Raindrops {data} /> -->
 
 	<div class="labels">
 		{#each Object.keys(data) as instrument, i}
@@ -92,7 +99,24 @@
 	</div>
 
 	<div class="instruments" bind:clientWidth={instrumentsWidth}>
-		<div class="marker" style:left={`${xScale($currentBeat)}px`} />
+		<div class="marker" style:left={`${$xScale($currentBeat)}px`} />
+
+		<div
+			class="grid"
+			style="position: absolute; top: 0; height: 100%; width: 100%"
+		>
+			{#each range(0, beatsPerRotation, 1 / division) as bar}
+				{@const thick = bar % 1 === 0}
+				{@const left = $xScale(bar)}
+
+				<div
+					class="line"
+					class:thick
+					style="background: var(--color-gray-500); width: 1px; position: absolute; height: 100%"
+					style:left={`${left}px`}
+				/>
+			{/each}
+		</div>
 
 		{#if instrumentsWidth}
 			{#each Object.keys(data) as instrument, i}
@@ -112,7 +136,6 @@
 <style>
 	.container {
 		width: 100%;
-		background: #080e1c;
 		display: flex;
 		position: relative;
 	}

@@ -1,15 +1,11 @@
 <script>
-	import Story from "$components/Story.svelte";
-	import Toggle from "$components/helpers/Toggle.svelte";
-	import Balls from "$components/Balls.svelte";
-	import SwingPercentage from "$components/SwingPercentage.svelte";
-	import Circular from "$components/Circular.svelte";
+	import Select from "$components/helpers/Select.svelte";
 	import Linear from "$components/Linear.svelte";
 	import { Howl } from "howler";
 	import { range, scaleLinear, extent } from "d3";
-	import heart from "$data/wtlimh.json";
 	import kamaal from "$data/kamaal.json";
 	import sincerity from "$data/sincerity.json";
+	import lightSwitch from "$data/lightSwitch.json";
 
 	const swing = (ratio, beats) => {
 		return range(beats)
@@ -17,13 +13,14 @@
 			.flat();
 	};
 
-	const jsonToBeat = (json, beatsPerMeasure, codes) => {
+	const jsonToBeat = (id, json, beatsPerMeasure, codes) => {
 		const bpm = json.header.tempos[0].bpm;
 		const ppq = json.header.ppq;
 		const msPerTick = 60000 / bpm / ppq;
+		const endTicks = id === "kamaal" ? 4100 : json.tracks[0].endOfTrackTicks;
 
 		const beatScale = scaleLinear()
-			.domain([0, 10.698229166666666]) // TODO: get this from the audio file
+			.domain([0, (msPerTick * endTicks) / 1000])
 			.range([0, beatsPerMeasure]);
 
 		const beats = json.tracks[0].notes.map((d) => ({
@@ -68,18 +65,70 @@
 	const sincerityAudio = new Howl({
 		src: ["assets/sound/sincerity_audio.mp3"]
 	});
+	const kamaalAudio = new Howl({
+		src: ["assets/sound/kamaal_audio.mp3"]
+	});
+	const lightSwitchAudio = new Howl({
+		src: ["assets/sound/light_switch.mp3"]
+	});
 
-	const sincerityGroove = jsonToBeat(sincerity, 16, {
+	const sincerityGroove = jsonToBeat("sincerity", sincerity, 16, {
 		hihat: 45,
 		snare: 52,
 		kick: 55
 	});
+	const kamaalGroove = jsonToBeat("kamaal", kamaal, 8, {
+		hihat: 42,
+		snare: 38,
+		kick: 36
+	});
+	const lightSwitchGroove = jsonToBeat("lightSwitch", lightSwitch, 16, {
+		hihat: 44,
+		snare: 52,
+		kick: 53
+	});
+
+	const options = [
+		{
+			value: "kamaal",
+			name: "Kamaal",
+			data: kamaalGroove,
+			audio: kamaalAudio,
+			beats: 8
+		},
+		{
+			value: "sincerity",
+			name: "Sincerity is Scary",
+			data: sincerityGroove,
+			audio: sincerityAudio,
+			beats: 16
+		},
+		{
+			value: "lightSwitch",
+			name: "Light Switch",
+			data: lightSwitchGroove,
+			audio: lightSwitchAudio,
+			beats: 16
+		}
+	];
+	let value = "lightSwitch";
+	$: current = options.find((d) => d.value === value);
 </script>
 
-<h3>Sincerity is Scary - The 1975</h3>
+<div class="select">
+	<Select label={"select song"} {options} bind:value />
+	<h3 style="margin-top: 3em">{current.name}</h3>
+</div>
+
 <Linear
-	audio={sincerityAudio}
-	data={sincerityGroove}
-	beatsPerRotation={16}
-	division={2}
+	id={current.value}
+	audio={current.audio}
+	data={current.data}
+	beatsPerRotation={current.beats}
 />
+
+<style>
+	.select {
+		width: 300px;
+	}
+</style>

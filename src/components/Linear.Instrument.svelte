@@ -13,7 +13,7 @@
 	const instrumentToggles = getInstrumentToggles();
 	const gridToggles = getGridToggles();
 
-	const noteWidth = 10;
+	const noteWidth = 3;
 
 	const toggleSound = (id) => {
 		$instrumentToggles[id] = $instrumentToggles[id] === "on" ? "off" : "on";
@@ -33,7 +33,7 @@
 
 	<div class="notes">
 		{#each data as note, i (`${id}-${i}`)}
-			{@const x = xScale(note)}
+			{@const x = $xScale(note)}
 			<Note {note} instrumentId={id} {height} width={noteWidth} {x} />
 		{/each}
 	</div>
