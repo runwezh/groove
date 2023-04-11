@@ -1,5 +1,5 @@
 <script>
-	import Drops from "$components/Linear.Drops.svelte";
+	import Drops from "$lib/components/exploration/Linear.Drops.svelte";
 
 	export let data;
 </script>

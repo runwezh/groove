@@ -1,14 +1,30 @@
 <script>
 	import Toggle from "$components/helpers/Toggle.svelte";
-	import Instrument from "$components/Linear.Instrument.svelte";
+	import Instrument from "$components/Grid.Instrument.svelte";
 	import { setContext } from "svelte";
 	import { scaleLinear, scaleBand, range } from "d3";
 	import { writable } from "svelte/store";
+	import jsonToBeat from "$utils/jsonToBeat.js";
+	import kamaal from "$data/kamaal.json";
+	import sincerity from "$data/sincerity.json";
+	import lightSwitch from "$data/lightSwitch.json";
+	import dmatSwung from "$data/dmatSwung.json";
+	import dmatStraight from "$data/dmatStraight.json";
 
 	export let id;
-	export let data;
-	export let audio;
 	export let beatsPerRotation;
+
+	const audio = new Howl({
+		src: [`assets/sound/${id}_audio.mp3`]
+	});
+	const songs = {
+		kamaal: kamaal,
+		sincerity: sincerity,
+		lightSwitch: lightSwitch,
+		dmatSwung: dmatSwung,
+		dmatStraight: dmatStraight
+	};
+	const data = jsonToBeat(id, songs[id], beatsPerRotation);
 
 	let division = 2;
 
@@ -79,6 +95,8 @@
 		animationFrameId = requestAnimationFrame(updateSeek);
 	};
 </script>
+
+<p>{seek.toFixed(2)}</p>
 
 <div class="container" style:height={`${height}px`}>
 	<!-- <Raindrops {data} /> -->

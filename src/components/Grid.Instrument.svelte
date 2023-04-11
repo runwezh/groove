@@ -1,6 +1,6 @@
 <script>
-	import Note from "$components/Linear.Note.svelte";
-	import Grid from "$components/Linear.Grid.svelte";
+	import Note from "$components/Grid.Note.svelte";
+	import Lines from "$components/Grid.Lines.svelte";
 	import { getContext } from "svelte";
 
 	export let data;
@@ -32,7 +32,7 @@
 	on:keydown={() => toggleSound(id)}
 >
 	{#if $gridToggles[id] === "on"}
-		<Grid />
+		<Lines />
 	{/if}
 
 	<div class="notes">
