@@ -6,6 +6,8 @@
 	import kamaal from "$data/kamaal.json";
 	import sincerity from "$data/sincerity.json";
 	import lightSwitch from "$data/lightSwitch.json";
+	import dmatSwung from "$data/dmatSwung.json";
+	import dmatStraight from "$data/dmatStraight.json";
 
 	const swing = (ratio, beats) => {
 		return range(beats)
@@ -71,6 +73,9 @@
 	const lightSwitchAudio = new Howl({
 		src: ["assets/sound/light_switch.mp3"]
 	});
+	const dmatAudio = new Howl({
+		src: ["assets/sound/dmat_audio.mp3"]
+	});
 
 	const sincerityGroove = jsonToBeat("sincerity", sincerity, 16, {
 		hihat: 45,
@@ -86,6 +91,12 @@
 		hihat: 44,
 		snare: 52,
 		kick: 53
+	});
+	const dmatSwungGroove = jsonToBeat("dmatSwung", dmatSwung, 8, {
+		hihat: 42
+	});
+	const dmatStraightGroove = jsonToBeat("dmatStraight", dmatStraight, 8, {
+		hihat: 42
 	});
 
 	const options = [
@@ -109,9 +120,23 @@
 			data: lightSwitchGroove,
 			audio: lightSwitchAudio,
 			beats: 16
+		},
+		{
+			value: "dmatSwung",
+			name: "It Don't Mean a Thing (swung)",
+			data: dmatSwungGroove,
+			audio: dmatAudio,
+			beats: 8
+		},
+		{
+			value: "dmatStraight",
+			name: "It Don't Mean a Thing (straight)",
+			data: dmatStraightGroove,
+			audio: dmatAudio,
+			beats: 8
 		}
 	];
-	let value = "lightSwitch";
+	let value = "dmatSwung";
 	$: current = options.find((d) => d.value === value);
 </script>
 
