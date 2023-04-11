@@ -8,6 +8,8 @@
 	export let width;
 	export let height;
 	export let x;
+	export let color;
+	export let withSound;
 
 	const { getT, getInstrumentToggles } = getContext("song");
 	const t = getT();
@@ -30,7 +32,7 @@
 	$: offGrid = note % 0.0625 !== 0; // 16th note
 	$: playing = $t !== 0 && $t >= note && $t < note + buffer;
 	$: isOn = $instrumentToggles[instrumentId] === "on";
-	// $: if (playing && isOn) playNote();
+	$: if (withSound && playing && isOn) playNote();
 
 	const playNote = () => {
 		if (sounds[instrumentId].state() === "loaded") sounds[instrumentId].play();
@@ -44,37 +46,36 @@
 	style:height={`${height}px`}
 	style:width={`${width}px`}
 	style:left={`${x}px`}
+	style:--color={color}
 />
 
 <style>
 	div {
-		background: var(--color-gray-300);
+		background: white;
+		outline: 3px solid black;
 		position: absolute;
 		transition: all 100ms;
 	}
-	.playing {
-		opacity: 1;
-	}
 	.played {
-		background: var(--color-gray-600);
-		animation: 500ms ease-in-out grow;
-	}
-	.off-grid {
-		/* fill: cornflowerblue; */
+		background: white;
+		animation: 350ms ease-in-out grow;
 	}
 
 	@keyframes grow {
 		0% {
 			transform: scale(1);
-			background: gold;
+			background: var(--color);
+			z-index: 1000;
 		}
 		50% {
-			transform: scale(1.2);
-			background: gold;
+			transform: scale(1.1);
+			background: var(--color);
+			z-index: 1000;
 		}
 		100% {
 			transform: scale(1);
-			background: var(--color-gray-600);
+			background: white;
+			z-index: 1000;
 		}
 	}
 </style>

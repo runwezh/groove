@@ -13,10 +13,14 @@
 	const instrumentToggles = getInstrumentToggles();
 	const gridToggles = getGridToggles();
 
-	const noteWidth = 3;
-
 	const toggleSound = (id) => {
 		$instrumentToggles[id] = $instrumentToggles[id] === "on" ? "off" : "on";
+	};
+
+	const colors = {
+		snare: "#96c8d7",
+		hihat: "gold",
+		kick: "#550e5c"
 	};
 </script>
 
@@ -34,7 +38,9 @@
 	<div class="notes">
 		{#each data as note, i (`${id}-${i}`)}
 			{@const x = $xScale(note)}
-			<Note {note} instrumentId={id} {height} width={noteWidth} {x} />
+			{@const next = i + 1 < data.length ? data[i + 1] : $xScale.domain()[1]}
+			{@const width = $xScale(next) - x}
+			<Note {note} instrumentId={id} {height} {width} {x} color={colors[id]} />
 		{/each}
 	</div>
 </div>
@@ -43,7 +49,6 @@
 	.instrument {
 		display: flex;
 		align-items: center;
-		background: var(--color-gray-100);
 		position: relative;
 	}
 	.instrument:hover {

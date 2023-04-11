@@ -83,7 +83,7 @@
 <div class="container" style:height={`${height}px`}>
 	<!-- <Raindrops {data} /> -->
 
-	<div class="labels">
+	<!-- <div class="labels">
 		{#each Object.keys(data) as instrument, i}
 			<div class="sidebar" style:height={`${barHeight}px`}>
 				<div class="label">{instrument}</div>
@@ -96,12 +96,12 @@
 				</div>
 			</div>
 		{/each}
-	</div>
+	</div> -->
 
 	<div class="instruments" bind:clientWidth={instrumentsWidth}>
-		<div class="marker" style:left={`${$xScale($currentBeat)}px`} />
+		<!-- <div class="marker" style:left={`${$xScale($currentBeat)}px`} /> -->
 
-		<div
+		<!-- <div
 			class="grid"
 			style="position: absolute; top: 0; height: 100%; width: 100%"
 		>
@@ -116,7 +116,7 @@
 					style:left={`${left}px`}
 				/>
 			{/each}
-		</div>
+		</div> -->
 
 		{#if instrumentsWidth}
 			{#each Object.keys(data) as instrument, i}
