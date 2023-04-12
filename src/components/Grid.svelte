@@ -15,7 +15,7 @@
 	export let beatsPerRotation;
 
 	const audio = new Howl({
-		src: [`assets/sound/${id}_audio.mp3`]
+		src: [`assets/sound/${id}.mp3`]
 	});
 	const songs = {
 		kamaal: kamaal,

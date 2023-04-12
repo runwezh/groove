@@ -1,0 +1,21 @@
+<script>
+	import { Howl } from "howler";
+	import { getContext } from "svelte";
+
+	export let note;
+	export let cx;
+	export let cy;
+
+	const { getT } = getContext("song");
+	const t = getT();
+
+	const hihat = new Howl({
+		src: ["assets/sound/hihat.mp3"]
+	});
+
+	const buffer = 0.05;
+	$: playing = $t >= note && $t < note + buffer;
+	$: if (playing && hihat.state() === "loaded") hihat.play();
+</script>
+
+<circle {cx} {cy} r={10} style:transform="translate(50%, 50%)" />

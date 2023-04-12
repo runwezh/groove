@@ -32,7 +32,7 @@
 		padding: 0 16px;
 		font-family: var(--mono);
 	}
-	details {
+	summary {
 		font-weight: bold;
 	}
 	summary:hover {
