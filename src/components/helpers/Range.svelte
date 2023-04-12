@@ -7,6 +7,7 @@
 	export let value = min;
 	export let label = "";
 	export let ticks;
+	export let ticksAbove;
 
 	const getDecimalCount = (value) => {
 		if (Math.floor(value) === value) return 0;
@@ -21,6 +22,11 @@
 	<div class="ticks">
 		{#each ticks as tick}
 			<span class="tick">{format(`.${decimals}f`)(tick)}</span>
+		{/each}
+	</div>
+	<div class="ticks-above">
+		{#each ticksAbove as tick}
+			<span class="tick">{tick}</span>
 		{/each}
 	</div>
 	<input type="range" aria-label={label} {min} {max} {step} bind:value />
@@ -132,6 +138,18 @@
 		bottom: 0;
 		transform: translate(0, 100%);
 	}
+	.ticks-above {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		padding: 0 calc(var(--thumb-width) / 2);
+		margin: 0;
+		user-select: none;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		transform: translate(0, -100%);
+	}
 
 	.tick {
 		display: flex;
@@ -146,7 +164,7 @@
 		position: relative;
 	}
 
-	.tick:before {
+	.tick:not(.ticks-above *):before {
 		display: block;
 		content: "";
 		position: absolute;

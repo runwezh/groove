@@ -1,22 +1,16 @@
 <script>
 	import Note from "$components/Circle.Note.svelte";
 	import { onDestroy, setContext } from "svelte";
-	import viewport from "$stores/viewport.js";
 	import { scaleLinear, range, arc } from "d3";
 	import { tweened } from "svelte/motion";
 	import Range from "$components/helpers/Range.svelte";
+	import _ from "lodash";
 
 	export let dots;
 	export let beatsPerRotation = 1;
 	export let division;
 	export let bpm = 60;
 	export let interactive;
-
-	$: dotsData = interactive
-		? [0, 1 / sliderValue] // TODO: make this right (maybe make the slider value the swing %)
-		: dots
-		? dots.map((d) => +d)
-		: [];
 
 	setContext("song", {
 		beatsPerRotation,
@@ -26,7 +20,7 @@
 		getCycleDuration: () => duration
 	});
 
-	let sliderValue = division;
+	let currentDivision = division;
 	let interval;
 	const t = tweened(0);
 	const height = 450;
@@ -35,6 +29,8 @@
 	const x = (theta) => circleR * Math.cos(theta);
 	const y = (theta) => circleR * Math.sin(theta);
 
+	$: ratio = Math.ceil(currentDivision / 2) / currentDivision;
+	$: dotsData = interactive ? [0, ratio] : dots ? dots.map((d) => +d) : [];
 	$: end = beatsPerRotation;
 	$: percentageArc = arc()
 		.innerRadius(0)
@@ -74,7 +70,7 @@
 	/>
 
 	{#if division}
-		{#each range(0, 1, 1 / sliderValue) as i}
+		{#each range(0, 1, 1 / currentDivision) as i}
 			<line
 				x1={0}
 				y1={0}
@@ -102,13 +98,45 @@
 </svg>
 
 {#if interactive}
-	<Range min={1} max={10} step={1} showTicks={true} bind:value={sliderValue} />
+	<div class="interactive">
+		<div class="labels">
+			<div>swing percentage</div>
+			<div>divide the beat in</div>
+		</div>
+		<div class="slider">
+			<Range
+				min={1}
+				max={11}
+				step={2}
+				showTicks={true}
+				ticksAbove={range(1, 12, 2).map(
+					(d) => `${_.round((Math.ceil(d / 2) / d) * 100, 1)}%`
+				)}
+				bind:value={currentDivision}
+			/>
+		</div>
+	</div>
 {/if}
 
 <button on:click={play}>play</button>
 <button on:click={pause}>pause</button>
 
 <style>
+	.interactive {
+		display: flex;
+		width: 100%;
+		align-items: flex-start;
+	}
+	.labels {
+		margin-right: 2em;
+		font-size: 14px;
+	}
+	.labels div:first-child {
+		transform: translate(0, -100%);
+	}
+	.slider {
+		flex: 1;
+	}
 	svg {
 		background: var(--color-gray-100);
 	}
