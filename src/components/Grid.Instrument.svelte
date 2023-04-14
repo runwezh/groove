@@ -7,7 +7,7 @@
 	export let id;
 	export let height;
 
-	const { getXScale, getInstrumentToggles, getGridToggles } =
+	const { getXScale, getInstrumentToggles, getGridToggles, isPlayable } =
 		getContext("song");
 	const xScale = getXScale();
 	const instrumentToggles = getInstrumentToggles();
@@ -33,7 +33,9 @@
 		);
 	};
 
-	$: quantizedNotes = quantize(data, determineQuantizeValue(data));
+	$: quantizedNotes = isPlayable
+		? range(0, 16)
+		: quantize(data, determineQuantizeValue(data));
 </script>
 
 <div
@@ -64,7 +66,7 @@
 		{#each data as note, i (`${id}-${i}`)}
 			{@const x = $xScale(note)}
 			{@const next = i + 1 < data.length ? data[i + 1] : $xScale.domain()[1]}
-			{@const width = $xScale(next) - x}
+			{@const width = isPlayable ? 5 : $xScale(next) - x}
 			<Note
 				{note}
 				instrumentId={id}

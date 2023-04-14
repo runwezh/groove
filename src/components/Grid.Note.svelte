@@ -11,7 +11,7 @@
 	export let color;
 	export let withSound;
 
-	const { getT, getInstrumentToggles } = getContext("song");
+	const { getT, getInstrumentToggles, isPlayable } = getContext("song");
 	const t = getT();
 	const instrumentToggles = getInstrumentToggles();
 
@@ -39,7 +39,7 @@
 </script>
 
 <div
-	class:played={$t >= note - buffer}
+	class:played={$t >= note - buffer && !isPlayable}
 	transition:fade
 	style:height={`${height}px`}
 	style:width={`${width}px`}

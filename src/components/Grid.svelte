@@ -1,4 +1,5 @@
 <script>
+	import Play from "$components/Play.svelte";
 	import Instrument from "$components/Grid.Instrument.svelte";
 	import { setContext } from "svelte";
 	import { scaleLinear, scaleBand, range } from "d3";
@@ -13,8 +14,7 @@
 
 	export let id;
 	export let beatsPerRotation;
-	export let dataOverride;
-	export let isPlaying;
+	export let playable = false;
 
 	let division = 2;
 	let animationFrameId;
@@ -27,7 +27,10 @@
 		getXScale: () => xScale,
 		getInstrumentToggles: () => instrumentToggles,
 		getGridToggles: () => gridToggles,
-		getCycleDuration: () => duration
+		getCycleDuration: () => duration,
+		getIsPlaying: () => isPlaying,
+		getData: () => data,
+		isPlayable: playable
 	});
 
 	const audio = new Howl({
@@ -40,8 +43,10 @@
 		dmatSwung: dmatSwung,
 		dmatStraight: dmatStraight
 	};
-	$: data = dataOverride
-		? dataOverride
+
+	const data = writable({});
+	$: $data = playable
+		? { hihat: [] }
 		: id === "sincerity"
 		? _.pick(jsonToBeat(id, songs[id], 16), "hihat")
 		: jsonToBeat(id, songs[id], beatsPerRotation);
@@ -59,6 +64,7 @@
 		snare: "off",
 		kick: "off"
 	});
+	const isPlaying = writable(false);
 	let instrumentsWidth;
 
 	let timeToBeat = () => 0;
@@ -78,7 +84,7 @@
 		.domain([0, beatsPerRotation])
 		.range([0, instrumentsWidth]);
 	$: yScale = scaleBand()
-		.domain(Object.keys(data))
+		.domain(Object.keys($data))
 		.range([0, height])
 		.padding(0.45);
 	$: barHeight = yScale.bandwidth();
@@ -87,12 +93,12 @@
 		play();
 	});
 	const play = () => {
-		isPlaying = true;
+		$isPlaying = true;
 		audio.play();
 		animationFrameId = requestAnimationFrame(updateSeek);
 	};
 	const pause = () => {
-		isPlaying = false;
+		$isPlaying = false;
 		cancelAnimationFrame(animationFrameId);
 		audio.pause();
 	};
@@ -118,9 +124,9 @@
 		</div>
 
 		{#if instrumentsWidth}
-			{#each Object.keys(data) as instrument, i}
+			{#each Object.keys($data) as instrument, i}
 				<Instrument
-					data={data[instrument]}
+					data={$data[instrument]}
 					id={instrument}
 					height={barHeight}
 				/>
@@ -128,6 +134,10 @@
 		{/if}
 	</div>
 </div>
+
+{#if playable}
+	<Play />
+{/if}
 
 <button on:click={play}>play</button>
 <button on:click={pause}>pause</button>
