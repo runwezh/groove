@@ -1,7 +1,7 @@
 <script>
 	import Note from "$components/Grid.Note.svelte";
-	import Lines from "$components/Grid.Lines.svelte";
 	import { getContext } from "svelte";
+	import { range } from "d3";
 
 	export let data;
 	export let id;
@@ -17,11 +17,23 @@
 		$instrumentToggles[id] = $instrumentToggles[id] === "on" ? "off" : "on";
 	};
 
-	const colors = {
-		snare: "#96c8d7",
-		hihat: "gold",
-		kick: "#550e5c"
+	const determineQuantizeValue = (beats) => {
+		const beatValues = [0.0625, 0.125, 0.25, 0.5, 1]; // possible beat values in quarter notes
+		const secondValue = beats[1];
+
+		if (!secondValue) return 1;
+
+		const distances = beatValues.map((value) => Math.abs(value - secondValue));
+		return beatValues[distances.indexOf(Math.min(...distances))];
 	};
+
+	const quantize = (beats, quantizeValue) => {
+		return beats.map(
+			(beat) => Math.round(beat / quantizeValue) * quantizeValue
+		);
+	};
+
+	$: quantizedNotes = quantize(data, determineQuantizeValue(data));
 </script>
 
 <div
@@ -31,16 +43,36 @@
 	on:click={() => toggleSound(id)}
 	on:keydown={() => toggleSound(id)}
 >
-	{#if $gridToggles[id] === "on"}
-		<Lines />
-	{/if}
+	<div class="expected-notes">
+		{#each quantizedNotes as note, i (`${id}-${i}`)}
+			{@const x = $xScale(note)}
+			{@const next =
+				i + 1 < quantizedNotes.length
+					? quantizedNotes[i + 1]
+					: $xScale.domain()[1]}
+			{@const width = $xScale(next) - x}
+			<div
+				class="expected-note"
+				style:height={`${height}px`}
+				style:width={`${width}px`}
+				style:left={`${x}px`}
+			/>
+		{/each}
+	</div>
 
 	<div class="notes">
 		{#each data as note, i (`${id}-${i}`)}
 			{@const x = $xScale(note)}
 			{@const next = i + 1 < data.length ? data[i + 1] : $xScale.domain()[1]}
 			{@const width = $xScale(next) - x}
-			<Note {note} instrumentId={id} {height} {width} {x} color={colors[id]} />
+			<Note
+				{note}
+				instrumentId={id}
+				{height}
+				{width}
+				{x}
+				color={i % 2 === 0 ? "#f4c05c" : "#fbe6be"}
+			/>
 		{/each}
 	</div>
 </div>
@@ -54,11 +86,23 @@
 	.instrument:hover {
 		cursor: pointer;
 	}
-	.notes {
+	.notes,
+	.expected-notes {
 		height: 100%;
 	}
 	.muted {
 		background: var(--color-gray-300);
 		opacity: 0.5;
+	}
+	.expected-note {
+		position: absolute;
+		background: none;
+		border-top: 3px solid var(--color-gray-700);
+		border-bottom: 3px solid var(--color-gray-700);
+		border-left: 3px solid var(--color-gray-700);
+		z-index: 1000;
+	}
+	.expected-note:last-of-type {
+		border-right: 3px solid var(--color-gray-700);
 	}
 </style>

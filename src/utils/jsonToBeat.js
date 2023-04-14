@@ -21,18 +21,16 @@ const jsonToBeat = (id, json, beatsPerMeasure) => {
 		instrument: d.midi
 	}));
 
-	console.log({ beats });
-
 	return {
 		hihat: beats
 			.filter((d) => codes.hihat.includes(d.instrument))
-			.map((d) => d.beat),
+			.map((d) => +d.beat),
 		snare: beats
 			.filter((d) => codes.snare.includes(d.instrument))
-			.map((d) => d.beat),
+			.map((d) => +d.beat),
 		kick: beats
 			.filter((d) => codes.kick.includes(d.instrument))
-			.map((d) => d.beat)
+			.map((d) => +d.beat)
 	};
 };
 

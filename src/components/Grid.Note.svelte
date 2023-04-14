@@ -29,7 +29,6 @@
 		})
 	};
 
-	$: offGrid = note % 0.0625 !== 0; // 16th note
 	$: playing = $t !== 0 && $t >= note && $t < note + buffer;
 	$: isOn = $instrumentToggles[instrumentId] === "on";
 	$: if (withSound && playing && isOn) playNote();
@@ -41,7 +40,6 @@
 
 <div
 	class:played={$t >= note - buffer}
-	class:off-grid={offGrid}
 	transition:fade
 	style:height={`${height}px`}
 	style:width={`${width}px`}
@@ -51,13 +49,12 @@
 
 <style>
 	div {
-		background: white;
-		outline: 3px solid black;
+		background: var(--color);
+		opacity: 80%;
 		position: absolute;
 		transition: all 100ms;
 	}
 	.played {
-		background: white;
 		animation: 350ms ease-in-out grow;
 	}
 

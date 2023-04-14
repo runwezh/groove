@@ -1,5 +1,4 @@
 <script>
-	import Toggle from "$components/helpers/Toggle.svelte";
 	import Instrument from "$components/Grid.Instrument.svelte";
 	import { setContext } from "svelte";
 	import { scaleLinear, scaleBand, range } from "d3";
@@ -10,23 +9,16 @@
 	import lightSwitch from "$data/lightSwitch.json";
 	import dmatSwung from "$data/dmatSwung.json";
 	import dmatStraight from "$data/dmatStraight.json";
+	import _ from "lodash";
 
 	export let id;
 	export let beatsPerRotation;
-
-	const audio = new Howl({
-		src: [`assets/sound/${id}.mp3`]
-	});
-	const songs = {
-		kamaal: kamaal,
-		sincerity: sincerity,
-		lightSwitch: lightSwitch,
-		dmatSwung: dmatSwung,
-		dmatStraight: dmatStraight
-	};
-	const data = jsonToBeat(id, songs[id], beatsPerRotation);
+	export let dataOverride;
+	export let isPlaying;
 
 	let division = 2;
+	let animationFrameId;
+	let seek = 0;
 
 	setContext("song", {
 		beatsPerRotation,
@@ -38,11 +30,24 @@
 		getCycleDuration: () => duration
 	});
 
+	const audio = new Howl({
+		src: [`assets/sound/${id.includes("dmat") ? "dmat" : id}.mp3`]
+	});
+	const songs = {
+		kamaal: kamaal,
+		sincerity: sincerity,
+		lightSwitch: lightSwitch,
+		dmatSwung: dmatSwung,
+		dmatStraight: dmatStraight
+	};
+	$: data = dataOverride
+		? dataOverride
+		: id === "sincerity"
+		? _.pick(jsonToBeat(id, songs[id], 16), "hihat")
+		: jsonToBeat(id, songs[id], beatsPerRotation);
+
 	const currentBeat = writable(0);
 	const xScale = writable(undefined);
-
-	let animationFrameId;
-	let seek = 0;
 	const height = 500;
 	const instrumentToggles = writable({
 		hihat: "on",
@@ -60,7 +65,6 @@
 	audio.on("load", () => {
 		updateTimeScale();
 	});
-
 	const updateTimeScale = () => {
 		timeToBeat = scaleLinear()
 			.domain([0, audio.duration() * 1000])
@@ -83,10 +87,12 @@
 		play();
 	});
 	const play = () => {
+		isPlaying = true;
 		audio.play();
 		animationFrameId = requestAnimationFrame(updateSeek);
 	};
 	const pause = () => {
+		isPlaying = false;
 		cancelAnimationFrame(animationFrameId);
 		audio.pause();
 	};
@@ -99,42 +105,17 @@
 <p>{seek.toFixed(2)}</p>
 
 <div class="container" style:height={`${height}px`}>
-	<!-- <Raindrops {data} /> -->
-
-	<!-- <div class="labels">
-		{#each Object.keys(data) as instrument, i}
-			<div class="sidebar" style:height={`${barHeight}px`}>
-				<div class="label">{instrument}</div>
-				<div class="toggle">
-					<Toggle
-						label="Show grid"
-						style="inner"
-						bind:value={$gridToggles[instrument]}
-					/>
-				</div>
-			</div>
-		{/each}
-	</div> -->
-
 	<div class="instruments" bind:clientWidth={instrumentsWidth}>
-		<!-- <div class="marker" style:left={`${$xScale($currentBeat)}px`} /> -->
+		<div class="marker" style:left={`${$xScale($currentBeat)}px`} />
 
-		<!-- <div
-			class="grid"
-			style="position: absolute; top: 0; height: 100%; width: 100%"
-		>
-			{#each range(0, beatsPerRotation, 1 / division) as bar}
+		<div class="grid">
+			{#each range(0, beatsPerRotation) as bar}
 				{@const thick = bar % 1 === 0}
 				{@const left = $xScale(bar)}
 
-				<div
-					class="line"
-					class:thick
-					style="background: var(--color-gray-500); width: 1px; position: absolute; height: 100%"
-					style:left={`${left}px`}
-				/>
+				<div class="line" class:thick style:left={`${left}px`} />
 			{/each}
-		</div> -->
+		</div>
 
 		{#if instrumentsWidth}
 			{#each Object.keys(data) as instrument, i}
@@ -188,9 +169,21 @@
 	}
 	.marker {
 		position: absolute;
-		background: burlywood;
+		background: var(--color-gray-300);
+		opacity: 0.5;
 		width: 5px;
 		height: 100%;
-		z-index: 100;
+	}
+	.grid {
+		position: absolute;
+		top: 0;
+		height: 100%;
+		width: 100%;
+	}
+	.grid .line {
+		background: var(--color-gray-200);
+		width: 1px;
+		position: absolute;
+		height: 100%;
 	}
 </style>
