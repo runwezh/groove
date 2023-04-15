@@ -7,9 +7,16 @@
 	export let id;
 	export let height;
 
-	const { getXScale, getInstrumentToggles, getGridToggles, isPlayable } =
-		getContext("song");
+	const {
+		beatsPerMeasure,
+		getCurrentMeasure,
+		getXScale,
+		getInstrumentToggles,
+		getGridToggles,
+		isPlayable
+	} = getContext("song");
 	const xScale = getXScale();
+	const currentMeasure = getCurrentMeasure();
 	const instrumentToggles = getInstrumentToggles();
 	const gridToggles = getGridToggles();
 
@@ -34,8 +41,10 @@
 	};
 
 	$: quantizedNotes = isPlayable
-		? range(0, 16)
-		: quantize(data, determineQuantizeValue(data));
+		? range(0, 4)
+		: quantize(data, determineQuantizeValue(data)).filter(
+				(d) => d < beatsPerMeasure
+		  );
 </script>
 
 <div
@@ -46,7 +55,7 @@
 	on:keydown={() => toggleSound(id)}
 >
 	<div class="expected-notes">
-		{#each quantizedNotes as note, i (`${id}-${i}`)}
+		{#each quantizedNotes as note, i}
 			{@const x = $xScale(note)}
 			{@const next =
 				i + 1 < quantizedNotes.length
@@ -63,9 +72,15 @@
 	</div>
 
 	<div class="notes">
-		{#each data as note, i (`${id}-${i}`)}
-			{@const x = $xScale(note)}
-			{@const next = i + 1 < data.length ? data[i + 1] : $xScale.domain()[1]}
+		{#each data as note, i}
+			{@const measure = Math.floor(note / beatsPerMeasure)}
+			{@const visible = measure === $currentMeasure}
+			{@const x = $xScale(note % beatsPerMeasure)}
+			{@const next =
+				i + 1 < data.length &&
+				data[i + 1] % beatsPerMeasure > note % beatsPerMeasure
+					? data[i + 1] % beatsPerMeasure
+					: $xScale.domain()[1]}
 			{@const width = isPlayable ? 5 : $xScale(next) - x}
 			<Note
 				{note}
@@ -74,6 +89,7 @@
 				{width}
 				{x}
 				color={i % 2 === 0 ? "#f4c05c" : "#fbe6be"}
+				{visible}
 			/>
 		{/each}
 	</div>
@@ -99,12 +115,12 @@
 	.expected-note {
 		position: absolute;
 		background: none;
-		border-top: 3px solid var(--color-gray-700);
-		border-bottom: 3px solid var(--color-gray-700);
-		border-left: 3px solid var(--color-gray-700);
+		border-top: 3px solid var(--color-gray-500);
+		border-bottom: 3px solid var(--color-gray-500);
+		border-left: 3px solid var(--color-gray-500);
 		z-index: 1000;
 	}
 	.expected-note:last-of-type {
-		border-right: 3px solid var(--color-gray-700);
+		border-right: 3px solid var(--color-gray-500);
 	}
 </style>

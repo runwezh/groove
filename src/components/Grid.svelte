@@ -13,7 +13,8 @@
 	import _ from "lodash";
 
 	export let id;
-	export let beatsPerRotation;
+	export let beatsPerMeasure = 4;
+	export let measures;
 	export let playable = false;
 
 	let division = 2;
@@ -21,9 +22,10 @@
 	let seek = 0;
 
 	setContext("song", {
-		beatsPerRotation,
+		beatsPerMeasure,
 		division,
 		getT: () => currentBeat,
+		getCurrentMeasure: () => currentMeasure,
 		getXScale: () => xScale,
 		getInstrumentToggles: () => instrumentToggles,
 		getGridToggles: () => gridToggles,
@@ -48,10 +50,11 @@
 	$: $data = playable
 		? { hihat: [] }
 		: id === "sincerity"
-		? _.pick(jsonToBeat(id, songs[id], 16), "hihat")
-		: jsonToBeat(id, songs[id], beatsPerRotation);
+		? _.pick(jsonToBeat(id, songs[id], beatsPerMeasure, measures), "hihat")
+		: jsonToBeat(id, songs[id], beatsPerMeasure, measures);
 
 	const currentBeat = writable(0);
+	const currentMeasure = writable(0);
 	const xScale = writable(undefined);
 	const height = 500;
 	const instrumentToggles = writable({
@@ -74,14 +77,15 @@
 	const updateTimeScale = () => {
 		timeToBeat = scaleLinear()
 			.domain([0, audio.duration() * 1000])
-			.range([0, beatsPerRotation]);
+			.range([0, beatsPerMeasure * measures]);
 	};
 
 	$: id, updateTimeScale();
 	$: duration = audio.duration() * 1000;
-	$: $currentBeat = seek === 0 ? 0 : timeToBeat(seek * 1000);
+	$: $currentBeat = seek === 0 ? 0 : timeToBeat(seek * 1000) % beatsPerMeasure;
+	$: $currentMeasure = Math.floor(timeToBeat(seek * 1000) / beatsPerMeasure);
 	$: $xScale = scaleLinear()
-		.domain([0, beatsPerRotation])
+		.domain([0, beatsPerMeasure])
 		.range([0, instrumentsWidth]);
 	$: yScale = scaleBand()
 		.domain(Object.keys($data))
@@ -108,14 +112,15 @@
 	};
 </script>
 
-<p>{seek.toFixed(2)}</p>
+<p>{seek.toFixed(2)}s</p>
+<p>{$currentBeat.toFixed(1)}</p>
 
 <div class="container" style:height={`${height}px`}>
 	<div class="instruments" bind:clientWidth={instrumentsWidth}>
 		<div class="marker" style:left={`${$xScale($currentBeat)}px`} />
 
 		<div class="grid">
-			{#each range(0, beatsPerRotation) as bar}
+			{#each range(0, beatsPerMeasure) as bar}
 				{@const thick = bar % 1 === 0}
 				{@const left = $xScale(bar)}
 

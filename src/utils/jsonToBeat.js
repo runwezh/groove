@@ -6,7 +6,7 @@ const codes = {
 	snare: [52, 38]
 };
 
-const jsonToBeat = (id, json, beatsPerMeasure) => {
+const jsonToBeat = (id, json, beatsPerMeasure, measures = 4) => {
 	const bpm = json.header.tempos[0].bpm;
 	const ppq = json.header.ppq;
 	const msPerTick = 60000 / bpm / ppq;
@@ -14,7 +14,7 @@ const jsonToBeat = (id, json, beatsPerMeasure) => {
 
 	const beatScale = scaleLinear()
 		.domain([0, (msPerTick * endTicks) / 1000])
-		.range([0, beatsPerMeasure]);
+		.range([0, beatsPerMeasure * measures]);
 
 	const beats = json.tracks[0].notes.map((d) => ({
 		beat: beatScale(d.time),

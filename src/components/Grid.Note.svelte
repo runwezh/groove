@@ -10,8 +10,10 @@
 	export let x;
 	export let color;
 	export let withSound;
+	export let visible;
 
-	const { getT, getInstrumentToggles, isPlayable } = getContext("song");
+	const { beatsPerMeasure, getT, getInstrumentToggles, isPlayable } =
+		getContext("song");
 	const t = getT();
 	const instrumentToggles = getInstrumentToggles();
 
@@ -39,7 +41,8 @@
 </script>
 
 <div
-	class:played={$t >= note - buffer && !isPlayable}
+	class:played={$t >= (note % beatsPerMeasure) - buffer && !isPlayable}
+	class:visible
 	transition:fade
 	style:height={`${height}px`}
 	style:width={`${width}px`}
@@ -50,28 +53,31 @@
 <style>
 	div {
 		background: var(--color);
-		opacity: 80%;
 		position: absolute;
-		transition: all 100ms;
+		opacity: 0;
+
+		/* transition: all 100ms; */
+	}
+	.visible {
+		opacity: 1;
 	}
 	.played {
-		animation: 350ms ease-in-out grow;
+		/* animation: 350ms ease-in-out grow; */
+		outline: 2px solid white;
+		background: var(--color-gray-800);
 	}
 
 	@keyframes grow {
 		0% {
 			transform: scale(1);
-			background: var(--color);
 			z-index: 1000;
 		}
 		50% {
 			transform: scale(1.1);
-			background: var(--color);
 			z-index: 1000;
 		}
 		100% {
 			transform: scale(1);
-			background: white;
 			z-index: 1000;
 		}
 	}
