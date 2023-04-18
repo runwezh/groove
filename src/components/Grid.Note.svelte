@@ -1,7 +1,7 @@
 <script>
 	import { Howl } from "howler";
 	import { getContext } from "svelte";
-	import { fade, scale } from "svelte/transition";
+	import { fade } from "svelte/transition";
 
 	export let note;
 	export let instrumentId;
@@ -12,9 +12,9 @@
 	export let withSound;
 	export let visible;
 
-	const { beatsPerMeasure, getT, getInstrumentToggles, isPlayable } =
+	const { beatsPerMeasure, getCurrentBeat, getInstrumentToggles, isPlayable } =
 		getContext("song");
-	const t = getT();
+	const beat = getCurrentBeat();
 	const instrumentToggles = getInstrumentToggles();
 
 	const buffer = 0.05;
@@ -31,7 +31,7 @@
 		})
 	};
 
-	$: playing = $t !== 0 && $t >= note && $t < note + buffer;
+	$: playing = $beat !== 0 && $beat >= note && $beat < note + buffer;
 	$: isOn = $instrumentToggles[instrumentId] === "on";
 	$: if (withSound && playing && isOn) playNote();
 
@@ -41,9 +41,9 @@
 </script>
 
 <div
-	class:played={$t >= (note % beatsPerMeasure) - buffer && !isPlayable}
+	class:played={$beat >= (note % beatsPerMeasure) - buffer && !isPlayable}
+	class:playable={isPlayable}
 	class:visible
-	transition:fade
 	style:height={`${height}px`}
 	style:width={`${width}px`}
 	style:left={`${x}px`}
@@ -55,30 +55,33 @@
 		background: var(--color);
 		position: absolute;
 		opacity: 0;
-
-		/* transition: all 100ms; */
+		transition: left 100ms;
 	}
 	.visible {
+		opacity: 0.6;
+	}
+	.playable.visible {
 		opacity: 1;
 	}
-	.played {
+	.played.visible {
 		/* animation: 350ms ease-in-out grow; */
-		outline: 2px solid white;
-		background: var(--color-gray-800);
 	}
 
 	@keyframes grow {
 		0% {
 			transform: scale(1);
 			z-index: 1000;
+			opacity: 1;
 		}
 		50% {
 			transform: scale(1.1);
 			z-index: 1000;
+			opacity: 1;
 		}
 		100% {
 			transform: scale(1);
 			z-index: 1000;
+			opacity: 1;
 		}
 	}
 </style>

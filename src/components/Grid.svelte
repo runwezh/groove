@@ -1,4 +1,5 @@
 <script>
+	import Result from "$components/Grid.Result.svelte";
 	import Play from "$components/Play.svelte";
 	import Instrument from "$components/Grid.Instrument.svelte";
 	import { setContext } from "svelte";
@@ -17,24 +18,22 @@
 	export let measures;
 	export let playable = false;
 
-	let division = 2;
 	let animationFrameId;
 	let seek = 0;
 
 	setContext("song", {
 		beatsPerMeasure,
-		division,
-		getT: () => currentBeat,
+		getCurrentBeat: () => currentBeat,
 		getCurrentMeasure: () => currentMeasure,
 		getXScale: () => xScale,
 		getInstrumentToggles: () => instrumentToggles,
-		getGridToggles: () => gridToggles,
 		getCycleDuration: () => duration,
 		getIsPlaying: () => isPlaying,
 		getData: () => data,
 		isPlayable: playable
 	});
 
+	const height = 500;
 	const audio = new Howl({
 		src: [`assets/sound/${id.includes("dmat") ? "dmat" : id}.mp3`]
 	});
@@ -47,30 +46,19 @@
 	};
 
 	const data = writable({});
-	$: $data = playable
-		? { hihat: [] }
-		: id === "sincerity"
-		? _.pick(jsonToBeat(id, songs[id], beatsPerMeasure, measures), "hihat")
-		: jsonToBeat(id, songs[id], beatsPerMeasure, measures);
-
 	const currentBeat = writable(0);
 	const currentMeasure = writable(0);
 	const xScale = writable(undefined);
-	const height = 500;
 	const instrumentToggles = writable({
 		hihat: "on",
 		snare: "on",
 		kick: "on"
 	});
-	const gridToggles = writable({
-		hihat: "off",
-		snare: "off",
-		kick: "off"
-	});
 	const isPlaying = writable(false);
-	let instrumentsWidth;
 
+	let instrumentsWidth;
 	let timeToBeat = () => 0;
+
 	audio.on("load", () => {
 		updateTimeScale();
 	});
@@ -82,7 +70,9 @@
 
 	$: id, updateTimeScale();
 	$: duration = audio.duration() * 1000;
-	$: $currentBeat = seek === 0 ? 0 : timeToBeat(seek * 1000) % beatsPerMeasure;
+	$: $currentBeat = playable
+		? (timeToBeat(seek * 1000) % beatsPerMeasure) - 0.5 // TODO: not sure why you need this
+		: timeToBeat(seek * 1000) % beatsPerMeasure;
 	$: $currentMeasure = Math.floor(timeToBeat(seek * 1000) / beatsPerMeasure);
 	$: $xScale = scaleLinear()
 		.domain([0, beatsPerMeasure])
@@ -92,10 +82,22 @@
 		.range([0, height])
 		.padding(0.45);
 	$: barHeight = yScale.bandwidth();
+	$: $data = playable
+		? { hihat: [] }
+		: id === "sincerity"
+		? _.pick(jsonToBeat(id, songs[id], beatsPerMeasure, measures), "hihat")
+		: jsonToBeat(id, songs[id], beatsPerMeasure, measures);
+
+	let result = [];
 
 	audio.on("end", () => {
+		if (playable) reset();
 		play();
 	});
+	const reset = () => {
+		result = $data.hihat;
+		$data = { hihat: [] };
+	};
 	const play = () => {
 		$isPlaying = true;
 		audio.play();
@@ -113,20 +115,21 @@
 </script>
 
 <p>{seek.toFixed(2)}s</p>
-<p>{$currentBeat.toFixed(1)}</p>
+<p>beat: {$currentBeat.toFixed(1)}</p>
+<p>measure: {$currentMeasure}</p>
 
 <div class="container" style:height={`${height}px`}>
 	<div class="instruments" bind:clientWidth={instrumentsWidth}>
 		<div class="marker" style:left={`${$xScale($currentBeat)}px`} />
 
-		<div class="grid">
+		<!-- <div class="grid">
 			{#each range(0, beatsPerMeasure) as bar}
 				{@const thick = bar % 1 === 0}
 				{@const left = $xScale(bar)}
 
 				<div class="line" class:thick style:left={`${left}px`} />
 			{/each}
-		</div>
+		</div> -->
 
 		{#if instrumentsWidth}
 			{#each Object.keys($data) as instrument, i}
@@ -140,12 +143,13 @@
 	</div>
 </div>
 
-{#if playable}
-	<Play />
-{/if}
-
 <button on:click={play}>play</button>
 <button on:click={pause}>pause</button>
+
+{#if playable}
+	<Play />
+	<Result data={result} {barHeight} />
+{/if}
 
 <style>
 	.container {
