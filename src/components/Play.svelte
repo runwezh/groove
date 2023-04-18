@@ -14,8 +14,6 @@
 			$data[instrument] = [...$data[instrument], +($beat % beatsPerMeasure)];
 		}
 	};
-
-	$: console.log($data);
 </script>
 
 <svelte:window on:keydown|preventDefault={onKeyDown} />

@@ -1,4 +1,5 @@
 <script>
+	import Expected from "$components/Grid.Expected.svelte";
 	import Note from "$components/Grid.Note.svelte";
 	import { getContext } from "svelte";
 	import { range } from "d3";
@@ -9,15 +10,18 @@
 	export let height;
 
 	const {
+		songId,
 		beatsPerMeasure,
 		getCurrentMeasure,
 		getXScale,
 		getInstrumentToggles,
-		isPlayable
+		isPlayable,
+		getIsPlaying
 	} = getContext("song");
 	const xScale = getXScale();
 	const currentMeasure = getCurrentMeasure();
 	const instrumentToggles = getInstrumentToggles();
+	const isPlaying = getIsPlaying();
 
 	const toggleSound = (id) => {
 		$instrumentToggles[id] = $instrumentToggles[id] === "on" ? "off" : "on";
@@ -26,6 +30,9 @@
 	$: quantizedNotes = isPlayable
 		? range(0, beatsPerMeasure)
 		: quantize(data).filter((d) => d < beatsPerMeasure);
+	$: skinnyNotes = isPlayable || songId === "sincerity";
+
+	$: if ($isPlaying && songId === "sincerity") skinnyNotes = false;
 </script>
 
 <div
@@ -43,16 +50,8 @@
 					? quantizedNotes[i + 1]
 					: $xScale.domain()[1]}
 			{@const width = $xScale(next) - x}
-			<div
-				class="expected-note"
-				style:height={`${height}px`}
-				style:width={`${width}px`}
-				style:left={`${x}px`}
-			>
-				{#if isPlayable}
-					<div class="ghost" />
-				{/if}
-			</div>
+
+			<Expected {height} {width} {x} />
 		{/each}
 	</div>
 
@@ -66,9 +65,8 @@
 				data[i + 1] % beatsPerMeasure > note % beatsPerMeasure
 					? data[i + 1] % beatsPerMeasure
 					: $xScale.domain()[1]}
-			{@const width = isPlayable ? 18 : $xScale(next) - x}
+			{@const width = skinnyNotes ? 18 : $xScale(next) - x}
 			<Note
-				{note}
 				instrumentId={id}
 				{height}
 				{width}
@@ -97,24 +95,5 @@
 	.muted {
 		background: var(--color-gray-300);
 		opacity: 0.5;
-	}
-	.expected-note {
-		position: absolute;
-		background: none;
-		border-top: 3px solid var(--color-gray-500);
-		border-bottom: 3px solid var(--color-gray-500);
-		border-left: 3px solid var(--color-gray-500);
-	}
-	.expected-note:last-of-type {
-		border-right: 3px solid var(--color-gray-500);
-	}
-	.ghost {
-		position: absolute;
-		background: var(--color-gray-100);
-		width: 16px;
-		height: 100%;
-		left: 0;
-		stroke-dasharray: 8px;
-		border: 1px dashed var(--color-gray-400);
 	}
 </style>

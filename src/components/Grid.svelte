@@ -22,6 +22,7 @@
 	let seek = 0;
 
 	setContext("song", {
+		songId: id,
 		beatsPerMeasure,
 		getCurrentBeat: () => currentBeat,
 		getCurrentMeasure: () => currentMeasure,
@@ -122,19 +123,20 @@
 <p>{seek.toFixed(2)}s</p>
 <p>beat: {$currentBeat.toFixed(1)}</p>
 <p>measure: {$currentMeasure}</p>
+<p>playable: {playable}</p>
 
 <div class="container" style:height={`${height}px`}>
 	<div class="instruments" bind:clientWidth={instrumentsWidth}>
 		<div class="marker" style:left={`${$xScale($currentBeat)}px`} />
 
-		<!-- <div class="grid">
+		<div class="grid">
 			{#each range(0, beatsPerMeasure) as bar}
 				{@const thick = bar % 1 === 0}
 				{@const left = $xScale(bar)}
 
 				<div class="line" class:thick style:left={`${left}px`} />
 			{/each}
-		</div> -->
+		</div>
 
 		{#if instrumentsWidth}
 			{#each Object.keys($data) as instrument, i}

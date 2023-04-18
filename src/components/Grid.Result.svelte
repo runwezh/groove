@@ -6,8 +6,6 @@
 	export let data;
 	export let barHeight;
 
-	$: console.log({ data, quantizedData });
-
 	let quantization = "off";
 
 	$: quantizedData = quantize(data);

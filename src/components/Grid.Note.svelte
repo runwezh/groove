@@ -1,9 +1,7 @@
 <script>
 	import { Howl } from "howler";
 	import { getContext } from "svelte";
-	import { fade } from "svelte/transition";
 
-	export let note;
 	export let instrumentId;
 	export let width;
 	export let height;
@@ -46,15 +44,17 @@
 	// $: if (withSound && playing && isOn) playNote();
 	// $: isOn = $instrumentToggles[instrumentId] === "on";
 
-	$: whosPlaying = $data[instrumentId].map((d, i) => {
-		const distances = $data[instrumentId].map((n) => {
-			const normalizedBeat = $beat + $measure * beatsPerMeasure;
-			return Math.abs(n - normalizedBeat);
-		});
-		const minDistance = Math.min(...distances);
-		const minIndex = distances.indexOf(minDistance);
-		return minIndex === i;
-	});
+	$: whosPlaying = isPlayable
+		? []
+		: $data[instrumentId].map((d, i) => {
+				const distances = $data[instrumentId].map((n) => {
+					const normalizedBeat = $beat + $measure * beatsPerMeasure;
+					return Math.abs(n - normalizedBeat);
+				});
+				const minDistance = Math.min(...distances);
+				const minIndex = distances.indexOf(minDistance);
+				return minIndex === i;
+		  });
 
 	const playNote = () => {
 		if (sounds[instrumentId].state() === "loaded") sounds[instrumentId].play();
@@ -76,7 +76,7 @@
 		background: var(--color);
 		position: absolute;
 		opacity: 0;
-		transition: left 100ms;
+		transition: width 800ms, left 300ms;
 	}
 	.visible {
 		opacity: 0.6;
