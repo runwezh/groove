@@ -66,7 +66,7 @@
 				data[i + 1] % beatsPerMeasure > note % beatsPerMeasure
 					? data[i + 1] % beatsPerMeasure
 					: $xScale.domain()[1]}
-			{@const width = isPlayable ? 8 : $xScale(next) - x}
+			{@const width = isPlayable ? 18 : $xScale(next) - x}
 			<Note
 				{note}
 				instrumentId={id}
@@ -75,6 +75,7 @@
 				{x}
 				color={isPlayable ? "#f4c05c" : i % 2 === 0 ? "#f4c05c" : "#fbe6be"}
 				{visible}
+				{i}
 			/>
 		{/each}
 	</div>
@@ -110,8 +111,10 @@
 	.ghost {
 		position: absolute;
 		background: var(--color-gray-100);
-		width: 8px;
+		width: 16px;
 		height: 100%;
 		left: 0;
+		stroke-dasharray: 8px;
+		border: 1px dashed var(--color-gray-400);
 	}
 </style>

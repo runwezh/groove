@@ -98,6 +98,11 @@
 		result = $data.hihat;
 		$data = { hihat: [] };
 	};
+
+	// $: if (seek > 0.1) {
+	// 	$isPlaying = true;
+	// }
+
 	const play = () => {
 		$isPlaying = true;
 		audio.play();
