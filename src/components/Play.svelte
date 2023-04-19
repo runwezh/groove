@@ -11,6 +11,7 @@
 
 	const onKeyDown = (e) => {
 		if ($isPlaying && e.keyCode === 32) {
+			// TODO: use previous beat here to decrease latency
 			$data[instrument] = [...$data[instrument], +($beat % beatsPerMeasure)];
 		}
 	};

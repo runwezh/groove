@@ -12,6 +12,7 @@
 	import dmatSwung from "$data/dmatSwung.json";
 	import dmatStraight from "$data/dmatStraight.json";
 	import _ from "lodash";
+	import { previous } from "$stores/previous.js";
 
 	export let id;
 	export let beatsPerMeasure = 4;
@@ -19,7 +20,9 @@
 	export let playable = false;
 
 	let animationFrameId;
-	let seek = 0;
+
+	const seek = writable(0);
+	const previousSeek = previous(seek);
 
 	setContext("song", {
 		songId: id,
@@ -36,7 +39,8 @@
 
 	const height = 500;
 	const audio = new Howl({
-		src: [`assets/sound/${id.includes("dmat") ? "dmat" : id}.mp3`]
+		src: [`assets/sound/${id.includes("dmat") ? "dmat" : id}.mp3`],
+		preload: true
 	});
 	const songs = {
 		kamaal: kamaal,
@@ -60,6 +64,8 @@
 	let instrumentsWidth;
 	let timeToBeat = () => 0;
 
+	$: console.log(audio.duration());
+
 	audio.on("load", () => {
 		updateTimeScale();
 	});
@@ -71,10 +77,8 @@
 
 	$: id, updateTimeScale();
 	$: duration = audio.duration() * 1000;
-	$: $currentBeat = playable
-		? (timeToBeat(seek * 1000) % beatsPerMeasure) - 0.5 // TODO: not sure why you need this
-		: timeToBeat(seek * 1000) % beatsPerMeasure;
-	$: $currentMeasure = Math.floor(timeToBeat(seek * 1000) / beatsPerMeasure);
+	$: $currentBeat = timeToBeat($seek * 1000) % beatsPerMeasure;
+	$: $currentMeasure = Math.floor(timeToBeat($seek * 1000) / beatsPerMeasure);
 	$: $xScale = scaleLinear()
 		.domain([0, beatsPerMeasure])
 		.range([0, instrumentsWidth]);
@@ -100,10 +104,6 @@
 		$data = { hihat: [] };
 	};
 
-	// $: if (seek > 0.1) {
-	// 	$isPlaying = true;
-	// }
-
 	const play = () => {
 		$isPlaying = true;
 		audio.play();
@@ -115,17 +115,21 @@
 		audio.pause();
 	};
 	const updateSeek = () => {
-		seek = audio.seek();
+		$seek = audio.seek() - 0.19; // TODO: why??
 		animationFrameId = requestAnimationFrame(updateSeek);
 	};
 </script>
 
-<p>{seek.toFixed(2)}s</p>
-<p>beat: {$currentBeat.toFixed(1)}</p>
+<p>{$seek.toFixed(2)}s</p>
+<p>beat: {$currentBeat.toFixed(2)}</p>
 <p>measure: {$currentMeasure}</p>
 <p>playable: {playable}</p>
 
-<div class="container" style:height={`${height}px`}>
+<div
+	class="container"
+	style:height={`${height}px`}
+	style:background={Math.floor($currentBeat) % 2 ? "blue" : "orange"}
+>
 	<div class="instruments" bind:clientWidth={instrumentsWidth}>
 		<div class="marker" style:left={`${$xScale($currentBeat)}px`} />
 
@@ -199,6 +203,7 @@
 		opacity: 0.5;
 		width: 5px;
 		height: 100%;
+		transform: translate(-50%, 0);
 	}
 	.grid {
 		position: absolute;
