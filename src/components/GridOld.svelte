@@ -2,7 +2,7 @@
 	import Result from "$components/Grid.Result.svelte";
 	import Play from "$components/Play.svelte";
 	import Instrument from "$components/Grid.Instrument.svelte";
-	import { onMount, setContext } from "svelte";
+	import { setContext } from "svelte";
 	import { scaleLinear, scaleBand, range } from "d3";
 	import { writable } from "svelte/store";
 	import jsonToBeat from "$utils/jsonToBeat.js";
@@ -12,16 +12,17 @@
 	import dmatSwung from "$data/dmatSwung.json";
 	import dmatStraight from "$data/dmatStraight.json";
 	import _ from "lodash";
+	import { previous } from "$stores/previous.js";
 
 	export let id;
 	export let beatsPerMeasure = 4;
 	export let measures;
 	export let playable = false;
 
-	let seek = 0;
-	let result = [];
-	let audioEl;
-	let instrumentsWidth;
+	let animationFrameId;
+
+	const seek = writable(0);
+	const previousSeek = previous(seek);
 
 	setContext("song", {
 		songId: id,
@@ -37,6 +38,10 @@
 	});
 
 	const height = 500;
+	const audio = new Howl({
+		src: [`assets/sound/${id.includes("dmat") ? "dmat" : id}.mp3`],
+		preload: true
+	});
 	const songs = {
 		kamaal: kamaal,
 		sincerity: sincerity,
@@ -56,12 +61,24 @@
 	});
 	const isPlaying = writable(false);
 
-	$: audioDuration = audioEl && audioEl.duration ? audioEl.duration * 1000 : 0;
-	$: timeToBeat = scaleLinear()
-		.domain([0, audioDuration])
-		.range([0, beatsPerMeasure * measures]);
-	$: $currentBeat = timeToBeat(seek * 1000) % beatsPerMeasure;
-	$: $currentMeasure = Math.floor(timeToBeat(seek * 1000) / beatsPerMeasure);
+	let instrumentsWidth;
+	let timeToBeat = () => 0;
+
+	$: console.log(audio.duration());
+
+	audio.on("load", () => {
+		updateTimeScale();
+	});
+	const updateTimeScale = () => {
+		timeToBeat = scaleLinear()
+			.domain([0, audio.duration() * 1000])
+			.range([0, beatsPerMeasure * measures]);
+	};
+
+	$: id, updateTimeScale();
+	$: duration = audio.duration() * 1000;
+	$: $currentBeat = timeToBeat($seek * 1000) % beatsPerMeasure;
+	$: $currentMeasure = Math.floor(timeToBeat($seek * 1000) / beatsPerMeasure);
 	$: $xScale = scaleLinear()
 		.domain([0, beatsPerMeasure])
 		.range([0, instrumentsWidth]);
@@ -75,34 +92,44 @@
 		: id === "sincerity"
 		? _.pick(jsonToBeat(id, songs[id], beatsPerMeasure, measures), "hihat")
 		: jsonToBeat(id, songs[id], beatsPerMeasure, measures);
-	$: if (playable && seek === 0) reset();
 
+	let result = [];
+
+	audio.on("end", () => {
+		if (playable) reset();
+		play();
+	});
 	const reset = () => {
 		result = $data.hihat;
 		$data = { hihat: [] };
 	};
+
 	const play = () => {
 		$isPlaying = true;
-		audioEl.play();
+		audio.play();
+		animationFrameId = requestAnimationFrame(updateSeek);
 	};
 	const pause = () => {
 		$isPlaying = false;
-		audioEl.pause();
+		cancelAnimationFrame(animationFrameId);
+		audio.pause();
+	};
+	const updateSeek = () => {
+		$seek = audio.seek() - 0.19; // TODO: why??
+		animationFrameId = requestAnimationFrame(updateSeek);
 	};
 </script>
 
-<p>{seek.toFixed(2)}s</p>
+<p>{$seek.toFixed(2)}s</p>
 <p>beat: {$currentBeat.toFixed(2)}</p>
 <p>measure: {$currentMeasure}</p>
+<p>playable: {playable}</p>
 
-<audio
-	bind:this={audioEl}
-	src={`assets/sound/${id.includes("dmat") ? "dmat" : id}.mp3`}
-	bind:currentTime={seek}
-	loop={true}
-/>
-
-<div class="container" style:height={`${height}px`}>
+<div
+	class="container"
+	style:height={`${height}px`}
+	style:background={Math.floor($currentBeat) % 2 ? "blue" : "orange"}
+>
 	<div class="instruments" bind:clientWidth={instrumentsWidth}>
 		<div class="marker" style:left={`${$xScale($currentBeat)}px`} />
 
@@ -136,9 +163,6 @@
 {/if}
 
 <style>
-	audio {
-		display: none;
-	}
 	.container {
 		width: 100%;
 		display: flex;
@@ -168,6 +192,10 @@
 		align-items: center;
 		justify-content: center;
 		color: white;
+	}
+	.toggle {
+		color: white;
+		font-size: 12px;
 	}
 	.marker {
 		position: absolute;
