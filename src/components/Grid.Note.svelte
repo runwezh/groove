@@ -86,7 +86,7 @@
 	}
 	.playing {
 		background: var(--color-gray-600);
-		animation: 350ms ease-in-out grow;
+		/* animation: 350ms ease-in-out grow; */
 	}
 
 	@keyframes grow {

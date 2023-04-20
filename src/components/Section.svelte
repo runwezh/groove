@@ -3,12 +3,13 @@
 	import Grid from "$components/Grid.svelte";
 	import Play from "$components/Play.svelte";
 	import Circle from "$components/Circle.svelte";
+	import Static from "$components/Static.svelte";
 
 	export let id;
 	export let title;
 	export let chunks;
 
-	const components = { Play, Grid, Quote, Circle };
+	const components = { Play, Grid, Quote, Circle, Static };
 </script>
 
 <section {id}>
@@ -24,3 +25,9 @@
 		</svelte:element>
 	{/each}
 </section>
+
+<style>
+	.inline {
+		display: inline-block;
+	}
+</style>

@@ -5,6 +5,7 @@
 	export let note;
 	export let cx;
 	export let cy;
+	export let playing;
 
 	const { getT } = getContext("song");
 	const t = getT();
@@ -14,8 +15,18 @@
 	});
 
 	const buffer = 0.05;
-	$: playing = $t >= note && $t < note + buffer;
-	$: if (playing && hihat.state() === "loaded") hihat.play();
+	$: hit = $t >= note && $t < note + buffer;
+	$: if (hit && hihat.state() === "loaded") hihat.play();
 </script>
 
-<circle {cx} {cy} r={10} style:transform="translate(50%, 50%)" />
+<circle {cx} {cy} r={10} style:transform="translate(50%, 50%)" class:playing />
+
+<style>
+	circle {
+		transform-origin: center;
+		transition: fill 100ms;
+	}
+	.playing {
+		fill: gold;
+	}
+</style>

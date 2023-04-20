@@ -5,6 +5,7 @@
 	import { tweened } from "svelte/motion";
 	import Range from "$components/helpers/Range.svelte";
 	import _ from "lodash";
+	import { writable } from "svelte/store";
 
 	export let dots;
 	export let beatsPerRotation = 1;
@@ -17,7 +18,8 @@
 		division,
 		getT: () => t,
 		getAngleScale: () => angleScale,
-		getCycleDuration: () => duration
+		getCycleDuration: () => duration,
+		getIsPlaying: () => isPlaying
 	});
 
 	let currentDivision = division;
@@ -28,6 +30,7 @@
 	const circleR = height / 2 - 100;
 	const x = (theta) => circleR * Math.cos(theta);
 	const y = (theta) => circleR * Math.sin(theta);
+	const isPlaying = writable(false);
 
 	$: ratio = Math.ceil(currentDivision / 2) / currentDivision;
 	$: dotsData = interactive ? [0, ratio] : dots ? dots.map((d) => +d) : [];
@@ -43,10 +46,12 @@
 		.range([-Math.PI / 2, (3 / 2) * Math.PI]); // to make 0 at the top
 
 	const pause = () => {
+		$isPlaying = false;
 		clearInterval(interval);
 		t.set(end, { duration: 0 });
 	};
 	const play = () => {
+		$isPlaying = true;
 		t.set(start, { duration: 0 });
 		t.set(end, { duration });
 		interval = setInterval(() => {
@@ -90,10 +95,12 @@
 		style:transform="translate(50%, 50%)"
 	/>
 
-	{#each dotsData as dot}
+	{#each dotsData as dot, i}
 		{@const cx = x(angleScale(dot))}
 		{@const cy = y(angleScale(dot))}
-		<Note note={dot} {cx} {cy} />
+		{@const otherDot = i === 0 ? dotsData[1] : dotsData[0]}
+		{@const playing = dot >= $t && otherDot < $t}
+		<Note note={dot} {cx} {cy} {playing} />
 	{/each}
 </svg>
 
@@ -118,6 +125,7 @@
 	</div>
 {/if}
 
+<p>{$t.toFixed(2)}</p>
 <button on:click={play}>play</button>
 <button on:click={pause}>pause</button>
 

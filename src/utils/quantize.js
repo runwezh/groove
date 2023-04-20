@@ -1,5 +1,5 @@
 const determineQuantizeValue = (beats) => {
-	const beatValues = [1 / 8, 1 / 4, 1 / 2, 1];
+	const beatValues = [1 / 4, 1 / 2, 1];
 
 	const smallestDistanceBetweenTwoBeats = beats.reduce((current, acc) => {
 		const distances = beats.map((beat) => Math.abs(beat - current));

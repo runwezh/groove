@@ -1,5 +1,6 @@
 <script>
 	import Result from "$components/Grid.Result.svelte";
+	import Toggle from "$components/helpers/Toggle.svelte";
 	import Marker from "$components/Grid.Marker.svelte";
 	import Play from "$components/Play.svelte";
 	import Instrument from "$components/Grid.Instrument.svelte";
@@ -22,6 +23,7 @@
 	let result = [];
 	let audioEl;
 	let instrumentsWidth;
+	let swing = "on";
 
 	setContext("song", {
 		songId: id,
@@ -75,6 +77,16 @@
 	$: barHeight = yScale.bandwidth();
 	$: $data = playable
 		? { hihat: [] }
+		: id === "dmat"
+		? _.pick(
+				jsonToBeat(
+					swing === "on" ? "dmatSwung" : "dmatStraight",
+					songs[swing === "on" ? "dmatSwung" : "dmatStraight"],
+					beatsPerMeasure,
+					measures
+				),
+				"hihat"
+		  )
 		: id === "sincerity"
 		? _.pick(jsonToBeat(id, songs[id], beatsPerMeasure, measures), "hihat")
 		: jsonToBeat(id, songs[id], beatsPerMeasure, measures);
@@ -94,16 +106,20 @@
 	};
 </script>
 
+<audio
+	bind:this={audioEl}
+	src={`assets/sound/${id}.mp3`}
+	bind:currentTime={$seek}
+	loop={true}
+/>
+
 <p>{$seek.toFixed(2)}s</p>
 <p>beat: {$currentBeat.toFixed(2)}</p>
 <p>measure: {$currentMeasure}</p>
 
-<audio
-	bind:this={audioEl}
-	src={`assets/sound/${id.includes("dmat") ? "dmat" : id}.mp3`}
-	bind:currentTime={$seek}
-	loop={true}
-/>
+{#if id === "dmat"}
+	<Toggle label="swing" style="inner" bind:value={swing} />
+{/if}
 
 <div class="container" style:height={`${height}px`}>
 	<div class="instruments" bind:clientWidth={instrumentsWidth}>
