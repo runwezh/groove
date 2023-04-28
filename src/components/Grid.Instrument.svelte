@@ -27,9 +27,10 @@
 		$instrumentToggles[id] = $instrumentToggles[id] === "on" ? "off" : "on";
 	};
 
+	$: quantizeValue = songId === "dmat" ? 0.25 : 0.5;
 	$: quantizedNotes = isPlayable
 		? range(0, beatsPerMeasure)
-		: quantize(data).filter((d) => d < beatsPerMeasure);
+		: quantize(data, quantizeValue).filter((d) => d < beatsPerMeasure);
 	$: skinnyNotes = isPlayable || songId === "sincerity";
 
 	$: if ($isPlaying && songId === "sincerity") skinnyNotes = false;

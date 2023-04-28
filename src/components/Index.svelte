@@ -1,17 +1,26 @@
 <script>
 	import Footer from "$components/Footer.svelte";
 	import Section from "$components/Section.svelte";
+	import Intro from "$components/Intro.svelte";
 
 	import copy from "$data/copy.json";
 
 	const { hed, dek } = copy;
+
+	let unlocked = false;
 </script>
 
 <article>
 	<h1>{hed}</h1>
 	<h2>{dek}</h2>
 
-	{#each copy.sections as section}
+	<button on:click={() => (unlocked = true)}>sound on to start</button>
+
+	{#if unlocked}
+		<Intro />
+	{/if}
+
+	<!-- {#each copy.sections as section}
 		{#if section.id === "nerd-box"}
 			<details class="nerd-box">
 				<summary>{section.summary}</summary>
@@ -20,13 +29,14 @@
 		{:else}
 			<Section {...section} />
 		{/if}
-	{/each}
+	{/each} -->
 </article>
 
 <Footer />
 
 <style>
 	article {
+		min-height: 100vh;
 		max-width: 800px;
 		margin: auto;
 		padding: 0 16px;
