@@ -2,19 +2,28 @@
 	import Footer from "$components/Footer.svelte";
 	import Section from "$components/Section.svelte";
 	import Intro from "$components/Intro.svelte";
+	import { soundOn } from "$stores/misc.js";
 
 	import copy from "$data/copy.json";
 
 	const { hed, dek } = copy;
 
 	let unlocked = false;
+
+	const start = () => {
+		$soundOn = true;
+		unlocked = true;
+	};
 </script>
 
 <article>
 	<h1>{hed}</h1>
 	<h2>{dek}</h2>
 
-	<button on:click={() => (unlocked = true)}>sound on to start</button>
+	<button on:click={start}>start</button>
+	<button on:click={() => ($soundOn = !$soundOn)}
+		>{$soundOn ? "sound off" : "sound on"}</button
+	>
 
 	{#if unlocked}
 		<Intro />
