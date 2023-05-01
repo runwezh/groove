@@ -3,7 +3,7 @@
 	import Instrument from "$components/Song.Instrument.svelte";
 	import Icon from "$components/helpers/Icon.svelte";
 	import { onMount, setContext } from "svelte";
-	import { scaleLinear, scaleBand, range } from "d3";
+	import { scaleLinear, range } from "d3";
 	import { writable } from "svelte/store";
 	import { songData } from "$stores/misc.js";
 	import _ from "lodash";
@@ -19,8 +19,6 @@
 		autoplay = false
 	} = $songData[songId];
 
-	$: console.log($data, beatsPerMeasure, measures);
-
 	let audioEl;
 	let duration;
 	let instrumentsWidth;
@@ -29,7 +27,6 @@
 		songId,
 		beatsPerMeasure,
 		getCurrentBeat: () => currentBeat,
-		getCurrentMeasure: () => currentMeasure,
 		getTimeToBeat: () => timeToBeat,
 		getXScale: () => xScale,
 		getInstrumentToggles: () => instrumentToggles,
@@ -41,7 +38,6 @@
 	const seek = writable(0);
 	const data = writable(d);
 	const currentBeat = writable(0);
-	const currentMeasure = writable(0);
 	const timeToBeat = writable(undefined);
 	const xScale = writable(undefined);
 	const instrumentToggles = writable({
@@ -61,7 +57,6 @@
 		.domain([0, trimmedDuration])
 		.range([0, beatsPerMeasure * measures]);
 	$: $currentBeat = $timeToBeat($seek * 1000) % beatsPerMeasure;
-	$: $currentMeasure = Math.floor($timeToBeat($seek * 1000) / beatsPerMeasure);
 	$: $xScale = scaleLinear()
 		.domain([0, beatsPerMeasure])
 		.range([0, instrumentsWidth]);
@@ -89,33 +84,30 @@
 	bind:currentTime={$seek}
 />
 
-<!-- <p>{$seek.toFixed(2)}s</p>
+<p>{$seek.toFixed(2)}s</p>
 <p>beat: {$currentBeat.toFixed(2)}</p>
-<p>measure: {$currentMeasure}</p> -->
 
-<div class="container">
-	<div class="instruments" bind:clientWidth={instrumentsWidth}>
-		{#if marker}
-			<Marker />
-		{/if}
+<div class="instruments" bind:clientWidth={instrumentsWidth}>
+	{#if marker}
+		<Marker />
+	{/if}
 
-		{#if gridlines}
-			<div class="grid">
-				{#each range(0, beatsPerMeasure) as bar}
-					{@const thick = bar % 1 === 0}
-					{@const left = $xScale(bar)}
+	{#if gridlines}
+		<div class="grid">
+			{#each range(0, beatsPerMeasure) as bar}
+				{@const thick = bar % 1 === 0}
+				{@const left = $xScale(bar)}
 
-					<div class="line" class:thick style:left={`${left}px`} />
-				{/each}
-			</div>
-		{/if}
-
-		{#if instrumentsWidth}
-			{#each _.orderBy(Object.keys($data)) as instrument, i}
-				<Instrument data={$data[instrument]} id={instrument} />
+				<div class="line" class:thick style:left={`${left}px`} />
 			{/each}
-		{/if}
-	</div>
+		</div>
+	{/if}
+
+	{#if instrumentsWidth}
+		{#each _.orderBy(Object.keys($data)) as instrument, i}
+			<Instrument data={$data[instrument]} id={instrument} />
+		{/each}
+	{/if}
 </div>
 
 {#if !autoplay}
@@ -136,35 +128,12 @@
 		width: 50px;
 		height: 50px;
 	}
-	.container {
-		width: 100%;
-		display: flex;
-		position: relative;
-	}
 	.instruments {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-around;
 		position: relative;
-	}
-	.labels {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-around;
-		width: 100px;
-	}
-	.sidebar {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-	.label {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		color: white;
 	}
 	.grid {
 		position: absolute;
@@ -177,12 +146,5 @@
 		width: 1px;
 		position: absolute;
 		height: 100%;
-	}
-	.dot {
-		background: var(--color-gray-200);
-		height: 3px;
-		width: 3px;
-		border-radius: 1.5px;
-		position: absolute;
 	}
 </style>

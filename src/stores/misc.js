@@ -25,5 +25,14 @@ export const songData = readable({
 		},
 		beatsPerMeasure: 4,
 		measures: 4
+	},
+	triplet: {
+		data: {
+			kick: [0, 2],
+			snare: [1, 3],
+			hihat: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666]
+		},
+		beatsPerMeasure: 4,
+		measures: 4
 	}
 });

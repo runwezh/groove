@@ -2,25 +2,14 @@
 	import Note from "$components/Song.Note.svelte";
 	import { getContext } from "svelte";
 	import { range } from "d3";
-	import quantize from "$utils/quantize.js";
 
 	export let data;
 	export let id;
-	export let shape = "circle";
 
-	const {
-		songId,
-		beatsPerMeasure,
-		getCurrentMeasure,
-		getXScale,
-		getInstrumentToggles,
-		isPlayable,
-		getIsPlaying
-	} = getContext("song");
+	const { beatsPerMeasure, getXScale, getInstrumentToggles } =
+		getContext("song");
 	const xScale = getXScale();
-	const currentMeasure = getCurrentMeasure();
 	const instrumentToggles = getInstrumentToggles();
-	const isPlaying = getIsPlaying();
 
 	const noteHeight = 20;
 	const colors = { kick: "#f94144", snare: "#f3722c", hihat: "#f9c74f" };
@@ -28,14 +17,6 @@
 	const toggleSound = (id) => {
 		$instrumentToggles[id] = $instrumentToggles[id] === "on" ? "off" : "on";
 	};
-
-	$: quantizeValue = songId === "dmat" ? 0.25 : 0.5;
-	$: quantizedNotes = isPlayable
-		? range(0, beatsPerMeasure)
-		: quantize(data, quantizeValue).filter((d) => d < beatsPerMeasure);
-	$: skinnyNotes = isPlayable || songId === "sincerity";
-
-	$: if ($isPlaying && songId === "sincerity") skinnyNotes = false;
 </script>
 
 <div
@@ -49,15 +30,7 @@
 			{@const x = $xScale(note % beatsPerMeasure)}
 			{@const color = colors[id]}
 			{@const shape = shapes[id]}
-			<Note
-				instrumentId={id}
-				noteData={note}
-				{x}
-				{color}
-				{shape}
-				height={noteHeight}
-				{i}
-			/>
+			<Note noteData={note} {x} {color} {shape} height={noteHeight} />
 		{/each}
 
 		{#each range(0, beatsPerMeasure, 0.5) as dot}

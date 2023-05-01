@@ -1,8 +1,6 @@
 <script>
 	import Footer from "$components/Footer.svelte";
 	import Section from "$components/Section.svelte";
-	import Intro from "$components/Scroll.svelte";
-	import Straight from "$components/Straight.svelte";
 	import { soundOn } from "$stores/misc.js";
 
 	import copy from "$data/copy.json";
@@ -17,7 +15,8 @@
 	};
 
 	// id to isolate to debug
-	const debug = "straight";
+	const debug = ["straight", "swing"];
+	const sections = copy.sections.filter((d) => debug.includes(d.id));
 </script>
 
 <article>
@@ -32,7 +31,7 @@
 	{/if}
 
 	{#if unlocked || debug}
-		{#each copy.sections.filter((d) => d.id === debug) as { id, title, chunks }}
+		{#each sections as { id, title, chunks }}
 			<Section {id} {title} {chunks} />
 		{/each}
 	{/if}
@@ -47,15 +46,5 @@
 		margin: auto;
 		padding: 0 16px;
 		font-family: var(--mono);
-	}
-	summary {
-		font-weight: bold;
-	}
-	summary:hover {
-		cursor: pointer;
-	}
-	.nerd-box {
-		background: var(--color-gray-100);
-		padding: 2em;
 	}
 </style>
