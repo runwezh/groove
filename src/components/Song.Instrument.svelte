@@ -7,7 +7,6 @@
 	export let data;
 	export let id;
 	export let shape = "circle";
-	export let color = "orange";
 
 	const {
 		songId,
@@ -23,6 +22,9 @@
 	const instrumentToggles = getInstrumentToggles();
 	const isPlaying = getIsPlaying();
 
+	const noteHeight = 20;
+	const colors = { kick: "#f94144", snare: "#f3722c", hihat: "#f9c74f" };
+	const shapes = { kick: "circle", snare: "square", hihat: "triangle" };
 	const toggleSound = (id) => {
 		$instrumentToggles[id] = $instrumentToggles[id] === "on" ? "off" : "on";
 	};
@@ -42,16 +44,25 @@
 	on:click={() => toggleSound(id)}
 	on:keydown={() => toggleSound(id)}
 >
-	<div class="notes">
+	<div class="notes" style:height={`${noteHeight}px`}>
 		{#each data as note, i}
-			{@const measure = Math.floor(note / beatsPerMeasure)}
 			{@const x = $xScale(note % beatsPerMeasure)}
-			{@const next =
-				i + 1 < data.length &&
-				data[i + 1] % beatsPerMeasure > note % beatsPerMeasure
-					? data[i + 1] % beatsPerMeasure
-					: $xScale.domain()[1]}
-			<Note instrumentId={id} noteData={note} {x} {color} {shape} {i} />
+			{@const color = colors[id]}
+			{@const shape = shapes[id]}
+			<Note
+				instrumentId={id}
+				noteData={note}
+				{x}
+				{color}
+				{shape}
+				height={noteHeight}
+				{i}
+			/>
+		{/each}
+
+		{#each range(0, beatsPerMeasure, 0.5) as dot}
+			{@const left = $xScale(dot)}
+			<div class="dot" style:left={`${left}px`} />
 		{/each}
 	</div>
 </div>
@@ -61,6 +72,7 @@
 		display: flex;
 		align-items: center;
 		position: relative;
+		margin: 1em 0;
 	}
 	.instrument:hover {
 		cursor: pointer;
@@ -68,5 +80,13 @@
 	.muted {
 		background: var(--color-gray-300);
 		opacity: 0.5;
+	}
+	.dot {
+		background: var(--color-gray-200);
+		position: absolute;
+		width: 4px;
+		height: 4px;
+		border-radius: 2px;
+		transform: translate(-50%, -50%);
 	}
 </style>

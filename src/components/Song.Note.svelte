@@ -7,6 +7,7 @@
 	export let x;
 	export let color;
 	export let shape;
+	export let height;
 	export let i;
 
 	const {
@@ -38,16 +39,17 @@
 	class:played={noteData < $beat + $measure * beatsPerMeasure}
 	style:left={`${x}px`}
 	style:--color={color}
+	style:height={`${height}px`}
+	style:width={`${height}px`}
 />
 
 <style>
 	div {
-		height: 20px;
-		width: 20px;
 		border-radius: 10px;
 		background: var(--color);
 		position: absolute;
 		opacity: 0;
+		transform: translate(-50%, -50%);
 		transition: width 800ms, left 300ms;
 	}
 	.played {

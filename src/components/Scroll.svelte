@@ -1,10 +1,11 @@
 <script>
 	import Song from "$components/Song.svelte";
 	import Scrolly from "$components/helpers/Scrolly.svelte";
-	import copy from "$data/copy.json";
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
 	import { soundOn } from "$stores/misc.js";
+
+	export let steps;
 
 	let step;
 	let top;
@@ -44,20 +45,14 @@
 
 <div class="container" bind:this={containerEl}>
 	<Scrolly bind:value={step} {top}>
-		{#each copy.intro as { text, type, sound }, i}
+		{#each steps as { text, type, sound, showNotes }, i}
 			{@const active = i === step}
 			{@const quote = type === "quote"}
-			{@const soundNoNotes = type !== "show-notes" && sound}
-			{@const notes = type === "show-notes" && active && sound}
+			{@const soundNoNotes = showNotes !== "true" && sound}
+			{@const notes = showNotes === "true" && active && sound}
 
 			{#if notes}
-				<Song
-					id={sound}
-					beatsPerMeasure={32}
-					gridlines={false}
-					marker={false}
-					autoplay={true}
-				/>
+				<Song songId={sound} />
 			{/if}
 
 			<p class:active class:quote transition:fade>{text}</p>

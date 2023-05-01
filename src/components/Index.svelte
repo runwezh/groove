@@ -1,7 +1,8 @@
 <script>
 	import Footer from "$components/Footer.svelte";
 	import Section from "$components/Section.svelte";
-	import Intro from "$components/Intro.svelte";
+	import Intro from "$components/Scroll.svelte";
+	import Straight from "$components/Straight.svelte";
 	import { soundOn } from "$stores/misc.js";
 
 	import copy from "$data/copy.json";
@@ -14,31 +15,27 @@
 		$soundOn = true;
 		unlocked = true;
 	};
+
+	// id to isolate to debug
+	const debug = "straight";
 </script>
 
 <article>
-	<h1>{hed}</h1>
-	<h2>{dek}</h2>
+	{#if !debug}
+		<h1>{hed}</h1>
+		<h2>{dek}</h2>
 
-	<button on:click={start}>start</button>
-	<button on:click={() => ($soundOn = !$soundOn)}
-		>{$soundOn ? "sound off" : "sound on"}</button
-	>
-
-	{#if unlocked}
-		<Intro />
+		<button on:click={start}>start</button>
+		<button on:click={() => ($soundOn = !$soundOn)}
+			>{$soundOn ? "sound off" : "sound on"}</button
+		>
 	{/if}
 
-	<!-- {#each copy.sections as section}
-		{#if section.id === "nerd-box"}
-			<details class="nerd-box">
-				<summary>{section.summary}</summary>
-				<Section {...section} />
-			</details>
-		{:else}
-			<Section {...section} />
-		{/if}
-	{/each} -->
+	{#if unlocked || debug}
+		{#each copy.sections.filter((d) => d.id === debug) as { id, title, chunks }}
+			<Section {id} {title} {chunks} />
+		{/each}
+	{/if}
 </article>
 
 <Footer />
