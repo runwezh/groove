@@ -12,7 +12,8 @@
 		getInstrumentToggles,
 		getWidth,
 		getHeight,
-		getXOffset
+		getXOffset,
+		gridlines
 	} = getContext("song");
 	const xScale = getXScale();
 	const instrumentToggles = getInstrumentToggles();
@@ -44,12 +45,7 @@
 	});
 </script>
 
-<div
-	class="instrument"
-	class:muted={$instrumentToggles[id] === "off"}
-	on:click={() => toggleSound(id)}
-	on:keydown={() => toggleSound(id)}
->
+<div class="instrument">
 	<div class="label">{id}</div>
 
 	<div
@@ -57,8 +53,11 @@
 		style:height={`${noteHeight}px`}
 		bind:clientWidth={$width}
 		bind:this={notesContainer}
+		class:muted={$instrumentToggles[id] === "off"}
+		on:click={() => toggleSound(id)}
+		on:keydown={() => toggleSound(id)}
 	>
-		{#if id === "bass"}
+		{#if gridlines && id === "bass"}
 			<div class="grid">
 				{#each range(0, beatsPerMeasure) as bar}
 					{@const thick = bar % 1 === 0}

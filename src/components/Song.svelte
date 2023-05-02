@@ -34,7 +34,8 @@
 		getSeek: () => seek,
 		getWidth: () => width,
 		getHeight: () => height,
-		getXOffset: () => xOffset
+		getXOffset: () => xOffset,
+		gridlines
 	});
 
 	const seek = writable(0);
@@ -95,28 +96,14 @@
 		<Marker />
 	{/if}
 
-	{#if gridlines}
-		<!-- <div class="grid">
-			{#each range(0, beatsPerMeasure) as bar}
-				{@const thick = bar % 1 === 0}
-				{@const left = $xScale(bar)}
-
-				<div class="line" class:thick style:left={`${left}px`} />
-			{/each}
-		</div> -->
-	{/if}
-
 	{#each _.orderBy(Object.keys($data)) as instrument, i}
 		<Instrument data={$data[instrument]} id={instrument} />
 	{/each}
 </div>
 
 {#if !autoplay}
-	<button on:click={play}><Icon name="play" color="black" size="100%" /></button
-	>
-	<button on:click={pause}
-		><Icon name="pause" color="black" size="100%" /></button
-	>
+	<button on:click={play}>play</button>
+	<button on:click={pause}>pause</button>
 {/if}
 
 <style>
@@ -124,10 +111,7 @@
 		display: none;
 	}
 	button {
-		background: var(--color-gray-100);
-		color: black;
-		width: 50px;
-		height: 50px;
+		margin-right: 0.8em;
 	}
 	.chart {
 		width: 100%;
