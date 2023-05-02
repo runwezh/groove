@@ -15,12 +15,13 @@
 	};
 
 	// id to isolate to debug
-	const debug = ["shift", "dilla"];
-	const sections = copy.sections.filter((d) => debug.includes(d.id));
+	const debug = [];
+	//const sections = copy.sections.filter((d) => debug.includes(d.id));
+	const sections = copy.sections;
 </script>
 
 <article>
-	{#if !debug}
+	{#if debug.length === 0}
 		<h1>{hed}</h1>
 		<h2>{dek}</h2>
 
@@ -30,7 +31,7 @@
 		>
 	{/if}
 
-	{#if unlocked || debug}
+	{#if unlocked || debug.length > 0}
 		{#each sections as { id, title, chunks }}
 			<Section {id} {title} {chunks} />
 		{/each}
