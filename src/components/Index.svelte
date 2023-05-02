@@ -45,6 +45,6 @@
 		max-width: 800px;
 		margin: auto;
 		padding: 0 16px;
-		font-family: var(--mono);
+		font-family: var(--sans);
 	}
 </style>

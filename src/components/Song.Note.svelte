@@ -7,14 +7,16 @@
 	export let shape;
 	export let height;
 
-	const { getCurrentBeat, getIsPlaying } = getContext("song");
+	const { getCurrentBeat, getIsPlaying, getHighlightedNotes } =
+		getContext("song");
 	const beat = getCurrentBeat();
-
 	const isPlaying = getIsPlaying();
+	const highlightedNotes = getHighlightedNotes();
 </script>
 
 <div
 	class:played={$beat >= noteData - 0.05 && $isPlaying}
+	class:highlighted={$highlightedNotes.includes(noteData)}
 	style:left={`${x}px`}
 	style:--color={color}
 	style:height={`${height}px`}
@@ -27,10 +29,14 @@
 		background: var(--color);
 		position: absolute;
 		transform: translate(-50%, -50%);
-		transition: width 800ms, left 300ms;
+		transition: width 800ms, all 300ms;
 	}
 	.played {
 		animation: 300ms ease-in-out grow;
+	}
+	.highlighted {
+		border: 2px solid white;
+		transform: translate(-50%, -50%) scale(1.5);
 	}
 
 	@keyframes grow {

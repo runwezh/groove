@@ -12,6 +12,7 @@
 
 	const {
 		data: d = {},
+		actions,
 		beatsPerMeasure = 4,
 		measures = 1,
 		gridlines = true,
@@ -29,6 +30,7 @@
 		getTimeToBeat: () => timeToBeat,
 		getXScale: () => xScale,
 		getInstrumentToggles: () => instrumentToggles,
+		getHighlightedNotes: () => highlightedNotes,
 		getIsPlaying: () => isPlaying,
 		getData: () => data,
 		getSeek: () => seek,
@@ -48,6 +50,7 @@
 		snare: "on",
 		kick: "on"
 	});
+	const highlightedNotes = writable([]);
 	const isPlaying = writable(false);
 	const width = writable(0);
 	const height = writable(0);
@@ -97,7 +100,10 @@
 	{/if}
 
 	{#each _.orderBy(Object.keys($data)) as instrument, i}
-		<Instrument data={$data[instrument]} id={instrument} />
+		{@const action = actions
+			? actions.find((d) => d.instrument === instrument)
+			: null}
+		<Instrument instrumentData={$data[instrument]} id={instrument} {action} />
 	{/each}
 </div>
 

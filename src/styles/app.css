@@ -108,6 +108,9 @@ button:active {
 	top: 5px;
 	left: 5px;
 }
+button:hover {
+	background: var(--color-gray-700);
+}
 
 @media (min-width: 768px) {
 	button {

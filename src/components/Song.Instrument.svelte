@@ -1,22 +1,27 @@
 <script>
 	import Note from "$components/Song.Note.svelte";
-	import { getContext, onMount } from "svelte";
+	import { getContext, onMount, tick } from "svelte";
 	import { range } from "d3";
 
-	export let data;
 	export let id;
+	export let instrumentData;
+	export let action;
 
 	const {
+		getData,
 		beatsPerMeasure,
 		getXScale,
 		getInstrumentToggles,
+		getHighlightedNotes,
 		getWidth,
 		getHeight,
 		getXOffset,
 		gridlines
 	} = getContext("song");
+	const data = getData();
 	const xScale = getXScale();
 	const instrumentToggles = getInstrumentToggles();
+	const highlightedNotes = getHighlightedNotes();
 	const width = getWidth();
 	const height = getHeight();
 	const xOffset = getXOffset();
@@ -37,8 +42,28 @@
 	const toggleSound = (id) => {
 		$instrumentToggles[id] = $instrumentToggles[id] === "on" ? "off" : "on";
 	};
+	const doAction = async () => {
+		if (actionOn) {
+			$data[id] = originalData;
+			$highlightedNotes = [];
+		} else {
+			$data[id] = action.update;
+			$highlightedNotes = action.update.filter(
+				(d) => !originalData.includes(d)
+			);
+		}
+		actionOn = !actionOn;
+	};
+	$: buttonText =
+		action && actionOn
+			? `un-${action.description}`
+			: action && !actionOn
+			? `${action.description}`
+			: "";
 
 	let notesContainer;
+	let actionOn = false;
+	let originalData = instrumentData;
 
 	onMount(() => {
 		$xOffset = notesContainer.offsetLeft;
@@ -72,7 +97,7 @@
 			</div>
 		{/if}
 
-		{#each data as note}
+		{#each instrumentData as note}
 			{@const x = $xScale(note % beatsPerMeasure)}
 			{@const color = colors[id]}
 			{@const shape = shapes[id]}
@@ -85,7 +110,9 @@
 		{/each}
 	</div>
 
-	<button>action</button>
+	<div class="action">
+		<button class:visible={action} on:click={doAction}>{buttonText}</button>
+	</div>
 </div>
 
 <style>
@@ -129,5 +156,19 @@
 		width: 1px;
 		position: absolute;
 		z-index: -1;
+	}
+	.action {
+		font-family: var(--mono);
+		font-size: var(--14px);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.action button {
+		visibility: hidden;
+		width: 8em;
+	}
+	.action button.visible {
+		visibility: visible;
 	}
 </style>
