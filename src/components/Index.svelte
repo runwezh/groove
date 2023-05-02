@@ -15,7 +15,7 @@
 	};
 
 	// id to isolate to debug
-	const debug = ["straight", "swing"];
+	const debug = ["shift", "dilla"];
 	const sections = copy.sections.filter((d) => debug.includes(d.id));
 </script>
 

@@ -48,5 +48,44 @@ export const songData = readable({
 		],
 		beatsPerMeasure: 4,
 		measures: 4
+	},
+	shift: {
+		data: {
+			kick: [0, 2],
+			snare: [1, 3],
+			hihat: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5],
+			bass: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5]
+		},
+		actions: [
+			{
+				instrument: "snare",
+				description: "shift the snare",
+				update: [0.9, 2.9]
+			}
+		],
+		beatsPerMeasure: 4,
+		measures: 4
+	},
+	dilla: {
+		data: {
+			kick: [0, 2],
+			snare: [1, 3],
+			hihat: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5],
+			bass: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5]
+		},
+		actions: [
+			{
+				instrument: "snare",
+				description: "shift the snare",
+				update: [0.9, 2.9]
+			},
+			{
+				instrument: "bass",
+				description: "swing the bass",
+				update: [0, 0.6, 1, 1.6, 2, 2.6, 3, 3.6]
+			}
+		],
+		beatsPerMeasure: 4,
+		measures: 4
 	}
 });

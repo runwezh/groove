@@ -2,6 +2,7 @@
 	import { getContext } from "svelte";
 
 	export let noteData;
+	export let instrumentId;
 	export let x;
 	export let color;
 	export let shape;
@@ -12,11 +13,14 @@
 	const beat = getCurrentBeat();
 	const isPlaying = getIsPlaying();
 	const highlightedNotes = getHighlightedNotes();
+
+	$: played = $beat >= noteData - 0.05 && $isPlaying;
+	$: highlighted = $highlightedNotes[instrumentId]?.includes(noteData);
 </script>
 
 <div
-	class:played={$beat >= noteData - 0.05 && $isPlaying}
-	class:highlighted={$highlightedNotes.includes(noteData)}
+	class:played
+	class:highlighted
 	style:left={`${x}px`}
 	style:--color={color}
 	style:height={`${height}px`}

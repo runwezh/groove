@@ -45,10 +45,10 @@
 	const doAction = async () => {
 		if (actionOn) {
 			$data[id] = originalData;
-			$highlightedNotes = [];
+			$highlightedNotes[id] = [];
 		} else {
 			$data[id] = action.update;
-			$highlightedNotes = action.update.filter(
+			$highlightedNotes[id] = action.update.filter(
 				(d) => !originalData.includes(d)
 			);
 		}
@@ -101,7 +101,14 @@
 			{@const x = $xScale(note % beatsPerMeasure)}
 			{@const color = colors[id]}
 			{@const shape = shapes[id]}
-			<Note noteData={note} {x} {color} {shape} height={noteHeight} />
+			<Note
+				noteData={note}
+				instrumentId={id}
+				{x}
+				{color}
+				{shape}
+				height={noteHeight}
+			/>
 		{/each}
 
 		{#each range(0, beatsPerMeasure, 0.5) as dot}

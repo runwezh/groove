@@ -50,7 +50,7 @@
 		snare: "on",
 		kick: "on"
 	});
-	const highlightedNotes = writable([]);
+	const highlightedNotes = writable({});
 	const isPlaying = writable(false);
 	const width = writable(0);
 	const height = writable(0);
