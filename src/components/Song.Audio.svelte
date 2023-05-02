@@ -31,7 +31,6 @@
 		$instrumentToggles[instrument] === "off" ||
 		$instrumentStyles[instrument] !== style}
 
-	<p>{src}</p>
 	{#if i === 0}
 		<audio bind:currentTime={$seek} bind:this={$audioEls[i]} {src} {muted} />
 	{:else}
