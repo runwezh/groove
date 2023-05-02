@@ -31,23 +31,45 @@ export const songData = readable({
 		measures: 4
 	},
 	triplet: {
-		data: {
-			kick: [0, 2],
-			snare: [1, 3],
-			hihat: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5],
-			bass: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5]
+		parts: [
+			{
+				instrument: "hihat",
+				style: "straight",
+				data: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5]
+			},
+			{
+				instrument: "hihat",
+				style: "triplet",
+				data: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666]
+			},
+			{
+				instrument: "bass",
+				style: "straight",
+				data: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5]
+			},
+			{
+				instrument: "bass",
+				style: "triplet",
+				data: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666]
+			},
+			{ instrument: "kick", style: "straight", data: [0, 2] },
+			{ instrument: "snare", style: "straight", data: [1, 3] }
+		],
+		defaultStyles: {
+			hihat: "straight",
+			bass: "straight",
+			kick: "straight",
+			snare: "straight"
 		},
 		actions: [
 			{
 				instrument: "hihat",
 				description: "swing the hi-hat",
-				update: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666],
 				style: "triplet"
 			},
 			{
 				instrument: "bass",
 				description: "swing the bass",
-				update: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666],
 				style: "triplet"
 			}
 		],
