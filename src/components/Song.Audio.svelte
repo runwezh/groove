@@ -18,7 +18,9 @@
 	const audioEls = getAudioEls();
 
 	onMount(() => {
-		$duration = $audioEls[0].duration;
+		$audioEls[0].addEventListener("durationchange", () => {
+			$duration = $audioEls[0].duration;
+		});
 	});
 </script>
 
@@ -29,6 +31,7 @@
 		$instrumentToggles[instrument] === "off" ||
 		$instrumentStyles[instrument] !== style}
 
+	<p>{src}</p>
 	{#if i === 0}
 		<audio bind:currentTime={$seek} bind:this={$audioEls[i]} {src} {muted} />
 	{:else}

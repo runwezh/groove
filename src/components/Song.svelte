@@ -113,7 +113,7 @@
 		</div>
 	{/if}
 
-	{#each _.uniq($allParts.map((d) => d.instrument)) as instrument, i}
+	{#each _.orderBy(_.uniq($allParts.map((d) => d.instrument))) as instrument, i}
 		{@const data = $allParts.find(
 			(d) =>
 				d.instrument === instrument && d.style === $instrumentStyles[instrument]

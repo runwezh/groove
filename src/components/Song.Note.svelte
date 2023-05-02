@@ -8,13 +8,21 @@
 	export let shape;
 	export let height;
 
-	const { getCurrentBeat, getIsPlaying, getHighlightedNotes } =
-		getContext("song");
+	const {
+		getCurrentBeat,
+		getIsPlaying,
+		getHighlightedNotes,
+		getInstrumentToggles
+	} = getContext("song");
 	const beat = getCurrentBeat();
 	const isPlaying = getIsPlaying();
 	const highlightedNotes = getHighlightedNotes();
+	const instrumentToggles = getInstrumentToggles();
 
-	$: played = $beat >= noteData - 0.05 && $isPlaying;
+	$: played =
+		$beat >= noteData - 0.05 &&
+		$isPlaying &&
+		$instrumentToggles[instrumentId] === "on";
 	$: highlighted = $highlightedNotes[instrumentId]?.includes(noteData);
 </script>
 

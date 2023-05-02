@@ -15,9 +15,9 @@
 	};
 
 	// id to isolate to debug
-	const debug = ["swing"];
-	const sections = copy.sections.filter((d) => debug.includes(d.id));
-	//const sections = copy.sections;
+	const debug = [];
+	//const sections = copy.sections.filter((d) => debug.includes(d.id));
+	const sections = copy.sections;
 </script>
 
 <article>

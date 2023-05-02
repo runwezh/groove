@@ -48,19 +48,19 @@
 		{#each steps as { text, type, sound, showNotes }, i}
 			{@const active = i === step}
 			{@const quote = type === "quote"}
-			{@const soundNoNotes = showNotes !== "true" && sound}
+			{@const backgroundSound = showNotes !== "true" && sound}
 			{@const notes = showNotes === "true" && active && sound}
 
 			{#if notes}
-				<Song songId={sound} />
+				<Song songId={sound} gridlines={false} />
 			{/if}
 
 			<p class:active class:quote transition:fade>{text}</p>
 
-			{#if soundNoNotes}
+			{#if backgroundSound}
 				<audio
 					bind:this={sounds[i]}
-					src={`assets/sound/${sound}/kick.mp3`}
+					src={`assets/sound/intro/${sound}.mp3`}
 					loop={true}
 					muted={!$soundOn}
 				/>
