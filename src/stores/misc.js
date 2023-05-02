@@ -21,7 +21,8 @@ export const songData = readable({
 		data: {
 			kick: [0, 2],
 			snare: [1, 3],
-			hihat: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5]
+			hihat: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5],
+			bass: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5]
 		},
 		beatsPerMeasure: 4,
 		measures: 4
@@ -30,7 +31,8 @@ export const songData = readable({
 		data: {
 			kick: [0, 2],
 			snare: [1, 3],
-			hihat: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666]
+			hihat: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666],
+			bass: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666]
 		},
 		beatsPerMeasure: 4,
 		measures: 4

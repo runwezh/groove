@@ -1,7 +1,7 @@
 <script>
 	import Result from "$components/Grid.Result.svelte";
 	import Toggle from "$components/helpers/Toggle.svelte";
-	import Marker from "$components/Grid.Marker.svelte";
+	import Marker from "$components/Song.Marker.svelte";
 	import Play from "$components/Play.svelte";
 	import Instrument from "$components/Grid.Instrument.svelte";
 	import { setContext } from "svelte";

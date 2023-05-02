@@ -1,5 +1,5 @@
 <script>
-	import Marker from "$components/Grid.Marker.svelte";
+	import Marker from "$components/Song.Marker.svelte";
 	import Instrument from "$components/Song.Instrument.svelte";
 	import Icon from "$components/helpers/Icon.svelte";
 	import { onMount, setContext } from "svelte";
@@ -21,7 +21,6 @@
 
 	let audioEl;
 	let duration;
-	let instrumentsWidth;
 
 	setContext("song", {
 		songId,
@@ -32,7 +31,10 @@
 		getInstrumentToggles: () => instrumentToggles,
 		getIsPlaying: () => isPlaying,
 		getData: () => data,
-		getSeek: () => seek
+		getSeek: () => seek,
+		getWidth: () => width,
+		getHeight: () => height,
+		getXOffset: () => xOffset
 	});
 
 	const seek = writable(0);
@@ -46,6 +48,9 @@
 		kick: "on"
 	});
 	const isPlaying = writable(false);
+	const width = writable(0);
+	const height = writable(0);
+	const xOffset = writable(0);
 
 	const reset = () => {
 		audioEl.currentTime = 0;
@@ -57,9 +62,7 @@
 		.domain([0, trimmedDuration])
 		.range([0, beatsPerMeasure * measures]);
 	$: $currentBeat = $timeToBeat($seek * 1000) % beatsPerMeasure;
-	$: $xScale = scaleLinear()
-		.domain([0, beatsPerMeasure])
-		.range([0, instrumentsWidth]);
+	$: $xScale = scaleLinear().domain([0, beatsPerMeasure]).range([0, $width]);
 
 	const play = () => {
 		$isPlaying = true;
@@ -84,30 +87,28 @@
 	bind:currentTime={$seek}
 />
 
-<p>{$seek.toFixed(2)}s</p>
-<p>beat: {$currentBeat.toFixed(2)}</p>
+<!-- <p>{$seek.toFixed(2)}s</p>
+<p>beat: {$currentBeat.toFixed(2)}</p> -->
 
-<div class="instruments" bind:clientWidth={instrumentsWidth}>
+<div class="chart" bind:clientHeight={$height}>
 	{#if marker}
 		<Marker />
 	{/if}
 
 	{#if gridlines}
-		<div class="grid">
+		<!-- <div class="grid">
 			{#each range(0, beatsPerMeasure) as bar}
 				{@const thick = bar % 1 === 0}
 				{@const left = $xScale(bar)}
 
 				<div class="line" class:thick style:left={`${left}px`} />
 			{/each}
-		</div>
+		</div> -->
 	{/if}
 
-	{#if instrumentsWidth}
-		{#each _.orderBy(Object.keys($data)) as instrument, i}
-			<Instrument data={$data[instrument]} id={instrument} />
-		{/each}
-	{/if}
+	{#each _.orderBy(Object.keys($data)) as instrument, i}
+		<Instrument data={$data[instrument]} id={instrument} />
+	{/each}
 </div>
 
 {#if !autoplay}
@@ -128,23 +129,11 @@
 		width: 50px;
 		height: 50px;
 	}
-	.instruments {
+	.chart {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-around;
 		position: relative;
-	}
-	.grid {
-		position: absolute;
-		top: 0;
-		height: 100%;
-		width: 100%;
-	}
-	.grid .line {
-		background: var(--color-gray-200);
-		width: 1px;
-		position: absolute;
-		height: 100%;
 	}
 </style>
