@@ -5,7 +5,7 @@
 
 	import copy from "$data/copy.json";
 
-	const { hed, dek } = copy;
+	const { hed, dek, byline } = copy;
 
 	let unlocked = false;
 
@@ -15,15 +15,16 @@
 	};
 
 	// id to isolate to debug
-	const debug = [];
-	//const sections = copy.sections.filter((d) => debug.includes(d.id));
-	const sections = copy.sections;
+	const debug = ["swing"];
+	const sections = copy.sections.filter((d) => debug.includes(d.id));
+	//const sections = copy.sections;
 </script>
 
 <article>
 	{#if debug.length === 0}
-		<h1>{hed}</h1>
-		<h2>{dek}</h2>
+		<h1>{@html hed}</h1>
+		<h2>{@html dek}</h2>
+		<div class="byline" style:margin-bottom="3em">{@html byline}</div>
 
 		<button on:click={start}>start</button>
 		<button on:click={() => ($soundOn = !$soundOn)}
@@ -47,5 +48,8 @@
 		margin: auto;
 		padding: 0 16px;
 		font-family: var(--sans);
+	}
+	:global(.byline a) {
+		color: white;
 	}
 </style>

@@ -1,7 +1,10 @@
 import { writable, readable } from "svelte/store";
 import { range } from "d3";
 
-export const soundOn = writable(false);
+export const soundOn = writable(true); // TODO: should be false
+
+// TODO: these should be reogranized around styles
+
 export const songData = readable({
 	normal: {
 		data: { kick: range(8, 32, 2) },
@@ -38,12 +41,14 @@ export const songData = readable({
 			{
 				instrument: "hihat",
 				description: "swing the hi-hat",
-				update: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666]
+				update: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666],
+				style: "triplet"
 			},
 			{
 				instrument: "bass",
 				description: "swing the bass",
-				update: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666]
+				update: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666],
+				style: "triplet"
 			}
 		],
 		beatsPerMeasure: 4,

@@ -5,7 +5,7 @@
 	import { onMount, setContext } from "svelte";
 	import { scaleLinear, range } from "d3";
 	import { writable } from "svelte/store";
-	import { songData } from "$stores/misc.js";
+	import { songData, soundOn } from "$stores/misc.js";
 	import _ from "lodash";
 
 	export let songId;
@@ -20,7 +20,7 @@
 		autoplay = false
 	} = $songData[songId];
 
-	let audioEl;
+	let audioEls = [];
 	let duration;
 
 	setContext("song", {
@@ -48,7 +48,8 @@
 	const instrumentToggles = writable({
 		hihat: "on",
 		snare: "on",
-		kick: "on"
+		kick: "on",
+		bass: "on"
 	});
 	const highlightedNotes = writable({});
 	const isPlaying = writable(false);
@@ -57,7 +58,9 @@
 	const xOffset = writable(0);
 
 	const reset = () => {
-		audioEl.currentTime = 0;
+		audioEls.forEach((el) => {
+			el.currentTime = 0;
+		});
 	};
 
 	$: trimmedDuration = duration * 1000 - 1500;
@@ -70,11 +73,14 @@
 
 	const play = () => {
 		$isPlaying = true;
-		audioEl.play();
+		audioEls.forEach((el) => {
+			el.currentTime = $seek;
+			el.play();
+		});
 	};
 	const pause = () => {
 		$isPlaying = false;
-		audioEl.pause();
+		audioEls.forEach((el) => el.pause());
 	};
 
 	onMount(() => {
@@ -84,12 +90,27 @@
 	});
 </script>
 
-<audio
-	bind:this={audioEl}
-	bind:duration
-	src={`assets/sound/${songId}.mp3`}
-	bind:currentTime={$seek}
-/>
+<!-- TODO: these should happen inside <Instrument/>. Pass up values by context. That way, we can change songId -> style and each instrument can track their style. -->
+
+{#each songId === "normal" || songId === "drunk" ? ["kick"] : ["bass", "hihat", "kick", "snare"] as part, i}
+	{#if i === 0}
+		<!-- leader -->
+		<audio
+			bind:this={audioEls[i]}
+			bind:duration
+			src={`assets/sound/${songId}/${part}.mp3`}
+			bind:currentTime={$seek}
+			muted={!$soundOn || $instrumentToggles[part] === "off"}
+		/>
+	{:else}
+		<!-- followers -->
+		<audio
+			bind:this={audioEls[i]}
+			src={`assets/sound/${songId}/${part}.mp3`}
+			muted={!$soundOn || $instrumentToggles[part] === "off"}
+		/>
+	{/if}
+{/each}
 
 <!-- <p>{$seek.toFixed(2)}s</p>
 <p>beat: {$currentBeat.toFixed(2)}</p> -->

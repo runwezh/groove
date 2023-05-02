@@ -60,7 +60,7 @@
 			{#if soundNoNotes}
 				<audio
 					bind:this={sounds[i]}
-					src={`assets/sound/${sound}.mp3`}
+					src={`assets/sound/${sound}/kick.mp3`}
 					loop={true}
 					muted={!$soundOn}
 				/>
@@ -71,7 +71,7 @@
 
 <audio
 	bind:this={club}
-	src={`assets/sound/club.mp3`}
+	src={`assets/sound/intro/club.mp3`}
 	loop={true}
 	muted={!$soundOn}
 	bind:volume={clubVolume}
