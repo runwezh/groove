@@ -44,6 +44,8 @@
 		actions
 	});
 
+	$: console.log($duration);
+
 	const audioEls = writable([]);
 	const duration = writable(0);
 	const seek = writable(0);

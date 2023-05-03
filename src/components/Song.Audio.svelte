@@ -16,11 +16,6 @@
 	const instrumentToggles = getInstrumentToggles();
 	const instrumentStyles = getInstrumentStyles();
 	const audioEls = getAudioEls();
-
-	onMount(async () => {
-		await tick();
-		$duration = $audioEls[0].duration;
-	});
 </script>
 
 {#each $allParts as { instrument, style }, i}
@@ -32,7 +27,13 @@
 
 	{#if style !== "missing"}
 		{#if i === 0}
-			<audio bind:currentTime={$seek} bind:this={$audioEls[i]} {src} {muted} />
+			<audio
+				bind:duration={$duration}
+				bind:currentTime={$seek}
+				bind:this={$audioEls[i]}
+				{src}
+				{muted}
+			/>
 		{:else}
 			<audio bind:this={$audioEls[i]} {src} {muted} />
 		{/if}
