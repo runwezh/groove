@@ -10,11 +10,26 @@ const allStraight = {
 	snare: "straight"
 };
 
+const missingKick = {
+	instrument: "kick",
+	style: "missing",
+	data: []
+};
 const straightKick = { instrument: "kick", style: "straight", data: [0, 2] };
 
+const missingSnare = {
+	instrument: "snare",
+	style: "missing",
+	data: []
+};
 const straightSnare = { instrument: "snare", style: "straight", data: [1, 3] };
 const shiftedSnare = { instrument: "snare", style: "shift", data: [0.9, 2.9] };
 
+const missingHihat = {
+	instrument: "hihat",
+	style: "missing",
+	data: []
+};
 const straightHihat = {
 	instrument: "hihat",
 	style: "straight",
@@ -26,6 +41,11 @@ const tripletHihat = {
 	data: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666]
 };
 
+const missingBass = {
+	instrument: "bass",
+	style: "missing",
+	data: []
+};
 const straightBass = {
 	instrument: "bass",
 	style: "straight",
@@ -66,8 +86,28 @@ export const songData = readable({
 		gridlines: false
 	},
 	straight: {
-		parts: [straightHihat, straightBass, straightKick, straightSnare],
-		defaultStyles: allStraight,
+		parts: [
+			straightHihat,
+			straightBass,
+			straightKick,
+			straightSnare,
+			missingHihat,
+			missingBass,
+			missingKick,
+			missingSnare
+		],
+		defaultStyles: {
+			hihat: "missing",
+			bass: "missing",
+			kick: "missing",
+			snare: "missing"
+		},
+		actions: [
+			{ instrument: "bass", description: "add the bass", style: "straight" },
+			{ instrument: "hihat", description: "add the hi-hat", style: "straight" },
+			{ instrument: "kick", description: "add the kick", style: "straight" },
+			{ instrument: "snare", description: "add the snare", style: "straight" }
+		],
 		beatsPerMeasure: 4,
 		measures: 4
 	},
@@ -83,13 +123,13 @@ export const songData = readable({
 		defaultStyles: allStraight,
 		actions: [
 			{
-				instrument: "hihat",
-				description: "swing the hi-hat",
+				instrument: "bass",
+				description: "swing the bass",
 				style: "triplet"
 			},
 			{
-				instrument: "bass",
-				description: "swing the bass",
+				instrument: "hihat",
+				description: "swing the hi-hat",
 				style: "triplet"
 			}
 		],
@@ -109,7 +149,7 @@ export const songData = readable({
 			{
 				instrument: "snare",
 				description: "shift the snare",
-				update: [0.9, 2.9]
+				style: "shift"
 			}
 		],
 		beatsPerMeasure: 4,
@@ -127,14 +167,14 @@ export const songData = readable({
 		defaultStyles: allStraight,
 		actions: [
 			{
-				instrument: "snare",
-				description: "shift the snare",
-				update: [0.9, 2.9]
-			},
-			{
 				instrument: "bass",
 				description: "swing the bass",
-				update: [0, 0.6, 1, 1.6, 2, 2.6, 3, 3.6]
+				style: "dilla"
+			},
+			{
+				instrument: "snare",
+				description: "shift the snare",
+				style: "shift"
 			}
 		],
 		beatsPerMeasure: 4,

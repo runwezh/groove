@@ -24,6 +24,7 @@
 	setContext("song", {
 		songId,
 		beatsPerMeasure,
+		gridlines,
 		getDuration: () => duration,
 		getCurrentBeat: () => currentBeat,
 		getTimeToBeat: () => timeToBeat,
@@ -38,7 +39,9 @@
 		getWidth: () => width,
 		getHeight: () => height,
 		getXOffset: () => xOffset,
-		gridlines
+		getStarted: () => started,
+		getCurrentAction: () => currentAction,
+		actions
 	});
 
 	const audioEls = writable([]);
@@ -60,7 +63,10 @@
 	const width = writable(0);
 	const height = writable(0);
 	const xOffset = writable(0);
+	const started = writable(false);
+	const currentAction = writable(undefined);
 
+	$: $currentAction = actions && actions.length ? actions[0] : null;
 	$: trimmedDuration = $duration * 1000 - 1500;
 	$: if ($duration && $seek * 1000 > trimmedDuration) reset();
 	$: $timeToBeat = scaleLinear()
@@ -75,6 +81,10 @@
 		});
 	};
 	const play = () => {
+		if (!$started) {
+			$started = true;
+		}
+
 		$isPlaying = true;
 		$audioEls.forEach((el) => {
 			el.currentTime = $seek;
@@ -127,7 +137,7 @@
 
 <Audio />
 {#if !autoplay}
-	<button on:click={play}>play</button>
+	<button on:click={play} class:pulse={!$started}>play</button>
 	<button on:click={pause}>pause</button>
 {/if}
 

@@ -9,6 +9,7 @@
 	export let action;
 
 	const {
+		songId,
 		getAllParts,
 		beatsPerMeasure,
 		getXScale,
@@ -16,7 +17,11 @@
 		getInstrumentStyles,
 		getHighlightedNotes,
 		getWidth,
-		getXOffset
+		getXOffset,
+		getCurrentAction,
+		getStarted,
+		actions,
+		getAudioEls
 	} = getContext("song");
 	const allParts = getAllParts();
 	const xScale = getXScale();
@@ -25,6 +30,9 @@
 	const highlightedNotes = getHighlightedNotes();
 	const width = getWidth();
 	const xOffset = getXOffset();
+	const currentAction = getCurrentAction();
+	const started = getStarted();
+	const audioEls = getAudioEls();
 
 	let notesContainer;
 	let actionOn = false;
@@ -49,14 +57,24 @@
 	};
 	const doAction = async () => {
 		if (actionOn) {
-			$instrumentStyles[id] = "straight";
-			$highlightedNotes[id] = [];
+			$instrumentStyles[id] = songId === "straight" ? "missing" : "straight";
+			if (songId !== "straight") $highlightedNotes[id] = [];
 		} else {
+			if (action === $currentAction) {
+				const currentI = actions?.findIndex((d) => d === $currentAction);
+				const nextAction =
+					currentI + 1 < actions.length ? actions[currentI + 1] : null;
+				$currentAction = nextAction;
+			}
+
 			$instrumentStyles[id] = action.style;
 			const newNotes = $allParts.find(
 				(d) => d.instrument === id && d.style === action.style
 			).data;
-			$highlightedNotes[id] = newNotes.filter((d) => !startingData.includes(d));
+			if (songId !== "straight")
+				$highlightedNotes[id] = newNotes.filter(
+					(d) => !startingData.includes(d)
+				);
 		}
 		actionOn = !actionOn;
 	};
@@ -67,6 +85,12 @@
 			: action && !actionOn
 			? `${action.description}`
 			: "";
+	$: currentActionInstrumentIndex = [
+		"bass",
+		"hihat",
+		"kick",
+		"snare"
+	].findIndex((d) => d === $currentAction?.instrument);
 
 	onMount(() => {
 		$xOffset = notesContainer.offsetLeft;
@@ -106,7 +130,14 @@
 	</div>
 
 	<div class="action">
-		<button class:visible={action} on:click={doAction}>{buttonText}</button>
+		<button
+			class:visible={action &&
+				$started &&
+				(i <= currentActionInstrumentIndex ||
+					($started && $currentAction === null))}
+			class:pulse={i === currentActionInstrumentIndex}
+			on:click={doAction}>{buttonText}</button
+		>
 	</div>
 </div>
 
