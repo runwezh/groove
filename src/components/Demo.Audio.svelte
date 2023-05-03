@@ -14,7 +14,8 @@
 		getInstrumentStyles,
 		getAudioEls,
 		getPlayClicked,
-		getIsPlaying
+		getIsPlaying,
+		getCurrentActionIndex
 	} = getContext("song");
 	const allParts = getAllParts();
 	const duration = getDuration();
@@ -26,6 +27,7 @@
 	const playClicked = getPlayClicked();
 	const isPlaying = getIsPlaying();
 	const visible = getVisible();
+	const currentActionIndex = getCurrentActionIndex();
 
 	let d;
 
@@ -68,6 +70,7 @@
 			const nextAction = actionButtons[0];
 			nextAction.classList.add("visible", "pulse");
 		}
+		$currentActionIndex = 0;
 	};
 
 	// let audioLoaded = false;
@@ -95,8 +98,10 @@
 </script>
 
 {#if !autoplay}
-	<button on:click={play} class:pulse={!$playClicked}>play</button>
-	<button on:click={pause}>pause</button>
+	<div class="buttons">
+		<button on:click={play} class:pulse={!$playClicked}>play</button>
+		<button on:click={pause}>pause</button>
+	</div>
 {/if}
 
 {#each $allParts as { instrument, style }, i}
@@ -131,5 +136,8 @@
 <style>
 	button {
 		margin-right: 0.8em;
+	}
+	.buttons {
+		margin-bottom: 2em;
 	}
 </style>

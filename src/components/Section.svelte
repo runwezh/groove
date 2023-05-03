@@ -14,7 +14,7 @@
 <section {id} class:visible={$started}>
 	{#if title}<h3>{title}</h3>{/if}
 
-	{#each chunks as { type, text, component, classname, steps, songId, url, song, artist }}
+	{#each chunks as { type, text, component, classname, steps, notes, songId, url, song, artist }}
 		<svelte:element this={type} class={classname}>
 			{#if text}
 				{@html text}
@@ -22,6 +22,7 @@
 				<svelte:component
 					this={components[component]}
 					{steps}
+					{notes}
 					{songId}
 					{url}
 					{song}

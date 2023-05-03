@@ -2,6 +2,7 @@
 	import Marker from "$components/Demo.Marker.svelte";
 	import Row from "$components/Demo.Row.svelte";
 	import Audio from "$components/Demo.Audio.svelte";
+	import Descriptions from "$components/Demo.Descriptions.svelte";
 	import { setContext } from "svelte";
 	import { scaleLinear, range } from "d3";
 	import { writable } from "svelte/store";
@@ -10,6 +11,7 @@
 
 	export let songId;
 	export let showing = true;
+	export let notes = [];
 
 	const {
 		parts,
@@ -43,7 +45,8 @@
 		getWidth: () => width,
 		getHeight: () => height,
 		getXOffset: () => xOffset,
-		getPlayClicked: () => playClicked
+		getPlayClicked: () => playClicked,
+		getCurrentActionIndex: () => currentActionIndex
 	});
 
 	const audioEls = writable([]);
@@ -67,11 +70,10 @@
 	const height = writable(0);
 	const xOffset = writable(0);
 	const playClicked = writable(false);
-	const currentAction = writable(undefined);
 	const visible = writable(true);
+	const currentActionIndex = writable(undefined);
 
 	$: $visible = showing;
-	$: $currentAction = actions && actions.length ? actions[0] : null;
 	$: $timeToBeat = scaleLinear()
 		.domain([0, $trimmedDuration])
 		.range([0, beatsPerMeasure * measures]);
@@ -80,6 +82,10 @@
 </script>
 
 <!-- <p>duration: {$duration?.toFixed(2)}s</p> -->
+
+<Audio />
+
+<Descriptions {notes} />
 
 <div class="chart" bind:clientHeight={$height} class:visible={$visible}>
 	{#if marker}
@@ -112,8 +118,6 @@
 		<Row {i} id={instrument} {data} {action} />
 	{/each}
 </div>
-
-<Audio />
 
 <style>
 	.chart {

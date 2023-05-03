@@ -11,11 +11,11 @@
 		$started = true;
 	};
 
-	// id to isolate to debug
-	const debug = ["shift"];
+	const debug = ["straight"];
 	const sections = copy.sections.filter((d) => debug.includes(d.id));
 	$started = true;
-	//const sections = copy.sections;
+
+	// const sections = copy.sections;
 </script>
 
 <article class:started={$started}>

@@ -39,7 +39,7 @@
 		}
 	};
 
-	$: if ($started) {
+	$: if ($started && club) {
 		club.play();
 	}
 

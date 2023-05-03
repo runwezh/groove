@@ -2,6 +2,7 @@
 	import Note from "$components/Demo.Note.svelte";
 	import { getContext, onMount } from "svelte";
 	import { range } from "d3";
+	import _ from "lodash";
 
 	export let i;
 	export let id;
@@ -17,7 +18,8 @@
 		getInstrumentStyles,
 		getHighlightedNotes,
 		getWidth,
-		getXOffset
+		getXOffset,
+		getCurrentActionIndex
 	} = getContext("song");
 	const allParts = getAllParts();
 	const xScale = getXScale();
@@ -26,6 +28,7 @@
 	const highlightedNotes = getHighlightedNotes();
 	const width = getWidth();
 	const xOffset = getXOffset();
+	const currentActionIndex = getCurrentActionIndex();
 
 	let notesContainer;
 	let actionOn = false;
@@ -45,6 +48,7 @@
 		hihat: "triangle",
 		bass: "circle"
 	};
+	const formatLabel = (str) => _.upperFirst(str === "hihat" ? "hi-hat" : str);
 
 	const mute = (id) => {
 		$instrumentToggles[id] = $instrumentToggles[id] === "off" ? "on" : "off";
@@ -74,6 +78,7 @@
 			if (nextAction) {
 				nextAction.classList.add("visible", "pulse");
 			}
+			$currentActionIndex += 1;
 		}
 		actionOn = !actionOn;
 	};
@@ -91,7 +96,7 @@
 </script>
 
 <div class="instrument">
-	<div class="label">{id}</div>
+	<div class="label">{formatLabel(id)}</div>
 
 	<div
 		class="notes"
@@ -142,18 +147,20 @@
 	}
 	.notes {
 		position: relative;
-		width: 100%;
-		margin: 0 1em 0 3em;
+		width: 70%;
+		margin-left: 3em;
 	}
 	.label {
-		min-width: 4em;
+		min-width: 10%;
 	}
 	.action-btn {
 		font-family: var(--mono);
 		font-size: var(--14px);
 		visibility: hidden;
-		width: 8em;
+		width: 15%;
+		margin-left: 5%;
 		max-height: 100%;
+		flex-shrink: 0;
 	}
 	:global(.action-btn.visible) {
 		visibility: visible;
