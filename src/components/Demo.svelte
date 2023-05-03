@@ -2,13 +2,14 @@
 	import Marker from "$components/Demo.Marker.svelte";
 	import Row from "$components/Demo.Row.svelte";
 	import Audio from "$components/Demo.Audio.svelte";
-	import { onMount, setContext } from "svelte";
+	import { setContext } from "svelte";
 	import { scaleLinear, range } from "d3";
 	import { writable } from "svelte/store";
 	import { songData } from "$stores/misc.js";
 	import _ from "lodash";
 
 	export let songId;
+	export let showing = true;
 
 	const {
 		parts,
@@ -25,7 +26,10 @@
 		songId,
 		beatsPerMeasure,
 		gridlines,
+		autoplay,
+		getVisible: () => visible,
 		getDuration: () => duration,
+		getTrimmedDuration: () => trimmedDuration,
 		getCurrentBeat: () => currentBeat,
 		getTimeToBeat: () => timeToBeat,
 		getXScale: () => xScale,
@@ -39,15 +43,14 @@
 		getWidth: () => width,
 		getHeight: () => height,
 		getXOffset: () => xOffset,
-		getStarted: () => started,
+		getPlayClicked: () => playClicked,
 		getCurrentAction: () => currentAction,
 		actions
 	});
 
-	$: console.log($duration);
-
 	const audioEls = writable([]);
 	const duration = writable(0);
+	const trimmedDuration = writable(0);
 	const seek = writable(0);
 	const allParts = writable(parts);
 	const currentBeat = writable(0);
@@ -65,47 +68,22 @@
 	const width = writable(0);
 	const height = writable(0);
 	const xOffset = writable(0);
-	const started = writable(false);
+	const playClicked = writable(false);
 	const currentAction = writable(undefined);
+	const visible = writable(true);
 
+	$: $visible = showing;
 	$: $currentAction = actions && actions.length ? actions[0] : null;
-	$: trimmedDuration = $duration * 1000 - 1500;
-	$: if ($duration && $seek * 1000 > trimmedDuration) reset();
 	$: $timeToBeat = scaleLinear()
-		.domain([0, trimmedDuration])
+		.domain([0, $trimmedDuration])
 		.range([0, beatsPerMeasure * measures]);
 	$: $currentBeat = $timeToBeat($seek * 1000) % beatsPerMeasure;
 	$: $xScale = scaleLinear().domain([0, beatsPerMeasure]).range([0, $width]);
-
-	const reset = () => {
-		$audioEls.forEach((el) => {
-			el.currentTime = 0;
-		});
-	};
-	const play = () => {
-		if (!$started) {
-			$started = true;
-		}
-
-		$isPlaying = true;
-		$audioEls.forEach((el) => {
-			el.currentTime = $seek;
-			el.play();
-		});
-	};
-	const pause = () => {
-		$isPlaying = false;
-		$audioEls.forEach((el) => el.pause());
-	};
-
-	onMount(() => {
-		if (autoplay) {
-			play();
-		}
-	});
 </script>
 
-<div class="chart" bind:clientHeight={$height}>
+<p>duration: {$duration?.toFixed(2)}s</p>
+
+<div class="chart" bind:clientHeight={$height} class:visible={$visible}>
 	{#if marker}
 		<Marker />
 	{/if}
@@ -138,21 +116,18 @@
 </div>
 
 <Audio />
-{#if !autoplay}
-	<button on:click={play} class:pulse={!$started}>play</button>
-	<button on:click={pause}>pause</button>
-{/if}
 
 <style>
-	button {
-		margin-right: 0.8em;
-	}
 	.chart {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-around;
 		position: relative;
+		visibility: hidden;
+	}
+	.chart.visible {
+		visibility: visible;
 	}
 	.dot {
 		background: var(--color-gray-200);

@@ -19,7 +19,7 @@
 		getWidth,
 		getXOffset,
 		getCurrentAction,
-		getStarted,
+		getPlayClicked,
 		actions,
 		getAudioEls
 	} = getContext("song");
@@ -31,7 +31,7 @@
 	const width = getWidth();
 	const xOffset = getXOffset();
 	const currentAction = getCurrentAction();
-	const started = getStarted();
+	const playClicked = getPlayClicked();
 	const audioEls = getAudioEls();
 
 	let notesContainer;
@@ -132,9 +132,9 @@
 	<div class="action">
 		<button
 			class:visible={action &&
-				$started &&
+				$playClicked &&
 				(i <= currentActionInstrumentIndex ||
-					($started && $currentAction === null))}
+					($playClicked && $currentAction === null))}
 			class:pulse={i === currentActionInstrumentIndex}
 			on:click={doAction}>{buttonText}</button
 		>

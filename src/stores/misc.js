@@ -1,7 +1,8 @@
 import { writable, readable } from "svelte/store";
 import { range } from "d3";
 
-export const soundOn = writable(true); // TODO: should be false
+export const started = writable(false);
+export const soundOn = writable(true);
 
 const allStraight = {
 	hihat: "straight",

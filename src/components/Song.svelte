@@ -6,7 +6,7 @@
 
 <div class="container">
 	<div class="description"><strong>{song}</strong> by {artist}</div>
-	<audio src={url} controls={true} />
+	<audio src={url} controls={true} preload="none" />
 </div>
 
 <style>
