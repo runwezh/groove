@@ -48,7 +48,9 @@
 	};
 	const play = () => {
 		if (!$playClicked) {
+			// first time play is clicked
 			$playClicked = true;
+			highlightNextAction();
 		}
 		$isPlaying = true;
 		$audioEls.forEach((el) => {
@@ -59,6 +61,13 @@
 	const pause = () => {
 		$isPlaying = false;
 		$audioEls.forEach((el) => el.pause());
+	};
+	const highlightNextAction = () => {
+		const actionButtons = document.querySelectorAll("button.action-btn");
+		if (actionButtons.length) {
+			const nextAction = actionButtons[0];
+			nextAction.classList.add("visible", "pulse");
+		}
 	};
 
 	// let audioLoaded = false;

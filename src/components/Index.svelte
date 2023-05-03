@@ -12,7 +12,7 @@
 	};
 
 	// id to isolate to debug
-	const debug = ["straight"];
+	const debug = ["shift"];
 	const sections = copy.sections.filter((d) => debug.includes(d.id));
 	$started = true;
 	//const sections = copy.sections;

@@ -43,9 +43,7 @@
 		getWidth: () => width,
 		getHeight: () => height,
 		getXOffset: () => xOffset,
-		getPlayClicked: () => playClicked,
-		getCurrentAction: () => currentAction,
-		actions
+		getPlayClicked: () => playClicked
 	});
 
 	const audioEls = writable([]);

@@ -17,11 +17,7 @@
 		getInstrumentStyles,
 		getHighlightedNotes,
 		getWidth,
-		getXOffset,
-		getCurrentAction,
-		getPlayClicked,
-		actions,
-		getAudioEls
+		getXOffset
 	} = getContext("song");
 	const allParts = getAllParts();
 	const xScale = getXScale();
@@ -30,13 +26,11 @@
 	const highlightedNotes = getHighlightedNotes();
 	const width = getWidth();
 	const xOffset = getXOffset();
-	const currentAction = getCurrentAction();
-	const playClicked = getPlayClicked();
-	const audioEls = getAudioEls();
 
 	let notesContainer;
 	let actionOn = false;
-	let startingData = data;
+	let originalData = data;
+	let originalStyle = $instrumentStyles[id];
 
 	const noteHeight = 20;
 	const colors = {
@@ -55,26 +49,31 @@
 	const mute = (id) => {
 		$instrumentToggles[id] = $instrumentToggles[id] === "off" ? "on" : "off";
 	};
-	const doAction = async () => {
+	const doAction = (e) => {
 		if (actionOn) {
-			$instrumentStyles[id] = songId === "straight" ? "missing" : "straight";
-			if (songId !== "straight") $highlightedNotes[id] = [];
+			$instrumentStyles[id] = originalStyle;
+			$highlightedNotes[id] = [];
 		} else {
-			if (action === $currentAction) {
-				const currentI = actions?.findIndex((d) => d === $currentAction);
-				const nextAction =
-					currentI + 1 < actions.length ? actions[currentI + 1] : null;
-				$currentAction = nextAction;
-			}
-
 			$instrumentStyles[id] = action.style;
 			const newNotes = $allParts.find(
 				(d) => d.instrument === id && d.style === action.style
 			).data;
-			if (songId !== "straight")
+			if (songId !== "straight") {
 				$highlightedNotes[id] = newNotes.filter(
-					(d) => !startingData.includes(d)
+					(d) => !originalData.includes(d)
 				);
+			}
+		}
+
+		// button pulsing
+		if (e.target.classList.contains("pulse")) {
+			e.target.classList.remove("pulse");
+			const actionButtons = document.querySelectorAll("button.action-btn");
+			const currentIndex = Array.from(actionButtons).indexOf(e.target);
+			const nextAction = actionButtons[currentIndex + 1];
+			if (nextAction) {
+				nextAction.classList.add("visible", "pulse");
+			}
 		}
 		actionOn = !actionOn;
 	};
@@ -85,12 +84,6 @@
 			: action && !actionOn
 			? `${action.description}`
 			: "";
-	$: currentActionInstrumentIndex = [
-		"bass",
-		"hihat",
-		"kick",
-		"snare"
-	].findIndex((d) => d === $currentAction?.instrument);
 
 	onMount(() => {
 		$xOffset = notesContainer.offsetLeft;
@@ -129,16 +122,9 @@
 		{/each}
 	</div>
 
-	<div class="action">
-		<button
-			class:visible={action &&
-				$playClicked &&
-				(i <= currentActionInstrumentIndex ||
-					($playClicked && $currentAction === null))}
-			class:pulse={i === currentActionInstrumentIndex}
-			on:click={doAction}>{buttonText}</button
-		>
-	</div>
+	{#if action}
+		<button class="action-btn" on:click={doAction}>{buttonText}</button>
+	{/if}
 </div>
 
 <style>
@@ -146,6 +132,7 @@
 		display: flex;
 		align-items: center;
 		margin: 1em 0;
+		height: 50px;
 	}
 	.instrument:hover {
 		cursor: pointer;
@@ -159,20 +146,16 @@
 		margin: 0 1em 0 3em;
 	}
 	.label {
-		width: 4em;
+		min-width: 4em;
 	}
-	.action {
+	.action-btn {
 		font-family: var(--mono);
 		font-size: var(--14px);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-	.action button {
 		visibility: hidden;
 		width: 8em;
+		max-height: 100%;
 	}
-	.action button.visible {
+	:global(.action-btn.visible) {
 		visibility: visible;
 	}
 </style>
