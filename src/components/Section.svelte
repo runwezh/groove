@@ -1,13 +1,13 @@
 <script>
-	import Song from "$components/Song.svelte";
+	import Demo from "$components/Demo.svelte";
 	import Scroll from "$components/Scroll.svelte";
-	import Clip from "$components/Clip.svelte";
+	import Song from "$components/Song.svelte";
 
 	export let id;
 	export let title;
 	export let chunks;
 
-	const components = { Scroll, Song, Clip };
+	const components = { Scroll, Demo, Song };
 </script>
 
 <section {id}>

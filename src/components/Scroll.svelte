@@ -1,5 +1,5 @@
 <script>
-	import Song from "$components/Song.svelte";
+	import Demo from "$components/Demo.svelte";
 	import Scrolly from "$components/helpers/Scrolly.svelte";
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
@@ -52,7 +52,7 @@
 			{@const notes = showNotes === "true" && active && sound}
 
 			{#if notes}
-				<Song songId={sound} gridlines={false} />
+				<Demo songId={sound} gridlines={false} />
 			{/if}
 
 			<p class:active class:quote transition:fade>{text}</p>

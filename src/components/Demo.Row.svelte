@@ -1,5 +1,5 @@
 <script>
-	import Note from "$components/Song.Note.svelte";
+	import Note from "$components/Demo.Note.svelte";
 	import { getContext, onMount } from "svelte";
 	import { range } from "d3";
 
