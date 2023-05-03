@@ -81,7 +81,7 @@
 	$: $xScale = scaleLinear().domain([0, beatsPerMeasure]).range([0, $width]);
 </script>
 
-<p>duration: {$duration?.toFixed(2)}s</p>
+<!-- <p>duration: {$duration?.toFixed(2)}s</p> -->
 
 <div class="chart" bind:clientHeight={$height} class:visible={$visible}>
 	{#if marker}

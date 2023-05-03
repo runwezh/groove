@@ -50,7 +50,7 @@
 
 <div class="container" bind:this={containerEl}>
 	<Scrolly bind:value={step} {top}>
-		{#each steps as { text, type, sound, showNotes }, i}
+		{#each steps as { text, type, classname, sound, showNotes }, i}
 			{@const active = i === step && $started}
 			{@const quote = type === "quote"}
 			{@const backgroundSound = showNotes !== "true" && sound}
@@ -60,7 +60,7 @@
 				<Demo songId={sound} showing={active} />
 			{/if}
 
-			<p class:active class:quote transition:fade>{text}</p>
+			<p class:active class={classname} transition:fade>{text}</p>
 
 			{#if backgroundSound}
 				<audio

@@ -12,9 +12,10 @@
 	};
 
 	// id to isolate to debug
-	const debug = [];
-	//const sections = copy.sections.filter((d) => debug.includes(d.id));
-	const sections = copy.sections;
+	const debug = ["straight"];
+	const sections = copy.sections.filter((d) => debug.includes(d.id));
+	$started = true;
+	//const sections = copy.sections;
 </script>
 
 <article class:started={$started}>
