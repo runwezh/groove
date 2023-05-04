@@ -1,6 +1,6 @@
 <script>
-	import { getContext, onMount, tick } from "svelte";
-	import { soundOn } from "$stores/misc.js";
+	import AudioFile from "$components/Demo.AudioFile.svelte";
+	import { getContext } from "svelte";
 
 	const {
 		songId,
@@ -29,10 +29,10 @@
 	const visible = getVisible();
 	const currentActionIndex = getCurrentActionIndex();
 
-	let d;
+	let d = 0;
 
 	$: $duration = d;
-	$: $trimmedDuration = $duration * 1000 - 1500;
+	$: $trimmedDuration = $duration * 1000 - 1300;
 	$: intro = songId === "normal" || songId === "drunk";
 	$: if ($duration && $seek * 1000 > $trimmedDuration) reset();
 
@@ -48,24 +48,27 @@
 		$seek = 0;
 		play();
 	};
-	const play = () => {
+	const play = async () => {
+		$audioEls.forEach((el) => {
+			el.currentTime = $seek;
+			el.play();
+		});
+
 		if (!$playClicked) {
 			// first time play is clicked
 			$playClicked = true;
 			highlightNextAction();
 		}
 		$isPlaying = true;
-		$audioEls.forEach((el) => {
-			el.currentTime = $seek;
-			el.play();
-		});
 	};
 	const pause = () => {
 		$isPlaying = false;
 		$audioEls.forEach((el) => el.pause());
 	};
 	const highlightNextAction = () => {
-		const actionButtons = document.querySelectorAll("button.action-btn");
+		const actionButtons = document.querySelectorAll(
+			`#${songId} button.action-btn`
+		);
 		if (actionButtons.length) {
 			const nextAction = actionButtons[0];
 			nextAction.classList.add("visible", "pulse");
@@ -99,37 +102,25 @@
 
 {#if !autoplay}
 	<div class="buttons">
-		<button on:click={play} class:pulse={!$playClicked}>play</button>
-		<button on:click={pause}>pause</button>
+		<button on:click={$isPlaying ? pause : play} class:pulse={!$playClicked}
+			>{$isPlaying ? "pause" : "play"}</button
+		>
+		<!-- <button on:click={pause}>pause</button> -->
 	</div>
 {/if}
 
 {#each $allParts as { instrument, style }, i}
 	{@const src = `assets/sound/${style}/${instrument}.mp3`}
-	{@const muted =
-		!$soundOn ||
-		$instrumentToggles[instrument] === "off" ||
-		$instrumentStyles[instrument] !== style}
 
 	{#if style !== "missing"}
-		{#if i === 0}
-			<audio
-				preload={intro ? "auto" : "none"}
-				class="leader"
-				bind:duration={d}
-				bind:currentTime={$seek}
-				bind:this={$audioEls[i]}
-				{src}
-				{muted}
-			/>
-		{:else}
-			<audio
-				preload={intro ? "auto" : "none"}
-				bind:this={$audioEls[i]}
-				{src}
-				{muted}
-			/>
-		{/if}
+		<AudioFile
+			{src}
+			{instrument}
+			{style}
+			preload={intro ? "auto" : "none"}
+			classname={i === 0 ? "leader" : ""}
+			{i}
+		/>
 	{/if}
 {/each}
 

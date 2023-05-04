@@ -81,13 +81,16 @@
 	$: $xScale = scaleLinear().domain([0, beatsPerMeasure]).range([0, $width]);
 </script>
 
-<!-- <p>duration: {$duration?.toFixed(2)}s</p> -->
-
 <Audio />
 
 <Descriptions {notes} />
 
-<div class="chart" bind:clientHeight={$height} class:visible={$visible}>
+<div
+	class="chart"
+	id={songId}
+	bind:clientHeight={$height}
+	class:visible={$visible}
+>
 	{#if marker}
 		<Marker />
 	{/if}

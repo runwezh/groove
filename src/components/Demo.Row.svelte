@@ -19,7 +19,8 @@
 		getHighlightedNotes,
 		getWidth,
 		getXOffset,
-		getCurrentActionIndex
+		getCurrentActionIndex,
+		getAudioEls
 	} = getContext("song");
 	const allParts = getAllParts();
 	const xScale = getXScale();
@@ -29,6 +30,7 @@
 	const width = getWidth();
 	const xOffset = getXOffset();
 	const currentActionIndex = getCurrentActionIndex();
+	const audioEls = getAudioEls();
 
 	let notesContainer;
 	let actionOn = false;
@@ -72,7 +74,9 @@
 		// button pulsing
 		if (e.target.classList.contains("pulse")) {
 			e.target.classList.remove("pulse");
-			const actionButtons = document.querySelectorAll("button.action-btn");
+			const actionButtons = document.querySelectorAll(
+				`#${songId} button.action-btn`
+			);
 			const currentIndex = Array.from(actionButtons).indexOf(e.target);
 			const nextAction = actionButtons[currentIndex + 1];
 			if (nextAction) {

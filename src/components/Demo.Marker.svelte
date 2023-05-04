@@ -26,12 +26,14 @@
 			$seek = newSeek;
 		}
 	};
+
+	$: left = `${$xScale($beat) + $xOffset}px`;
 </script>
 
 <div
 	bind:this={markerEl}
 	class="marker"
-	style:left={`${$xScale($beat) + $xOffset}px`}
+	style:left
 	on:mousedown={onMouseDown}
 />
 <svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
