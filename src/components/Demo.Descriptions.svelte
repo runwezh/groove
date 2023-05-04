@@ -7,8 +7,6 @@
 	const currentActionIndex = getCurrentActionIndex();
 	const playClicked = getPlayClicked();
 
-	$: console.log($currentActionIndex);
-
 	let finished = false;
 	$: if ($currentActionIndex === notes.length - 1) finished = true;
 

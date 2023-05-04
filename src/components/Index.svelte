@@ -11,11 +11,11 @@
 		$started = true;
 	};
 
-	const debug = ["straight"];
-	const sections = copy.sections.filter((d) => debug.includes(d.id));
-	$started = true;
+	const debug = [];
+	// const sections = copy.sections.filter((d) => debug.includes(d.id));
+	// $started = true;
 
-	// const sections = copy.sections;
+	const sections = copy.sections;
 </script>
 
 <article class:started={$started}>
@@ -24,7 +24,7 @@
 		<h2>{@html dek}</h2>
 		<div class="byline" style:margin-bottom="3em">{@html byline}</div>
 
-		<button on:click={start}>start</button>
+		<button on:click={start} disabled={$started}>start</button>
 		<button class="mute" on:click={() => ($soundOn = !$soundOn)}
 			>{$soundOn ? "sound off" : "sound on"}</button
 		>

@@ -39,6 +39,8 @@
 	"browserslist": "> 0.5%, last 4 versions, not ie <= 11, not ie_mob <= 11",
 	"subdirectory": "groove",
 	"dependencies": {
+		"enter-view": "^2.0.1",
+		"gac": "^1.0.2",
 		"howler": "^2.2.3"
 	}
 }

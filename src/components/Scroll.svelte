@@ -13,7 +13,10 @@
 	let sounds = [];
 	let club;
 	let clubVolume = 1;
+	let paused;
 
+	$: clubPlaying = !paused;
+	$: if ($started && club) club.play();
 	$: step, scrollChange();
 
 	const scrollChange = () => {
@@ -23,46 +26,44 @@
 				club.currentTime = 0;
 			}
 
-			if (step !== 0) {
-				clubVolume = 0.2;
-			} else {
+			if (step === 0) {
 				clubVolume = 1;
+			} else {
+				clubVolume = 0.2;
 			}
 
-			sounds.forEach((sound, i) => {
-				if (i === step) {
-					sound.play();
-				} else {
-					sound.pause();
-				}
-			});
+			if (step !== undefined) {
+				paused = false;
+
+				sounds.forEach((sound, i) => {
+					if (i === step) {
+						sound.play();
+					} else {
+						sound.pause();
+					}
+				});
+			}
 		}
 	};
-
-	$: if ($started && club) {
-		club.play();
-	}
 
 	onMount(() => {
 		top = containerEl.getBoundingClientRect().top - 100;
 	});
 </script>
 
-<div class="container" bind:this={containerEl}>
+<div class="scroll-container" bind:this={containerEl}>
 	<Scrolly bind:value={step} {top}>
-		{#each steps as { text, type, classname, sound, showNotes }, i}
+		{#each steps as { text, classname, sound, showNotes }, i}
 			{@const active = i === step && $started}
-			{@const quote = type === "quote"}
-			{@const backgroundSound = showNotes !== "true" && sound}
 			{@const notes = showNotes === "true" && sound}
 
-			{#if notes}
+			<!-- {#if notes}
 				<Demo songId={sound} showing={active} />
-			{/if}
+			{/if} -->
 
 			<p class:active class={classname} transition:fade>{text}</p>
 
-			{#if backgroundSound}
+			{#if sound}
 				<audio
 					bind:this={sounds[i]}
 					src={`assets/sound/intro/${sound}.mp3`}
@@ -77,6 +78,7 @@
 
 <audio
 	bind:this={club}
+	bind:paused
 	src={`assets/sound/intro/club.mp3`}
 	loop={true}
 	muted={!$soundOn}
@@ -85,17 +87,26 @@
 />
 
 <style>
+	.scroll-container {
+		margin: 8em 0;
+	}
+	audio {
+		display: none;
+	}
 	.sticky {
 		position: sticky;
 		top: 0;
 	}
 	p {
 		opacity: 0.2;
-		margin: 4em 0;
-		transition: opacity 300ms;
+		margin: 2em 0;
+		transition: all 200ms ease-out;
+		transform: scale(1);
+		transform-origin: center;
 	}
 	p.active {
 		opacity: 1;
+		transform: scale(1.01);
 	}
 	p.quote {
 		font-style: italic;
