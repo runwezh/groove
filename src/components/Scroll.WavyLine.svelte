@@ -1,16 +1,17 @@
 <script>
 	import { tweened } from "svelte/motion";
 	import { range } from "d3";
-	import { onDestroy, onMount } from "svelte";
+	import { onMount } from "svelte";
+	import { quadOut } from "svelte/easing";
+	import _ from "lodash";
+	import { scrollyStep, direction } from "$stores/misc.js";
 
 	export let width;
 
-	const duration = 1500;
-	const yOffset = 150;
-	const amplitude = tweened(150, {
-		duration
-	});
+	let moving = true;
+	const amplitude = tweened(150, { easing: quadOut });
 
+	$: $scrollyStep, scrollChange();
 	$: wavelength = width;
 	$: points = range(5).map((i) => {
 		const x = (wavelength / 4) * i;
@@ -64,24 +65,32 @@
 		return d;
 	};
 
-	let interval;
+	const loop = () => {
+		amplitude
+			.set(_.random(0, 120), { duration: _.random(400, 800) })
+			.then(loop);
+	};
+
+	const scrollChange = () => {
+		const straightLine =
+			$scrollyStep === 2 ||
+			$scrollyStep === 3 ||
+			($scrollyStep === undefined && $direction === "down");
+		if (!straightLine && !moving) {
+			moving = true;
+			amplitude.set(150, { duration: 1500 }).then(loop);
+		} else if (straightLine && moving) {
+			moving = false;
+			amplitude.set(0, { duration: 500 });
+		}
+	};
+
 	onMount(() => {
-		interval = setInterval(() => {
-			if ($amplitude > 10) {
-				$amplitude = 0;
-			} else {
-				$amplitude = 150;
-			}
-		}, duration + 100);
-	});
-	onDestroy(() => {
-		clearInterval(interval);
+		amplitude.set(0, { duration: 1500 }).then(loop);
 	});
 </script>
 
-<g transform={`translate(0, ${yOffset})`}>
-	<path d={pathD} />
-</g>
+<path d={pathD} />
 
 <style>
 	path {

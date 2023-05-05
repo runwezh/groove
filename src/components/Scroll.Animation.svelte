@@ -1,21 +1,26 @@
 <script>
 	import WavyLine from "$components/Scroll.WavyLine.svelte";
-	import { scrollyStep } from "$stores/misc.js";
+	import { scrollyStep, direction } from "$stores/misc.js";
 
 	let width = 0;
 
-	$: console.log("step", $scrollyStep);
+	$: visible = $scrollyStep !== undefined || $direction === "up";
+
+	const yOffset = 150;
+
+	$: $scrollyStep, scrollChange();
+
+	const scrollChange = () => {
+		if ($scrollyStep === 2) {
+		}
+	};
 </script>
 
-<div
-	class="wrapper"
-	bind:clientWidth={width}
-	class:visible={$scrollyStep !== undefined}
->
+<div class="wrapper" bind:clientWidth={width} class:visible>
 	<svg>
-		{#if $scrollyStep !== undefined}
+		<g transform={`translate(0, ${yOffset})`}>
 			<WavyLine {width} />
-		{/if}
+		</g>
 	</svg>
 </div>
 
@@ -27,7 +32,8 @@
 		top: 0;
 		left: 0;
 		z-index: -1;
-		visibility: hidden;
+		opacity: 0;
+		transition: opacity 800ms;
 	}
 	svg {
 		position: fixed;
@@ -37,6 +43,11 @@
 		height: 100%;
 	}
 	.visible {
-		visibility: visible;
+		opacity: 1;
+	}
+	path {
+		stroke: white;
+		fill: none;
+		stroke-width: 10px;
 	}
 </style>

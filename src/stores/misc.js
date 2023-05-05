@@ -4,6 +4,7 @@ import { range } from "d3";
 export const started = writable(false);
 export const soundOn = writable(true);
 export const scrollyStep = writable(undefined);
+export const direction = writable("up");
 
 const missingKick = {
 	instrument: "kick",

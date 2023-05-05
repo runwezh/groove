@@ -4,7 +4,8 @@
 	import Scrolly from "$components/helpers/Scrolly.svelte";
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
-	import { soundOn, started, scrollyStep } from "$stores/misc.js";
+	import { soundOn, started, scrollyStep, direction } from "$stores/misc.js";
+	import scrollY from "$stores/scrollY.js";
 
 	export let steps;
 
@@ -20,9 +21,13 @@
 
 	const scrollChange = () => {
 		if ($started) {
-			if ($scrollyStep === undefined && club) {
-				club.pause();
-				club.currentTime = 0;
+			if ($scrollyStep === undefined) {
+				if (club) {
+					club.pause();
+					club.currentTime = 0;
+				}
+				if ($scrollY < 1000) $direction = "up";
+				else $direction = "down";
 			}
 
 			if ($scrollyStep === 0) {
