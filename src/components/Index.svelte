@@ -16,11 +16,11 @@
 		scrollyEl.scrollIntoView({ block: "start", behavior: "smooth" });
 	};
 
-	const debug = [];
-	// const sections = copy.sections.filter((d) => debug.includes(d.id));
-	// $started = true;
+	const debug = ["swing", "shift"];
+	const sections = copy.sections.filter((d) => debug.includes(d.id));
+	$started = true;
 
-	const sections = copy.sections;
+	// const sections = copy.sections;
 
 	onMount(() => {
 		scrollyEl = document.getElementById("scrolly");
@@ -28,8 +28,8 @@
 </script>
 
 <article class:started={$started}>
-	<div class="landing">
-		{#if debug.length === 0}
+	{#if debug.length === 0}
+		<div class="landing">
 			<h1>{@html hed}</h1>
 			<div class="dek">{dek.split(" ").slice(0, 4).join(" ")}</div>
 			<div class="dek">{dek.split(" ").slice(4).join(" ")}</div>
@@ -39,8 +39,8 @@
 			<button class="mute" on:click={() => ($soundOn = !$soundOn)}
 				>{$soundOn ? "sound off" : "sound on"}</button
 			>
-		{/if}
-	</div>
+		</div>
+	{/if}
 
 	<Animation />
 

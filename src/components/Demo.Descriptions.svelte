@@ -35,7 +35,7 @@
 		visibility: hidden;
 	}
 	.bar {
-		background: #00ffeb;
+		background: var(--accent);
 		opacity: 0.2;
 		height: 10px;
 		width: 100px;

@@ -41,7 +41,7 @@
 	--bass: #4f9cb3;
 	--hihat: #f3dfa2;
 	--snare: #ff9643;
-	--kick: #0e3445;
+	--kick: #b89ef2;
 
 	/* "1" second duration */
 	--1s: 1ms;
@@ -119,10 +119,11 @@ button:hover {
 }
 
 button.pulse {
-	color: #00ffeb;
-	border: 3px solid #00ffeb;
-	box-shadow: 1px 1px 0px 0px #00ffeb, 2px 2px 0px 0px #00ffeb,
-		3px 3px 0px 0px #00ffeb, 4px 4px 0px 0px #00ffeb, 5px 5px 0px 0px #00ffeb;
+	color: var(--accent);
+	border: 3px solid var(--accent);
+	box-shadow: 1px 1px 0px 0px var(--accent), 2px 2px 0px 0px var(--accent),
+		3px 3px 0px 0px var(--accent), 4px 4px 0px 0px var(--accent),
+		5px 5px 0px 0px var(--accent);
 	animation: pulse 0.4s infinite alternate;
 }
 @keyframes pulse {

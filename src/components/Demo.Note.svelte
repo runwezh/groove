@@ -29,6 +29,7 @@
 <div
 	class:played
 	class:highlighted
+	class={instrumentId}
 	style:left={`${x}px`}
 	style:--color={color}
 	style:height={`${height}px`}
@@ -50,7 +51,18 @@
 		border: 2px solid white;
 		transform: translate(-50%, -50%) scale(1.5);
 	}
-
+	.hihat {
+		background: var(--hihat);
+	}
+	.snare {
+		background: var(--snare);
+	}
+	.bass {
+		background: var(--bass);
+	}
+	.kick {
+		background: var(--kick);
+	}
 	@keyframes grow {
 		0% {
 			transform: translate(-50%, -50%) scale(1);

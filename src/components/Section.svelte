@@ -3,6 +3,7 @@
 	import Scroll from "$components/Scroll.svelte";
 	import Song from "$components/Song.svelte";
 	import { started } from "$stores/misc.js";
+	import Title from "$components/Section.Title.svelte";
 
 	export let id;
 	export let title;
@@ -12,7 +13,9 @@
 </script>
 
 <section {id} class:visible={$started}>
-	{#if title}<h3>{title}</h3>{/if}
+	{#if title}
+		<Title {id} {title} />
+	{/if}
 
 	{#each chunks as { type, text, component, classname, steps, notes, songId, url, song, artist }}
 		<svelte:element this={type} class={classname}>
@@ -36,6 +39,7 @@
 <style>
 	section {
 		visibility: hidden;
+		margin: 10em 0;
 	}
 	section.visible {
 		visibility: visible;

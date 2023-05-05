@@ -19,8 +19,7 @@
 		getHighlightedNotes,
 		getWidth,
 		getXOffset,
-		getCurrentActionIndex,
-		getAudioEls
+		getCurrentActionIndex
 	} = getContext("song");
 	const allParts = getAllParts();
 	const xScale = getXScale();
@@ -30,7 +29,6 @@
 	const width = getWidth();
 	const xOffset = getXOffset();
 	const currentActionIndex = getCurrentActionIndex();
-	const audioEls = getAudioEls();
 
 	let notesContainer;
 	let actionOn = false;
@@ -38,18 +36,6 @@
 	let originalStyle = $instrumentStyles[id];
 
 	const noteHeight = 20;
-	const colors = {
-		kick: "#f94144",
-		snare: "#f3722c",
-		hihat: "#f9c74f",
-		bass: "#90be6d"
-	};
-	const shapes = {
-		kick: "circle",
-		snare: "square",
-		hihat: "triangle",
-		bass: "circle"
-	};
 	const formatLabel = (str) => _.upperFirst(str === "hihat" ? "hi-hat" : str);
 
 	const mute = (id) => {
@@ -113,16 +99,7 @@
 	>
 		{#each data as note}
 			{@const x = $xScale(note % beatsPerMeasure)}
-			{@const color = colors[id]}
-			{@const shape = shapes[id]}
-			<Note
-				noteData={note}
-				instrumentId={id}
-				{x}
-				{color}
-				{shape}
-				height={noteHeight}
-			/>
+			<Note noteData={note} instrumentId={id} {x} height={noteHeight} />
 		{/each}
 
 		{#each range(0, beatsPerMeasure, 0.5) as dot}
