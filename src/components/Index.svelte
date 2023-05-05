@@ -16,7 +16,7 @@
 		scrollyEl.scrollIntoView({ block: "start", behavior: "smooth" });
 	};
 
-	const debug = ["swing", "shift"];
+	const debug = ["straight", "swing", "shift"];
 	const sections = copy.sections.filter((d) => debug.includes(d.id));
 	$started = true;
 

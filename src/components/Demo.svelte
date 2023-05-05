@@ -7,6 +7,7 @@
 	import { scaleLinear, range } from "d3";
 	import { writable } from "svelte/store";
 	import { songData } from "$stores/misc.js";
+	import inView from "$actions/inView.js";
 	import _ from "lodash";
 
 	export let songId;
@@ -73,6 +74,40 @@
 	const visible = writable(true);
 	const currentActionIndex = writable(undefined);
 
+	const reset = () => {
+		$seek = 0;
+	};
+	const play = async () => {
+		$audioEls.forEach((el) => {
+			el.currentTime = $seek;
+			el.play();
+		});
+		if (!$playClicked) {
+			$playClicked = true;
+			highlightNextAction();
+		}
+		$isPlaying = true;
+	};
+	const pause = () => {
+		$isPlaying = false;
+		$audioEls.forEach((el) => el.pause());
+	};
+	const highlightNextAction = () => {
+		const actionButtons = document.querySelectorAll(
+			`#${songId} button.action-btn`
+		);
+		if (actionButtons.length) {
+			const nextAction = actionButtons[0];
+			nextAction.classList.add("visible", "pulse");
+		}
+		$currentActionIndex = 0;
+	};
+
+	const onExit = () => {
+		pause();
+		reset();
+	};
+
 	$: $visible = showing;
 	$: $timeToBeat = scaleLinear()
 		.domain([0, $trimmedDuration])
@@ -81,8 +116,7 @@
 	$: $xScale = scaleLinear().domain([0, beatsPerMeasure]).range([0, $width]);
 </script>
 
-<Audio />
-
+<Audio {play} {pause} {reset} />
 <Descriptions {notes} />
 
 <div
@@ -90,6 +124,8 @@
 	id={songId}
 	bind:clientHeight={$height}
 	class:visible={$visible}
+	use:inView
+	on:exit={onExit}
 >
 	{#if marker}
 		<Marker />

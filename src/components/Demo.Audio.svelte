@@ -10,31 +10,30 @@
 		getDuration,
 		getTrimmedDuration,
 		getSeek,
-		getInstrumentToggles,
-		getInstrumentStyles,
-		getAudioEls,
 		getPlayClicked,
-		getIsPlaying,
-		getCurrentActionIndex
+		getIsPlaying
 	} = getContext("song");
 	const allParts = getAllParts();
 	const duration = getDuration();
 	const trimmedDuration = getTrimmedDuration();
 	const seek = getSeek();
-	const instrumentToggles = getInstrumentToggles();
-	const instrumentStyles = getInstrumentStyles();
-	const audioEls = getAudioEls();
 	const playClicked = getPlayClicked();
 	const isPlaying = getIsPlaying();
 	const visible = getVisible();
-	const currentActionIndex = getCurrentActionIndex();
+
+	export let play;
+	export let pause;
+	export let reset;
 
 	let d = 0;
 
 	$: $duration = d;
 	$: $trimmedDuration = $duration * 1000 - 1300;
 	$: intro = songId === "normal" || songId === "drunk";
-	$: if ($duration && $seek * 1000 > $trimmedDuration) reset();
+	$: if ($duration && $seek * 1000 > $trimmedDuration) {
+		reset();
+		play();
+	}
 
 	$: if ($visible && autoplay) {
 		reset();
@@ -43,38 +42,6 @@
 	$: if (!$visible) {
 		pause();
 	}
-
-	const reset = () => {
-		$seek = 0;
-		play();
-	};
-	const play = async () => {
-		$audioEls.forEach((el) => {
-			el.currentTime = $seek;
-			el.play();
-		});
-
-		if (!$playClicked) {
-			// first time play is clicked
-			$playClicked = true;
-			highlightNextAction();
-		}
-		$isPlaying = true;
-	};
-	const pause = () => {
-		$isPlaying = false;
-		$audioEls.forEach((el) => el.pause());
-	};
-	const highlightNextAction = () => {
-		const actionButtons = document.querySelectorAll(
-			`#${songId} button.action-btn`
-		);
-		if (actionButtons.length) {
-			const nextAction = actionButtons[0];
-			nextAction.classList.add("visible", "pulse");
-		}
-		$currentActionIndex = 0;
-	};
 
 	// let audioLoaded = false;
 	// $: console.log({ audioLoaded, songId });
@@ -105,7 +72,6 @@
 		<button on:click={$isPlaying ? pause : play} class:pulse={!$playClicked}
 			>{$isPlaying ? "pause" : "play"}</button
 		>
-		<!-- <button on:click={pause}>pause</button> -->
 	</div>
 {/if}
 
