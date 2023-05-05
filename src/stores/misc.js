@@ -3,6 +3,7 @@ import { range } from "d3";
 
 export const started = writable(false);
 export const soundOn = writable(true);
+export const scrollyStep = writable(undefined);
 
 const allStraight = {
 	hihat: "straight",

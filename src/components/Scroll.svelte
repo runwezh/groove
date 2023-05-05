@@ -4,11 +4,10 @@
 	import Scrolly from "$components/helpers/Scrolly.svelte";
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
-	import { soundOn, started } from "$stores/misc.js";
+	import { soundOn, started, scrollyStep } from "$stores/misc.js";
 
 	export let steps;
 
-	let step;
 	let containerEl;
 	let sounds = [];
 	let club;
@@ -17,26 +16,26 @@
 
 	$: clubPlaying = !paused;
 	$: if ($started && club) club.play();
-	$: step, scrollChange();
+	$: $scrollyStep, scrollChange();
 
 	const scrollChange = () => {
 		if ($started) {
-			if (step === undefined && club) {
+			if ($scrollyStep === undefined && club) {
 				club.pause();
 				club.currentTime = 0;
 			}
 
-			if (step === 0) {
+			if ($scrollyStep === 0) {
 				clubVolume = 1;
 			} else {
 				clubVolume = 0.2;
 			}
 
-			if (step !== undefined) {
+			if ($scrollyStep !== undefined) {
 				paused = false;
 
 				sounds.forEach((sound, i) => {
-					if (i === step) {
+					if (i === $scrollyStep) {
 						sound.play();
 					} else {
 						sound.pause();
@@ -47,12 +46,10 @@
 	};
 </script>
 
-<Animation {step} />
-
 <div class="scroll-container" bind:this={containerEl}>
-	<Scrolly bind:value={step}>
+	<Scrolly bind:value={$scrollyStep}>
 		{#each steps as { text, classname, sound, showNotes }, i}
-			{@const active = i === step && $started}
+			{@const active = i === $scrollyStep && $started}
 			{@const paragraph = classname === "quote" ? text.split("~")[0] : text}
 			{@const quoted = classname === "quote" ? text.split("~")[1] : null}
 
@@ -98,24 +95,24 @@
 		top: 0;
 	}
 	.step {
-		height: 80vh;
+		margin: 40vh 0;
+		padding: 1em;
 		opacity: 0.2;
-		margin: 2em 0;
 		transition: all 200ms ease-out;
 		transform: scale(1);
 		transform-origin: center;
 		text-align: center;
-	}
-	.step:first-child {
-		padding-top: 40vh;
-		margin-bottom: 40vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		background: rgb(1, 1, 1, 0.9);
 	}
 	.step:last-child {
 		height: auto;
 	}
 	.active {
 		opacity: 1;
-		transform: scale(1.01);
+		transform: scale(1.03);
 	}
 	.quote {
 		font-size: 2em;

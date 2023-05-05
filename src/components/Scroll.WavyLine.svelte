@@ -3,10 +3,12 @@
 	import { range } from "d3";
 	import { onDestroy, onMount } from "svelte";
 
-	let width = 0;
+	export let width;
+
+	const duration = 1500;
 	const yOffset = 150;
 	const amplitude = tweened(150, {
-		duration: 2000
+		duration
 	});
 
 	$: wavelength = width;
@@ -70,34 +72,18 @@
 			} else {
 				$amplitude = 150;
 			}
-		}, 2100);
+		}, duration + 100);
 	});
 	onDestroy(() => {
 		clearInterval(interval);
 	});
 </script>
 
-<div class="wrapper" bind:clientWidth={width}>
-	<svg>
-		<g transform={`translate(0, ${yOffset})`}>
-			<path d={pathD} />
-		</g>
-	</svg>
-</div>
+<g transform={`translate(0, ${yOffset})`}>
+	<path d={pathD} />
+</g>
 
 <style>
-	.wrapper {
-		position: fixed;
-		width: 100%;
-		height: 100%;
-	}
-	svg {
-		position: fixed;
-		top: 20%;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	}
 	path {
 		stroke: white;
 		fill: none;
