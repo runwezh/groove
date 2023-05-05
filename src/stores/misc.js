@@ -5,13 +5,6 @@ export const started = writable(false);
 export const soundOn = writable(true);
 export const scrollyStep = writable(undefined);
 
-const allStraight = {
-	hihat: "straight",
-	bass: "straight",
-	kick: "straight",
-	snare: "straight"
-};
-
 const missingKick = {
 	instrument: "kick",
 	style: "missing",
@@ -113,7 +106,7 @@ export const songData = readable({
 		beatsPerMeasure: 4,
 		measures: 4
 	},
-	triplet: {
+	swing: {
 		parts: [
 			straightHihat,
 			tripletHihat,
@@ -122,7 +115,12 @@ export const songData = readable({
 			straightKick,
 			straightSnare
 		],
-		defaultStyles: allStraight,
+		defaultStyles: {
+			hihat: "straight",
+			bass: "straight",
+			kick: "straight",
+			snare: "straight"
+		},
 		actions: [
 			{
 				instrument: "bass",
@@ -146,7 +144,12 @@ export const songData = readable({
 			straightSnare,
 			shiftedSnare
 		],
-		defaultStyles: allStraight,
+		defaultStyles: {
+			hihat: "straight",
+			bass: "straight",
+			kick: "straight",
+			snare: "straight"
+		},
 		actions: [
 			{
 				instrument: "snare",
@@ -166,7 +169,12 @@ export const songData = readable({
 			shiftedSnare,
 			quintupletBass
 		],
-		defaultStyles: allStraight,
+		defaultStyles: {
+			hihat: "straight",
+			bass: "straight",
+			kick: "straight",
+			snare: "straight"
+		},
 		actions: [
 			{
 				instrument: "bass",
