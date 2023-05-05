@@ -75,7 +75,7 @@
 
 	$: buttonText =
 		action && actionOn
-			? `un-${action.description}`
+			? `${songId === "straight" ? "" : "un-"}${action.description}`
 			: action && !actionOn
 			? `${action.description}`
 			: "";
@@ -109,7 +109,11 @@
 	</div>
 
 	{#if action}
-		<button class="action-btn" on:click={doAction}>{buttonText}</button>
+		<button
+			class="action-btn"
+			on:click={doAction}
+			disabled={songId === "straight" && actionOn}>{buttonText}</button
+		>
 	{/if}
 </div>
 
