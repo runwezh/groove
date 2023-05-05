@@ -53,7 +53,12 @@
 			{@const paragraph = classname === "quote" ? text.split("~")[0] : text}
 			{@const quoted = classname === "quote" ? text.split("~")[1] : null}
 
-			<div class="step" class:active transition:fade>
+			<div
+				class="step"
+				class:active
+				transition:fade
+				id={i === 0 ? "start-of-story" : ""}
+			>
 				<p class={classname}>{@html paragraph}</p>
 				{#if quoted}
 					<p class="speaker">- {quoted}</p>

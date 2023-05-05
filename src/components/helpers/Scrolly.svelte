@@ -75,6 +75,6 @@
 	});
 </script>
 
-<div bind:this={container} id="scrolly">
+<div bind:this={container}>
 	<slot />
 </div>

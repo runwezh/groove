@@ -8,22 +8,22 @@
 
 	const { hed, dek, byline } = copy;
 
-	let scrollyEl;
+	let startEl;
 
 	const start = async () => {
 		$started = true;
 		await tick();
-		scrollyEl.scrollIntoView({ block: "start", behavior: "smooth" });
+		startEl.scrollIntoView({ block: "center", behavior: "smooth" });
 	};
 
-	const debug = ["straight", "swing", "shift"];
-	const sections = copy.sections.filter((d) => debug.includes(d.id));
-	$started = true;
+	const debug = [];
+	// const sections = copy.sections.filter((d) => debug.includes(d.id));
+	// $started = true;
 
-	// const sections = copy.sections;
+	const sections = copy.sections;
 
 	onMount(() => {
-		scrollyEl = document.getElementById("scrolly");
+		startEl = document.getElementById("start-of-story");
 	});
 </script>
 
