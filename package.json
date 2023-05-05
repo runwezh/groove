@@ -40,6 +40,7 @@
 	"subdirectory": "groove",
 	"dependencies": {
 		"enter-view": "^2.0.1",
+		"flubber": "^0.4.2",
 		"gac": "^1.0.2",
 		"howler": "^2.2.3"
 	}

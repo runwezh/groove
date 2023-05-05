@@ -1,5 +1,6 @@
 <script>
 	import Demo from "$components/Demo.svelte";
+	import Animation from "$components/Scroll.Animation.svelte";
 	import Scrolly from "$components/helpers/Scrolly.svelte";
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
@@ -8,7 +9,6 @@
 	export let steps;
 
 	let step;
-	let top;
 	let containerEl;
 	let sounds = [];
 	let club;
@@ -45,23 +45,23 @@
 			}
 		}
 	};
-
-	onMount(() => {
-		top = containerEl.getBoundingClientRect().top - 100;
-	});
 </script>
 
+<Animation {step} />
+
 <div class="scroll-container" bind:this={containerEl}>
-	<Scrolly bind:value={step} {top}>
+	<Scrolly bind:value={step}>
 		{#each steps as { text, classname, sound, showNotes }, i}
 			{@const active = i === step && $started}
-			{@const notes = showNotes === "true" && sound}
+			{@const paragraph = classname === "quote" ? text.split("~")[0] : text}
+			{@const quoted = classname === "quote" ? text.split("~")[1] : null}
 
-			<!-- {#if notes}
-				<Demo songId={sound} showing={active} />
-			{/if} -->
-
-			<p class:active class={classname} transition:fade>{text}</p>
+			<div class="step" class:active transition:fade>
+				<p class={classname}>{@html paragraph}</p>
+				{#if quoted}
+					<p class="speaker">- {quoted}</p>
+				{/if}
+			</div>
 
 			{#if sound}
 				<audio
@@ -97,19 +97,37 @@
 		position: sticky;
 		top: 0;
 	}
-	p {
+	.step {
+		height: 80vh;
 		opacity: 0.2;
 		margin: 2em 0;
 		transition: all 200ms ease-out;
 		transform: scale(1);
 		transform-origin: center;
+		text-align: center;
 	}
-	p.active {
+	.step:first-child {
+		padding-top: 40vh;
+		margin-bottom: 40vh;
+	}
+	.step:last-child {
+		height: auto;
+	}
+	.active {
 		opacity: 1;
 		transform: scale(1.01);
 	}
-	p.quote {
-		font-style: italic;
-		padding-left: 4em;
+	.quote {
+		font-size: 2em;
+		text-align: start;
+	}
+	.speaker {
+		font-size: 1.5em;
+		color: var(--accent);
+		text-align: start;
+	}
+	:global(span.emphasis) {
+		color: var(--accent);
+		font-weight: bold;
 	}
 </style>

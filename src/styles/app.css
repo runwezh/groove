@@ -9,7 +9,7 @@
 	--sans: "National 2 Web", -apple-system, BlinkMacSystemFont, Helvetica, Arial,
 		sans-serif;
 	--serif: "Tiempos Text Web", Iowan Old Style, Times New Roman, Times, serif;
-	--mono: Menlo, Consolas, Monaco, monospace;
+	--mono: "Nicolatte", Menlo, Consolas, Monaco, monospace;
 
 	/* z-index */
 	--z-bottom: -100;
@@ -19,9 +19,9 @@
 
 	/* presets (used in reset.css) */
 	--border-radius: 2px;
-	--font-body: var(--serif);
+	--font-body: var(--sans);
 	--font-form: var(--sans);
-	--color-bg: var(--color-gray-800);
+	--color-bg: var(--color-black);
 	--color-fg: var(--color-white);
 	--color-primary: var(--color-black);
 	--color-link: var(--color-black);
@@ -35,6 +35,13 @@
 	--color-input-bg: var(--color-gray-50);
 	--color-input-fg: var(--color-gray-900);
 	--color-placeholder: var(--color-gray-500);
+
+	/* colors */
+	--accent: #00ffc2;
+	--bass: #4f9cb3;
+	--hihat: #f3dfa2;
+	--snare: #ff9643;
+	--kick: #0e3445;
 
 	/* "1" second duration */
 	--1s: 1ms;
