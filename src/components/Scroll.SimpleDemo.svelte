@@ -11,10 +11,10 @@
 	y2={0}
 	class:visible={data.length}
 />
-{#each data as note}
+{#each data as note, i (i)}
 	{@const cx = xScale(note)}
 	{@const played = currentBeat >= note - 0.05}
-	<circle class:played r={10} fill="lightgrey" {cx} cy={0} />
+	<circle id={i} class:played r={10} fill="lightgrey" {cx} cy={0} />
 {/each}
 
 <style>
@@ -25,6 +25,9 @@
 	}
 	.visible {
 		visibility: visible;
+	}
+	circle {
+		transition: cx 1.5s ease-in-out;
 	}
 	circle.played {
 		fill: var(--accent);

@@ -78,12 +78,17 @@
 	};
 </script>
 
-<path d={pathD} />
+<path d={pathD} class:moving />
 
 <style>
 	path {
 		stroke: white;
 		fill: none;
 		stroke-width: 2px;
+		opacity: 1;
+		transition: opacity 300ms;
+	}
+	path.moving {
+		opacity: 0.5;
 	}
 </style>
