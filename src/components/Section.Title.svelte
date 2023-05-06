@@ -28,8 +28,11 @@
 	on:exit={onExit}
 >
 	{#if hasAnimation}
-		{#each title.split("") as letter, i}
-			<span>{letter}</span>
+		{#each title.split(" ") as word}
+			{#each word.split("") as letter}
+				<span>{letter}</span>
+			{/each}
+			<span>&nbsp;</span>
 		{/each}
 	{:else}
 		{@html title}

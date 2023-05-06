@@ -50,7 +50,7 @@
 	.text {
 		position: absolute;
 		left: 0;
-		top: 10px;
+		top: 18px;
 		visibility: hidden;
 	}
 	.visible {
