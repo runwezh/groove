@@ -1,17 +1,14 @@
 <script>
 	import { tweened } from "svelte/motion";
 	import { range } from "d3";
-	import { onMount } from "svelte";
 	import { quadOut } from "svelte/easing";
 	import _ from "lodash";
-	import { scrollyStep, direction } from "$stores/misc.js";
 
 	export let width;
+	export let moving;
 
-	let moving = true;
 	const amplitude = tweened(150, { easing: quadOut });
 
-	$: $scrollyStep, scrollChange();
 	$: wavelength = width;
 	$: points = range(5).map((i) => {
 		const x = (wavelength / 4) * i;
@@ -71,23 +68,14 @@
 			.then(loop);
 	};
 
-	const scrollChange = () => {
-		const straightLine =
-			$scrollyStep === 2 ||
-			$scrollyStep === 3 ||
-			($scrollyStep === undefined && $direction === "down");
-		if (!straightLine && !moving) {
-			moving = true;
-			amplitude.set(150, { duration: 1500 }).then(loop);
-		} else if (straightLine && moving) {
-			moving = false;
+	$: moving, movementChange();
+	const movementChange = () => {
+		if (moving) {
+			amplitude.set(0, { duration: 1500 }).then(loop);
+		} else {
 			amplitude.set(0, { duration: 500 });
 		}
 	};
-
-	onMount(() => {
-		amplitude.set(0, { duration: 1500 }).then(loop);
-	});
 </script>
 
 <path d={pathD} />

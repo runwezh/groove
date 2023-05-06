@@ -1,7 +1,6 @@
 <script>
 	import Footer from "$components/Footer.svelte";
 	import Section from "$components/Section.svelte";
-	import Animation from "$components/Scroll.Animation.svelte";
 	import { soundOn, started } from "$stores/misc.js";
 	import copy from "$data/copy.json";
 	import { onMount, tick } from "svelte";
@@ -41,8 +40,6 @@
 			>
 		</div>
 	{/if}
-
-	<Animation />
 
 	<div class="sections" class:started={$started}>
 		{#each sections as { id, title, chunks }}

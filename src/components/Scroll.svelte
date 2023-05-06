@@ -11,6 +11,7 @@
 
 	let containerEl;
 	let sounds = [];
+	let soundDurations = [];
 	let club;
 	let clubVolume = 1;
 	let paused;
@@ -51,6 +52,8 @@
 	};
 </script>
 
+<Animation />
+
 <div class="scroll-container" bind:this={containerEl}>
 	<Scrolly bind:value={$scrollyStep}>
 		{#each steps as { text, classname, sound, showNotes }, i}
@@ -70,15 +73,16 @@
 				{/if}
 			</div>
 
-			{#if sound}
+			<!-- {#if sound}
 				<audio
 					bind:this={sounds[i]}
+					bind:duration={soundDurations[i]}
 					src={`assets/sound/intro/${sound}.mp3`}
 					loop={true}
 					muted={!$soundOn}
 					preload="auto"
 				/>
-			{/if}
+			{/if} -->
 		{/each}
 	</Scrolly>
 </div>
