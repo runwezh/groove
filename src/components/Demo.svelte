@@ -13,6 +13,9 @@
 	export let songId;
 	export let showing = true;
 	export let notes = [];
+	export let style = "default";
+	export let song;
+	export let artist;
 
 	const {
 		parts,
@@ -47,7 +50,10 @@
 		getHeight: () => height,
 		getXOffset: () => xOffset,
 		getPlayClicked: () => playClicked,
-		getCurrentActionIndex: () => currentActionIndex
+		getCurrentActionIndex: () => currentActionIndex,
+		style,
+		song,
+		artist
 	});
 
 	const audioEls = writable([]);
@@ -62,7 +68,8 @@
 		bass: "on",
 		kick: "on",
 		snare: "on",
-		hihat: "on"
+		hihat: "on",
+		synth: "on"
 	});
 	const instrumentStyles = writable(defaultStyles);
 	const highlightedNotes = writable({});
@@ -108,12 +115,18 @@
 		reset();
 	};
 
+	const order = ["bass", "synth", "hihat", "kick", "snare"];
+
 	$: $visible = showing;
 	$: $timeToBeat = scaleLinear()
 		.domain([0, $trimmedDuration])
 		.range([0, beatsPerMeasure * measures]);
 	$: $currentBeat = $timeToBeat($seek * 1000) % beatsPerMeasure;
 	$: $xScale = scaleLinear().domain([0, beatsPerMeasure]).range([0, $width]);
+	$: sortedInstruments = _.orderBy(
+		_.uniq($allParts.map((d) => d.instrument)),
+		(d) => order.indexOf(d)
+	);
 </script>
 
 <Audio {play} {pause} {reset} />
@@ -146,7 +159,7 @@
 		</div>
 	{/if}
 
-	{#each _.orderBy(_.uniq($allParts.map((d) => d.instrument))) as instrument, i}
+	{#each sortedInstruments as instrument, i}
 		{@const data = $allParts.find(
 			(d) =>
 				d.instrument === instrument && d.style === $instrumentStyles[instrument]

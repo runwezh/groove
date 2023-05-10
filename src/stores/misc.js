@@ -12,6 +12,11 @@ const missingKick = {
 	data: []
 };
 const straightKick = { instrument: "kick", style: "straight", data: [0, 2] };
+const moneyKick = {
+	instrument: "kick",
+	style: "money",
+	data: [1.5, 2, 3, 3.5]
+};
 
 const missingSnare = {
 	instrument: "snare",
@@ -36,6 +41,21 @@ const tripletHihat = {
 	style: "triplet",
 	data: [0, 0.666, 1, 1.666, 2, 2.666, 3, 3.666]
 };
+const erykahHihat = {
+	instrument: "hihat",
+	style: "erykah",
+	data: [0.1, 0.6, 1.1, 1.6, 2.1, 2.6, 3.1, 3.6]
+};
+const quintupletHihat = {
+	instrument: "hihat",
+	style: "quintuplet",
+	data: [0, 0.6, 1, 1.6, 2, 2.6, 3, 3.6]
+};
+const moneyHihat = {
+	instrument: "hihat",
+	style: "money",
+	data: [0, 0.52, 1, 1.52, 2, 2.52, 3, 3.52]
+};
 
 const missingBass = {
 	instrument: "bass",
@@ -56,6 +76,11 @@ const quintupletBass = {
 	instrument: "bass",
 	style: "dilla",
 	data: [0, 0.6, 1, 1.6, 2, 2.6, 3, 3.6]
+};
+const erykahSynth = {
+	instrument: "synth",
+	style: "erykah",
+	data: [0.1, 0.6, 1.1, 1.6, 2.1, 2.6, 3.1, 3.6]
 };
 
 export const songData = readable({
@@ -188,6 +213,40 @@ export const songData = readable({
 				style: "shift"
 			}
 		],
+		beatsPerMeasure: 4,
+		measures: 4
+	},
+	erykah: {
+		parts: [erykahHihat, erykahSynth, straightKick, straightSnare],
+		defaultStyles: {
+			hihat: "erykah",
+			synth: "erykah",
+			kick: "straight",
+			snare: "straight"
+		},
+		actions: [],
+		beatsPerMeasure: 4,
+		measures: 8
+	},
+	money: {
+		parts: [moneyHihat, moneyKick, shiftedSnare],
+		defaultStyles: {
+			hihat: "money",
+			kick: "money",
+			snare: "shift"
+		},
+		actions: [],
+		beatsPerMeasure: 4,
+		measures: 4
+	},
+	heart: {
+		parts: [quintupletHihat, straightKick, shiftedSnare],
+		defaultStyles: {
+			hihat: "quintuplet",
+			kick: "straight",
+			snare: "shift"
+		},
+		actions: [],
 		beatsPerMeasure: 4,
 		measures: 4
 	}

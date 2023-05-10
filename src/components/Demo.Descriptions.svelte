@@ -15,17 +15,19 @@
 	};
 </script>
 
-<div class="wrapper" class:visible={$playClicked}>
-	{#each notes as note, i}
-		<div
-			class="bar"
-			class:active={i === $currentActionIndex}
-			class:clickable={finished}
-			on:click={() => onClick(i)}
-		/>
-		<div class="text" class:visible={i === $currentActionIndex}>{note}</div>
-	{/each}
-</div>
+{#if notes.length}
+	<div class="wrapper" class:visible={$playClicked}>
+		{#each notes as note, i}
+			<div
+				class="bar"
+				class:active={i === $currentActionIndex}
+				class:clickable={finished}
+				on:click={() => onClick(i)}
+			/>
+			<div class="text" class:visible={i === $currentActionIndex}>{note}</div>
+		{/each}
+	</div>
+{/if}
 
 <style>
 	.wrapper {

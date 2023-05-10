@@ -11,7 +11,10 @@
 		getTrimmedDuration,
 		getSeek,
 		getPlayClicked,
-		getIsPlaying
+		getIsPlaying,
+		style,
+		song,
+		artist
 	} = getContext("song");
 	const allParts = getAllParts();
 	const duration = getDuration();
@@ -28,8 +31,10 @@
 	let d = 0;
 
 	$: $duration = d;
-	$: $trimmedDuration = $duration * 1000 - 1300;
+	$: trimOff = songId === "heart" ? 300 : songId === "money" ? 500 : 1300;
+	$: $trimmedDuration = $duration * 1000 - trimOff;
 	$: intro = songId === "normal" || songId === "drunk";
+	$: pulse = !$playClicked && style !== "real";
 	$: if ($duration && $seek * 1000 > $trimmedDuration) {
 		reset();
 		play();
@@ -42,53 +47,42 @@
 	$: if (!$visible) {
 		pause();
 	}
-
-	// let audioLoaded = false;
-	// $: console.log({ audioLoaded, songId });
-
-	// onMount(() => {
-	// 	if (autoplay) loadAudio();
-	// 	addLoadListeners();
-	// });
-
-	// const loadAudio = () => {
-	// 	$audioEls.forEach((audioEl) => audioEl.load());
-	// };
-	// const addLoadListeners = () => {
-	// 	$audioEls.forEach((audioEl) => {
-	// 		audioEl.addEventListener("canplaythrough", () => {
-	// 			console.log("ready to play", songId);
-	// 			audioLoaded = true;
-	// 		});
-	// 		$audioEls = $audioEls;
-	// 	});
-	// };
-
-	// $: if ($playClicked) loadAudio();
 </script>
 
 {#if !autoplay}
 	<div class="buttons">
-		<button on:click={$isPlaying ? pause : play} class:pulse={!$playClicked}
+		{#if song && artist}
+			<h3>{song} by {artist}</h3>
+		{/if}
+		<button on:click={$isPlaying ? pause : play} class:pulse
 			>{$isPlaying ? "pause" : "play"}</button
 		>
 	</div>
 {/if}
 
-{#each $allParts as { instrument, style }, i}
-	{@const src = `assets/sound/${style}/${instrument}.mp3`}
+{#if style === "real"}
+	<AudioFile
+		src={`assets/sound/real-songs/${songId}.mp3`}
+		preload="none"
+		classname="leader"
+		i={0}
+	/>
+{:else}
+	{#each $allParts as { instrument, style }, i}
+		{@const src = `assets/sound/${style}/${instrument}.mp3`}
 
-	{#if style !== "missing"}
-		<AudioFile
-			{src}
-			{instrument}
-			{style}
-			preload={intro ? "auto" : "none"}
-			classname={i === 0 ? "leader" : ""}
-			{i}
-		/>
-	{/if}
-{/each}
+		{#if style !== "missing"}
+			<AudioFile
+				{src}
+				{instrument}
+				{style}
+				preload={intro ? "auto" : "none"}
+				classname={i === 0 ? "leader" : ""}
+				{i}
+			/>
+		{/if}
+	{/each}
+{/if}
 
 <style>
 	button {
@@ -96,5 +90,12 @@
 	}
 	.buttons {
 		margin-bottom: 2em;
+		display: flex;
+		align-items: center;
+	}
+	h3 {
+		display: inline;
+		font-family: var(--mono);
+		margin-right: 1em;
 	}
 </style>

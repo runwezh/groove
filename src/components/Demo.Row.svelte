@@ -19,7 +19,8 @@
 		getHighlightedNotes,
 		getWidth,
 		getXOffset,
-		getCurrentActionIndex
+		getCurrentActionIndex,
+		style
 	} = getContext("song");
 	const allParts = getAllParts();
 	const xScale = getXScale();
@@ -39,7 +40,9 @@
 	const formatLabel = (str) => _.upperFirst(str === "hihat" ? "hi-hat" : str);
 
 	const mute = (id) => {
-		$instrumentToggles[id] = $instrumentToggles[id] === "off" ? "on" : "off";
+		if (style !== "real") {
+			$instrumentToggles[id] = $instrumentToggles[id] === "off" ? "on" : "off";
+		}
 	};
 	const doAction = (e) => {
 		if (actionOn) {
@@ -94,6 +97,7 @@
 		bind:clientWidth={$width}
 		bind:this={notesContainer}
 		class:muted={$instrumentToggles[id] === "off"}
+		class:clickable={style !== "real"}
 		on:click={() => mute(id)}
 		on:keydown={() => mute(id)}
 	>
@@ -124,7 +128,7 @@
 		margin: 1em 0;
 		height: 50px;
 	}
-	.instrument:hover {
+	.clickable:hover {
 		cursor: pointer;
 	}
 	.muted {

@@ -4,7 +4,6 @@
 	export let noteData;
 	export let instrumentId;
 	export let x;
-	export let color;
 	export let shape;
 	export let height;
 
@@ -12,7 +11,8 @@
 		getCurrentBeat,
 		getIsPlaying,
 		getHighlightedNotes,
-		getInstrumentToggles
+		getInstrumentToggles,
+		style
 	} = getContext("song");
 	const beat = getCurrentBeat();
 	const isPlaying = getIsPlaying();
@@ -31,7 +31,6 @@
 	class:highlighted
 	class={instrumentId}
 	style:left={`${x}px`}
-	style:--color={color}
 	style:height={`${height}px`}
 	style:width={`${height}px`}
 />
@@ -39,7 +38,6 @@
 <style>
 	div {
 		border-radius: 10px;
-		background: var(--color);
 		position: absolute;
 		transform: translate(-50%, -50%);
 		transition: width 800ms, all 300ms;
@@ -57,7 +55,8 @@
 	.snare {
 		background: var(--snare);
 	}
-	.bass {
+	.bass,
+	.synth {
 		background: var(--bass);
 	}
 	.kick {
