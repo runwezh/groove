@@ -29,6 +29,7 @@
 	class:played
 	class:highlighted
 	class={instrumentId}
+	style:top={"50%"}
 	style:left={`${x}px`}
 	style:height={`${height}px`}
 	style:width={`${height}px`}

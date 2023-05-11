@@ -100,7 +100,6 @@
 		class="notes"
 		bind:clientWidth={$width}
 		bind:this={notesContainer}
-		style:height={`${noteHeight}px`}
 		class:muted={$instrumentToggles[id] === "off"}
 		class:clickable={style !== "real"}
 		on:click={onNotesClick}
@@ -134,7 +133,7 @@
 		display: flex;
 		align-items: center;
 		margin: 1em 0;
-		height: 50px;
+		min-height: 50px;
 	}
 	.clickable:hover {
 		cursor: pointer;
