@@ -15,11 +15,11 @@
 		startEl.scrollIntoView({ block: "center", behavior: "smooth" });
 	};
 
-	const debug = [];
-	// const sections = copy.sections.filter((d) => debug.includes(d.id));
-	// $started = true;
+	const debug = ["bonus"];
+	const sections = copy.sections.filter((d) => debug.includes(d.id));
+	$started = true;
 
-	const sections = copy.sections;
+	//const sections = copy.sections;
 
 	onMount(() => {
 		startEl = document.getElementById("start-of-story");
@@ -43,7 +43,14 @@
 
 	<div class="sections" class:started={$started}>
 		{#each sections as { id, title, chunks }}
-			<Section {id} {title} {chunks} />
+			{#if id === "bonus"}
+				<details>
+					<summary>{title}</summary>
+					<Section {id} {chunks} />
+				</details>
+			{:else}
+				<Section {id} {title} {chunks} />
+			{/if}
 		{/each}
 
 		<Footer />
@@ -92,5 +99,16 @@
 	}
 	button.start {
 		font-size: 1.8em;
+	}
+	details {
+		background: var(--color-gray-800);
+		border: 3px solid var(--accent-light);
+		padding: 2em;
+	}
+	summary:hover {
+		cursor: pointer;
+	}
+	summary::marker {
+		color: var(--accent-light);
 	}
 </style>

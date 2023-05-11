@@ -7,7 +7,7 @@
 	import _ from "lodash";
 	import { writable } from "svelte/store";
 
-	export let dots;
+	export let dots = [0];
 	export let beatsPerRotation = 1;
 	export let division;
 	export let bpm = 60;
@@ -66,42 +66,36 @@
 </script>
 
 <svg width={"100%"} {height}>
-	<circle id="outer" r={circleR} cx={"50%"} cy={"50%"} />
+	<g style:transform={`translate(50%, 50%)`}>
+		<circle id="outer" r={circleR} />
 
-	<path
-		fill="lightgrey"
-		d={percentageArc()}
-		style:transform="translate(50%, 50%)"
-	/>
+		<path fill="lightgrey" d={percentageArc()} />
 
-	{#if division}
-		{#each range(0, 1, 1 / currentDivision) as i}
-			<line
-				x1={0}
-				y1={0}
-				x2={circleR * Math.cos(angleScale(i))}
-				y2={circleR * Math.sin(angleScale(i))}
-				style:transform="translate(50%, 50%)"
-			/>
+		{#if division}
+			{#each range(0, 1, 1 / currentDivision) as i}
+				<line
+					x1={0}
+					y1={0}
+					x2={circleR * Math.cos(angleScale(i))}
+					y2={circleR * Math.sin(angleScale(i))}
+				/>
+			{/each}
+		{/if}
+
+		<line
+			id="marker"
+			x1={0}
+			y1={0}
+			x2={x(angleScale($t))}
+			y2={y(angleScale($t))}
+		/>
+
+		{#each dotsData as dot, i}
+			{@const cx = x(angleScale(dot))}
+			{@const cy = y(angleScale(dot))}
+			<Note note={dot} {cx} {cy} />
 		{/each}
-	{/if}
-
-	<line
-		id="marker"
-		x1={0}
-		y1={0}
-		x2={x(angleScale($t))}
-		y2={y(angleScale($t))}
-		style:transform="translate(50%, 50%)"
-	/>
-
-	{#each dotsData as dot, i}
-		{@const cx = x(angleScale(dot))}
-		{@const cy = y(angleScale(dot))}
-		{@const otherDot = i === 0 ? dotsData[1] : dotsData[0]}
-		{@const playing = dot >= $t && otherDot < $t}
-		<Note note={dot} {cx} {cy} {playing} />
-	{/each}
+	</g>
 </svg>
 
 {#if interactive}
@@ -125,7 +119,6 @@
 	</div>
 {/if}
 
-<p>{$t.toFixed(2)}</p>
 <button on:click={play}>play</button>
 <button on:click={pause}>pause</button>
 
@@ -145,21 +138,18 @@
 	.slider {
 		flex: 1;
 	}
-	svg {
-		background: var(--color-gray-100);
-	}
 	#outer {
-		stroke: var(--color-gray-400);
+		stroke: white;
 		stroke-width: 1px;
 		fill: none;
 	}
 	line {
-		stroke: var(--color-gray-400);
+		stroke: white;
 		stroke-width: 1px;
 		stroke-dasharray: 10px;
 	}
 	#marker {
-		stroke: var(--color-gray-800);
+		stroke: var(--color-gray-500);
 		stroke-width: 4px;
 		stroke-dasharray: 0px;
 	}

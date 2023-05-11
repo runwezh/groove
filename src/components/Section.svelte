@@ -2,6 +2,7 @@
 	import Demo from "$components/Demo.svelte";
 	import Scroll from "$components/Scroll.svelte";
 	import Song from "$components/Song.svelte";
+	import Circle from "$components/Circle.svelte";
 	import { started } from "$stores/misc.js";
 	import Title from "$components/Section.Title.svelte";
 
@@ -9,7 +10,7 @@
 	export let title;
 	export let chunks;
 
-	const components = { Scroll, Demo, Song };
+	const components = { Scroll, Demo, Song, Circle };
 </script>
 
 <section {id} class:visible={$started}>
@@ -17,7 +18,7 @@
 		<Title {id} {title} />
 	{/if}
 
-	{#each chunks as { type, text, component, classname, steps, notes, songId, style, url, song, artist }}
+	{#each chunks as { type, text, component, classname, steps, notes, songId, style, url, song, artist, dots, division, interactive }}
 		<svelte:element this={type} class={classname}>
 			{#if text}
 				{@html text}
@@ -31,6 +32,9 @@
 					{url}
 					{song}
 					{artist}
+					{dots}
+					{division}
+					interactive={interactive === "true"}
 				/>
 			{/if}
 		</svelte:element>
@@ -47,5 +51,8 @@
 	}
 	.inline {
 		display: inline-block;
+	}
+	section#bonus {
+		margin-top: 0;
 	}
 </style>
