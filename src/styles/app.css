@@ -38,10 +38,11 @@
 
 	/* colors */
 	--accent: #00ffc2;
-	--bass: #4f9cb3;
+	--accent-light: #d7e6e3;
+	/* --bass: #4f9cb3;
 	--hihat: #f3dfa2;
 	--snare: #ff9643;
-	--kick: #b89ef2;
+	--kick: #b89ef2; */
 
 	/* "1" second duration */
 	--1s: 1ms;

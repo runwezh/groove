@@ -23,6 +23,7 @@
 		actions,
 		beatsPerMeasure = 4,
 		measures = 1,
+		highlighted = {},
 		gridlines = true,
 		marker = true,
 		autoplay = false
@@ -72,7 +73,7 @@
 		synth: "on"
 	});
 	const instrumentStyles = writable(defaultStyles);
-	const highlightedNotes = writable({});
+	const highlightedNotes = writable(highlighted);
 	const isPlaying = writable(false);
 	const width = writable(0);
 	const height = writable(0);

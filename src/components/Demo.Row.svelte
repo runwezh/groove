@@ -53,11 +53,9 @@
 			const newNotes = $allParts.find(
 				(d) => d.instrument === id && d.style === action.style
 			).data;
-			if (songId !== "straight") {
-				$highlightedNotes[id] = newNotes.filter(
-					(d) => !originalData.includes(d)
-				);
-			}
+
+			if (songId === "straight") $highlightedNotes = {};
+			$highlightedNotes[id] = newNotes.filter((d) => !originalData.includes(d));
 		}
 
 		// button pulsing

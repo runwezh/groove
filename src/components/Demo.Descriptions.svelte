@@ -3,7 +3,8 @@
 
 	export let notes;
 
-	const { getCurrentActionIndex, getPlayClicked } = getContext("song");
+	const { songId, getCurrentActionIndex, getPlayClicked, getHighlightedNotes } =
+		getContext("song");
 	const currentActionIndex = getCurrentActionIndex();
 	const playClicked = getPlayClicked();
 

@@ -49,23 +49,28 @@
 	:global(h3#swing span:nth-child(2)) {
 		transform: translate(0, 0);
 		transition: all 1s;
+		color: white;
 	}
 	:global(h3#swing.visible span:nth-child(2)) {
 		transform: translate(0, 15px);
+		color: var(--accent);
 	}
 	:global(h3#swing span:nth-child(4)) {
 		transform: translate(0, 0);
 		transition: all 1s 500ms;
+		color: white;
 	}
 	:global(h3#swing.visible span:nth-child(4)) {
 		transform: translate(0, 15px);
+		color: var(--accent);
 	}
-
 	:global(h3#shift span:nth-child(1)) {
 		transform: translate(0, 0);
 		transition: all 1s 500ms;
+		color: white;
 	}
 	:global(h3#shift.visible span:nth-child(1)) {
 		transform: translate(0, -30px);
+		color: var(--accent);
 	}
 </style>

@@ -4,7 +4,6 @@
 	export let noteData;
 	export let instrumentId;
 	export let x;
-	export let shape;
 	export let height;
 
 	const {
@@ -41,15 +40,17 @@
 		position: absolute;
 		transform: translate(-50%, -50%);
 		transition: width 800ms, all 300ms;
+		background: var(--accent-light);
 	}
 	.played {
 		animation: 300ms ease-in-out grow;
 	}
 	.highlighted {
-		border: 2px solid white;
-		transform: translate(-50%, -50%) scale(1.5);
+		background: var(--accent);
+		/* border: 2px solid white; */
+		/* transform: translate(-50%, -50%) scale(1.5); */
 	}
-	.hihat {
+	/* .hihat {
 		background: var(--hihat);
 	}
 	.snare {
@@ -61,7 +62,7 @@
 	}
 	.kick {
 		background: var(--kick);
-	}
+	} */
 	@keyframes grow {
 		0% {
 			transform: translate(-50%, -50%) scale(1);

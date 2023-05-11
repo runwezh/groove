@@ -6,6 +6,9 @@ export const soundOn = writable(true);
 export const scrollyStep = writable(undefined);
 export const direction = writable("up");
 
+const everyOther = (arr) =>
+	arr.reduce((acc, d, i) => (i % 2 === 1 ? acc.concat(d) : acc), []);
+
 const missingKick = {
 	instrument: "kick",
 	style: "missing",
@@ -226,7 +229,11 @@ export const songData = readable({
 		},
 		actions: [],
 		beatsPerMeasure: 4,
-		measures: 8
+		measures: 8,
+		highlighted: {
+			synth: erykahSynth.data,
+			hihat: erykahHihat.data
+		}
 	},
 	money: {
 		parts: [moneyHihat, moneyKick, shiftedSnare],
@@ -237,7 +244,11 @@ export const songData = readable({
 		},
 		actions: [],
 		beatsPerMeasure: 4,
-		measures: 4
+		measures: 4,
+		highlighted: {
+			hihat: everyOther(moneyHihat.data),
+			snare: shiftedSnare.data
+		}
 	},
 	heart: {
 		parts: [quintupletHihat, straightKick, shiftedSnare],
@@ -248,6 +259,10 @@ export const songData = readable({
 		},
 		actions: [],
 		beatsPerMeasure: 4,
-		measures: 4
+		measures: 4,
+		highlighted: {
+			hihat: everyOther(quintupletHihat.data),
+			snare: shiftedSnare.data
+		}
 	}
 });

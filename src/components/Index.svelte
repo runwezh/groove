@@ -15,7 +15,7 @@
 		startEl.scrollIntoView({ block: "center", behavior: "smooth" });
 	};
 
-	const debug = ["dilla"];
+	const debug = ["straight", "swing", "shift", "dilla"];
 	const sections = copy.sections.filter((d) => debug.includes(d.id));
 	$started = true;
 
