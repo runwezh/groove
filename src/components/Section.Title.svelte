@@ -29,10 +29,12 @@
 >
 	{#if hasAnimation}
 		{#each title.split(" ") as word}
-			{#each word.split("") as letter}
-				<span>{letter}</span>
-			{/each}
-			<span>&nbsp;</span>
+			<span class="word">
+				{#each word.split("") as letter}
+					<span>{letter}</span>
+				{/each}
+				<span>&nbsp;</span>
+			</span>
 		{/each}
 	{:else}
 		{@html title}
@@ -45,6 +47,7 @@
 		font-size: 4em;
 		text-transform: uppercase;
 		display: flex;
+		flex-wrap: wrap;
 	}
 	:global(h3#swing span:nth-child(2)) {
 		transform: translate(0, 0);

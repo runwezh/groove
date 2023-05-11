@@ -15,7 +15,7 @@
 		startEl.scrollIntoView({ block: "center", behavior: "smooth" });
 	};
 
-	const debug = ["bonus"];
+	const debug = ["swing"];
 	const sections = copy.sections.filter((d) => debug.includes(d.id));
 	$started = true;
 
@@ -110,5 +110,11 @@
 	}
 	summary::marker {
 		color: var(--accent-light);
+	}
+
+	@media (max-width: 600px) {
+		h1 {
+			font-size: 6em;
+		}
 	}
 </style>

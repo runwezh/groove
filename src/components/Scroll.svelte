@@ -141,4 +141,10 @@
 		color: var(--accent);
 		font-weight: bold;
 	}
+
+	@media (max-width: 600px) {
+		.quote {
+			font-size: 1.3em;
+		}
+	}
 </style>

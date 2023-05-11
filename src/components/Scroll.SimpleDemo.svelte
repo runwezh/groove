@@ -1,7 +1,11 @@
 <script>
+	import viewport from "$stores/viewport.js";
+
 	export let data;
 	export let xScale;
 	export let currentBeat;
+
+	$: r = $viewport.width < 600 ? 5 : 10;
 </script>
 
 <line
@@ -14,7 +18,7 @@
 {#each data as note, i (i)}
 	{@const cx = xScale(note)}
 	{@const played = currentBeat >= note - 0.05}
-	<circle id={i} class:played r={10} fill="lightgrey" {cx} cy={0} />
+	<circle id={i} class:played {r} fill="lightgrey" {cx} cy={0} />
 {/each}
 
 <style>

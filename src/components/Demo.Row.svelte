@@ -3,6 +3,7 @@
 	import { getContext, onMount } from "svelte";
 	import { range } from "d3";
 	import _ from "lodash";
+	import viewport from "$stores/viewport.js";
 
 	export let i;
 	export let id;
@@ -31,6 +32,7 @@
 	const xOffset = getXOffset();
 	const currentActionIndex = getCurrentActionIndex();
 
+	let actionBtn;
 	let notesContainer;
 	let actionOn = false;
 	let originalData = data;
@@ -44,6 +46,7 @@
 			$instrumentToggles[id] = $instrumentToggles[id] === "off" ? "on" : "off";
 		}
 	};
+
 	const doAction = (e) => {
 		if (actionOn) {
 			$instrumentStyles[id] = originalStyle;
@@ -74,30 +77,34 @@
 		actionOn = !actionOn;
 	};
 
+	$: onNotesClick = mobile ? () => doAction({ target: actionBtn }) : null;
+	$: mobile = $viewport.width < 600;
+	$: if ($width && notesContainer) $xOffset = notesContainer.offsetLeft;
 	$: buttonText =
 		action && actionOn
 			? `${songId === "straight" ? "" : "un-"}${action.description}`
 			: action && !actionOn
 			? `${action.description}`
 			: "";
-
-	onMount(() => {
-		$xOffset = notesContainer.offsetLeft;
-	});
 </script>
 
 <div class="instrument">
-	<div class="label">{formatLabel(id)}</div>
+	<div class="label">
+		{formatLabel(id)}
+		<div class="mute" on:click={() => mute(id)}>
+			{$instrumentToggles[id] === "on" ? "mute" : "unmute"}
+		</div>
+	</div>
 
 	<div
 		class="notes"
-		style:height={`${noteHeight}px`}
 		bind:clientWidth={$width}
 		bind:this={notesContainer}
+		style:height={`${noteHeight}px`}
 		class:muted={$instrumentToggles[id] === "off"}
 		class:clickable={style !== "real"}
-		on:click={() => mute(id)}
-		on:keydown={() => mute(id)}
+		on:click={onNotesClick}
+		on:keydown={onNotesClick}
 	>
 		{#each data as note}
 			{@const x = $xScale(note % beatsPerMeasure)}
@@ -112,9 +119,12 @@
 
 	{#if action}
 		<button
+			bind:this={actionBtn}
 			class="action-btn"
+			class:mobile
 			on:click={doAction}
-			disabled={songId === "straight" && actionOn}>{buttonText}</button
+			disabled={mobile || (songId === "straight" && actionOn)}
+			>{buttonText}</button
 		>
 	{/if}
 </div>
@@ -129,16 +139,19 @@
 	.clickable:hover {
 		cursor: pointer;
 	}
+	.mute:hover {
+		cursor: pointer;
+	}
 	.muted {
 		opacity: 0.5;
 	}
 	.notes {
 		position: relative;
-		width: 70%;
+		width: 65%;
 		margin-left: 3em;
 	}
 	.label {
-		min-width: 10%;
+		min-width: 15%;
 		font-family: var(--mono);
 	}
 	.action-btn {
@@ -152,5 +165,20 @@
 	}
 	:global(.action-btn.visible) {
 		visibility: visible;
+	}
+	.action-btn.mobile {
+		position: absolute;
+		right: 0;
+		visibility: hidden;
+	}
+
+	@media (max-width: 600px) {
+		.label {
+			font-size: var(--12px);
+		}
+		.notes {
+			width: 85%;
+			margin-left: 0;
+		}
 	}
 </style>
