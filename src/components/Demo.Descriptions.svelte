@@ -34,7 +34,8 @@
 	.wrapper {
 		display: flex;
 		position: relative;
-		margin-bottom: 3em;
+		margin-bottom: 1em;
+		height: 4em;
 		visibility: hidden;
 	}
 	.bar {

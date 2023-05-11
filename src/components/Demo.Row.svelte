@@ -139,6 +139,7 @@
 	}
 	.label {
 		min-width: 10%;
+		font-family: var(--mono);
 	}
 	.action-btn {
 		font-family: var(--mono);
