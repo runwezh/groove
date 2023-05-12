@@ -4,7 +4,6 @@
 	export let noteData;
 	export let instrumentId;
 	export let x;
-	export let height;
 
 	const {
 		getCurrentBeat,
@@ -17,6 +16,8 @@
 	const isPlaying = getIsPlaying();
 	const highlightedNotes = getHighlightedNotes();
 	const instrumentToggles = getInstrumentToggles();
+
+	const height = 20;
 
 	$: played =
 		$beat >= noteData - 0.05 &&

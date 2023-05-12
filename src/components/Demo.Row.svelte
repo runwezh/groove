@@ -3,6 +3,7 @@
 	import { getContext, onMount } from "svelte";
 	import { range } from "d3";
 	import _ from "lodash";
+	import Icon from "$components/helpers/Icon.svelte";
 	import viewport from "$stores/viewport.js";
 
 	export let i;
@@ -32,13 +33,13 @@
 	const xOffset = getXOffset();
 	const currentActionIndex = getCurrentActionIndex();
 
+	let interactionHeight = 0;
 	let actionBtn;
 	let notesContainer;
 	let actionOn = false;
 	let originalData = data;
 	let originalStyle = $instrumentStyles[id];
 
-	const noteHeight = 20;
 	const formatLabel = (str) => _.upperFirst(str === "hihat" ? "hi-hat" : str);
 
 	const mute = (id) => {
@@ -77,8 +78,10 @@
 		actionOn = !actionOn;
 	};
 
-	$: onNotesClick = mobile ? () => doAction({ target: actionBtn }) : null;
+	$: muted = $instrumentToggles[id] === "off";
 	$: mobile = $viewport.width < 600;
+	$: onNotesClick =
+		mobile && action ? () => doAction({ target: actionBtn }) : null;
 	$: if ($width && notesContainer) $xOffset = notesContainer.offsetLeft;
 	$: buttonText =
 		action && actionOn
@@ -88,26 +91,32 @@
 			: "";
 </script>
 
-<div class="instrument">
-	<div class="label">
-		{formatLabel(id)}
-		<div class="mute" on:click={() => mute(id)}>
-			{$instrumentToggles[id] === "on" ? "mute" : "unmute"}
-		</div>
-	</div>
-
+<div class="instrument" class:muted bind:clientHeight={interactionHeight}>
 	<div
-		class="notes"
-		bind:clientWidth={$width}
-		bind:this={notesContainer}
-		class:muted={$instrumentToggles[id] === "off"}
-		class:clickable={style !== "real"}
+		class="interaction-layer"
+		style:height={`${interactionHeight}px`}
+		style:width={`${$width}px`}
+		style:left={`${$xOffset}px`}
+		class:clickable={mobile && action}
 		on:click={onNotesClick}
 		on:keydown={onNotesClick}
-	>
+	/>
+
+	<div class="label">
+		{formatLabel(id)}
+		<button class="mute" on:click={() => mute(id)}>
+			{#if muted}
+				<Icon name="volume-x" />
+			{:else}
+				<Icon name="volume-2" />
+			{/if}
+		</button>
+	</div>
+
+	<div class="notes" bind:clientWidth={$width} bind:this={notesContainer}>
 		{#each data as note}
 			{@const x = $xScale(note % beatsPerMeasure)}
-			<Note noteData={note} instrumentId={id} {x} height={noteHeight} />
+			<Note noteData={note} instrumentId={id} {x} />
 		{/each}
 
 		{#each range(0, beatsPerMeasure, 0.5) as dot}
@@ -132,14 +141,20 @@
 	.instrument {
 		display: flex;
 		align-items: center;
-		margin: 1em 0;
+		padding: 1em 0;
 		min-height: 50px;
+		position: relative;
 	}
-	.clickable:hover {
-		cursor: pointer;
+	button.mute {
+		display: block;
+		box-shadow: none;
+		padding: 0;
+		font-size: var(--18px);
+		border: none;
+		background: none;
 	}
-	.mute:hover {
-		cursor: pointer;
+	button.mute:active {
+		transform: none;
 	}
 	.muted {
 		opacity: 0.5;
@@ -169,6 +184,14 @@
 		position: absolute;
 		right: 0;
 		visibility: hidden;
+	}
+	.interaction-layer {
+		position: absolute;
+		top: 0;
+		z-index: 1000;
+	}
+	.clickable:hover {
+		cursor: pointer;
 	}
 
 	@media (max-width: 600px) {
