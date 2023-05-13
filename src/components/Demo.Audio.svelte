@@ -1,5 +1,6 @@
 <script>
 	import AudioFile from "$components/Demo.AudioFile.svelte";
+	import Icon from "$components/helpers/Icon.svelte";
 	import { getContext } from "svelte";
 
 	const {
@@ -49,16 +50,26 @@
 	}
 </script>
 
-{#if !autoplay}
+<!-- TODO real songs -->
+<!-- {#if !autoplay}
 	<div class="buttons">
 		{#if song && artist}
 			<h3>{song} by {artist}</h3>
 		{/if}
-		<button on:click={$isPlaying ? pause : play} class:pulse
-			>{$isPlaying ? "pause" : "play"}</button
-		>
 	</div>
-{/if}
+{/if} -->
+
+<button
+	on:click={$isPlaying ? pause : play}
+	class:pulse
+	class:started={$playClicked}
+>
+	{#if $isPlaying}
+		<Icon name="pause" />
+	{:else}
+		<Icon name="play" />
+	{/if}
+</button>
 
 {#if style === "real"}
 	<AudioFile
@@ -86,12 +97,24 @@
 
 <style>
 	button {
-		margin-right: 0.8em;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 1000;
 	}
-	.buttons {
-		margin-bottom: 2em;
-		display: flex;
-		align-items: center;
+	button.started {
+		position: static;
+		margin: 1em 0;
+		transform: translate(0, 0);
+	}
+	button.pulse {
+		animation: pulse 0.4s infinite alternate;
+	}
+	@keyframes pulse {
+		to {
+			transform: translate(-50%, -50%) scale(1.1);
+		}
 	}
 	h3 {
 		display: inline;

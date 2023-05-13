@@ -188,6 +188,7 @@
 	.demo {
 		padding: 1.5em;
 		background: var(--color-gray-800);
+		position: relative;
 	}
 	.chart {
 		width: 100%;

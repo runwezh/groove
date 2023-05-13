@@ -54,7 +54,7 @@
 	.wrapper {
 		display: flex;
 		position: relative;
-		margin-bottom: 1.5em;
+		margin: 1em 0;
 		visibility: hidden;
 	}
 	.bar {
