@@ -2,6 +2,7 @@
 	import Marker from "$components/Demo.Marker.svelte";
 	import Row from "$components/Demo.Row.svelte";
 	import Audio from "$components/Demo.Audio.svelte";
+	import Annotations from "$components/Demo.Annotations.svelte";
 	import Descriptions from "$components/Demo.Descriptions.svelte";
 	import { setContext } from "svelte";
 	import { scaleLinear, range } from "d3";
@@ -170,6 +171,10 @@
 			: null}
 		<Row {i} id={instrument} {data} {action} />
 	{/each}
+
+	{#if style === "real"}
+		<Annotations />
+	{/if}
 </div>
 
 <style>
