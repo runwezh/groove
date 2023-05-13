@@ -194,6 +194,7 @@
 		padding: 1.5em;
 		background: var(--color-gray-800);
 		position: relative;
+		margin: 2em 0;
 	}
 	.demo.real {
 		background: rgb(45, 2, 43);

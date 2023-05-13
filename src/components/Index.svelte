@@ -1,9 +1,10 @@
 <script>
 	import Footer from "$components/Footer.svelte";
 	import Section from "$components/Section.svelte";
+	import Icon from "$components/helpers/Icon.svelte";
 	import { soundOn, started } from "$stores/misc.js";
-	import copy from "$data/copy.json";
 	import { onMount, tick } from "svelte";
+	import copy from "$data/copy.json";
 
 	const { hed, dek, byline } = copy;
 
@@ -15,11 +16,11 @@
 		startEl.scrollIntoView({ block: "center", behavior: "smooth" });
 	};
 
-	const debug = ["dilla"];
-	const sections = copy.sections.filter((d) => debug.includes(d.id));
-	$started = true;
+	const debug = [];
+	// const sections = copy.sections.filter((d) => debug.includes(d.id));
+	// $started = true;
 
-	//const sections = copy.sections;
+	const sections = copy.sections;
 
 	onMount(() => {
 		startEl = document.getElementById("start-of-story");
@@ -35,9 +36,17 @@
 			<div class="byline" style:margin-bottom="3em">{@html byline}</div>
 
 			<button class="start" on:click={start} disabled={$started}>start</button>
-			<button class="mute" on:click={() => ($soundOn = !$soundOn)}
-				>{$soundOn ? "sound off" : "sound on"}</button
-			>
+
+			<div class="mute-container">
+				<button on:click={() => ($soundOn = !$soundOn)} class:faded={!$soundOn}>
+					{#if $soundOn}
+						<Icon name="volume-2" />
+					{:else}
+						<Icon name="volume-x" />
+					{/if}
+				</button>
+				<div class:visible={!$soundOn}>{"(sound is recommended!)"}</div>
+			</div>
 		</div>
 	{/if}
 
@@ -79,10 +88,34 @@
 		height: auto;
 		overflow: visible;
 	}
-	.mute {
+	.mute-container {
 		position: fixed;
+		z-index: 100000;
 		top: 1em;
 		right: 1em;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.mute-container button {
+		padding: 0.4em 0.4em 0.1em 0.4em;
+		font-size: var(--28px);
+	}
+	.mute-container button.faded {
+		opacity: 0.5;
+	}
+	.mute-container div {
+		font-size: var(--14px);
+		margin-top: 8px;
+		position: absolute;
+		left: 0;
+		transform: translate(calc(-100% - 8px), 0);
+		text-align: center;
+		color: var(--accent);
+		visibility: hidden;
+	}
+	.mute-container div.visible {
+		visibility: visible;
 	}
 	h1 {
 		font-family: var(--mono);
@@ -115,6 +148,9 @@
 	@media (max-width: 600px) {
 		h1 {
 			font-size: 6em;
+		}
+		.mute-container {
+			font-size: var(--20px);
 		}
 	}
 </style>
