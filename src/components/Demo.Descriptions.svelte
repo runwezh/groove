@@ -30,7 +30,7 @@
 	<div
 		class="wrapper"
 		class:visible={$playClicked}
-		style:height={`${maxTextHeight + 18}px`}
+		style:height={`${$playClicked ? maxTextHeight + 18 : 0}px`}
 	>
 		{#each notes as note, i}
 			<div

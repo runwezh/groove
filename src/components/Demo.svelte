@@ -131,53 +131,64 @@
 	);
 </script>
 
-<Audio {play} {pause} {reset} />
-<Descriptions {notes} />
+<div class="demo">
+	<div
+		class="chart"
+		id={songId}
+		bind:clientHeight={$height}
+		class:visible={$visible}
+		use:inView
+		on:exit={onExit}
+	>
+		{#if marker}
+			<Marker />
+		{/if}
 
-<div
-	class="chart"
-	id={songId}
-	bind:clientHeight={$height}
-	class:visible={$visible}
-	use:inView
-	on:exit={onExit}
->
-	{#if marker}
-		<Marker />
-	{/if}
+		{#if gridlines}
+			<div
+				class="grid"
+				style:width={`${$width}px`}
+				style:left={`${$xOffset}px`}
+			>
+				{#each range(0, beatsPerMeasure) as bar}
+					{@const thick = bar % 1 === 0}
+					{@const left = $xScale(bar)}
+					<div
+						class="line"
+						class:thick
+						style:left={`${left}px`}
+						style:height={`${$height}px`}
+					/>
+				{/each}
+			</div>
+		{/if}
 
-	{#if gridlines}
-		<div class="grid" style:width={`${$width}px`} style:left={`${$xOffset}px`}>
-			{#each range(0, beatsPerMeasure) as bar}
-				{@const thick = bar % 1 === 0}
-				{@const left = $xScale(bar)}
-				<div
-					class="line"
-					class:thick
-					style:left={`${left}px`}
-					style:height={`${$height}px`}
-				/>
-			{/each}
-		</div>
-	{/if}
+		{#each sortedInstruments as instrument, i}
+			{@const data = $allParts.find(
+				(d) =>
+					d.instrument === instrument &&
+					d.style === $instrumentStyles[instrument]
+			)?.data}
+			{@const action = actions
+				? actions.find((d) => d.instrument === instrument)
+				: null}
+			<Row {i} id={instrument} {data} {action} />
+		{/each}
 
-	{#each sortedInstruments as instrument, i}
-		{@const data = $allParts.find(
-			(d) =>
-				d.instrument === instrument && d.style === $instrumentStyles[instrument]
-		)?.data}
-		{@const action = actions
-			? actions.find((d) => d.instrument === instrument)
-			: null}
-		<Row {i} id={instrument} {data} {action} />
-	{/each}
+		{#if style === "real"}
+			<Annotations />
+		{/if}
+	</div>
 
-	{#if style === "real"}
-		<Annotations />
-	{/if}
+	<Audio {play} {pause} {reset} />
+	<Descriptions {notes} />
 </div>
 
 <style>
+	.demo {
+		padding: 1.5em;
+		background: var(--color-gray-800);
+	}
 	.chart {
 		width: 100%;
 		display: flex;
@@ -204,9 +215,10 @@
 	}
 	.grid .line {
 		background: var(--color-gray-200);
+		opacity: 0.6;
 		width: 1px;
 		position: absolute;
-		z-index: -1;
+		z-index: 0;
 		transform: translate(-50%, 0);
 	}
 </style>
