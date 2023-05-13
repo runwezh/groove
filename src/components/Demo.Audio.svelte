@@ -50,19 +50,10 @@
 	}
 </script>
 
-<!-- TODO real songs -->
-<!-- {#if !autoplay}
-	<div class="buttons">
-		{#if song && artist}
-			<h3>{song} by {artist}</h3>
-		{/if}
-	</div>
-{/if} -->
-
 <button
 	on:click={$isPlaying ? pause : play}
 	class:pulse
-	class:started={$playClicked}
+	class:started={$playClicked || style === "real"}
 >
 	{#if $isPlaying}
 		<Icon name="pause" />
@@ -115,10 +106,5 @@
 		to {
 			transform: translate(-50%, -50%) scale(1.1);
 		}
-	}
-	h3 {
-		display: inline;
-		font-family: var(--mono);
-		margin-right: 1em;
 	}
 </style>

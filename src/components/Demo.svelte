@@ -131,12 +131,17 @@
 	);
 </script>
 
-<div class="demo">
+<div class="demo" class:real={style === "real"}>
+	{#if song && artist}
+		<h3><span>{song}</span> by <span>{artist}</span></h3>
+	{/if}
+
 	<div
 		class="chart"
 		id={songId}
 		bind:clientHeight={$height}
 		class:visible={$visible}
+		class:faded={style !== "real" && !$playClicked}
 		use:inView
 		on:exit={onExit}
 	>
@@ -190,6 +195,9 @@
 		background: var(--color-gray-800);
 		position: relative;
 	}
+	.demo.real {
+		background: rgb(45, 2, 43);
+	}
 	.chart {
 		width: 100%;
 		display: flex;
@@ -197,6 +205,9 @@
 		justify-content: space-around;
 		position: relative;
 		visibility: hidden;
+	}
+	.chart.faded {
+		opacity: 0.2;
 	}
 	.chart.visible {
 		visibility: visible;
@@ -221,5 +232,8 @@
 		position: absolute;
 		z-index: 0;
 		transform: translate(-50%, 0);
+	}
+	h3 span {
+		font-weight: bold;
 	}
 </style>
