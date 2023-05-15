@@ -39,10 +39,9 @@
 	/* colors */
 	--accent: #00ffc2;
 	--accent-light: #95a1bd;
-	--bass: #4f9cb3;
-	--hihat: #f3dfa2;
-	--snare: #ff9643;
-	--kick: #b89ef2;
+	--yellow: #f3dfa2;
+	--orange: #d69664;
+	--purple: #332d4b;
 
 	/* "1" second duration */
 	--1s: 1ms;

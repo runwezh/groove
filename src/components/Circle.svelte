@@ -69,7 +69,7 @@
 	<g style:transform={`translate(50%, 50%)`}>
 		<circle id="outer" r={circleR} />
 
-		<path fill="lightgrey" d={percentageArc()} />
+		<path class="percentage" d={percentageArc()} />
 
 		{#if division}
 			{#each range(0, 1, 1 / currentDivision) as i}
@@ -152,5 +152,9 @@
 		stroke: var(--color-gray-500);
 		stroke-width: 4px;
 		stroke-dasharray: 0px;
+	}
+	.percentage {
+		fill: var(--accent);
+		opacity: 0.5;
 	}
 </style>

@@ -91,6 +91,7 @@
 		position: absolute;
 		top: 50%;
 		left: 50%;
+		height: 40px;
 		transform: translate(-50%, -50%);
 		z-index: 1000;
 	}
@@ -101,6 +102,10 @@
 	}
 	button.pulse {
 		animation: pulse 0.4s infinite alternate;
+	}
+	button:active {
+		box-shadow: 0px 0px 0px 0px;
+		transform: translate(5px, 5px);
 	}
 	@keyframes pulse {
 		to {

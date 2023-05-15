@@ -69,7 +69,7 @@
 	.annotation {
 		position: absolute;
 		font-family: var(--mono);
-		color: gold;
+		color: var(--yellow);
 		text-align: center;
 		display: flex;
 		align-items: center;
@@ -81,7 +81,7 @@
 	}
 	.text {
 		margin-left: 0.5em;
-		background: rgb(0, 0, 0, 0.2);
+		background: rgb(51, 45, 75, 0.2);
 	}
 	@media (max-width: 600px) {
 		.annotation {
