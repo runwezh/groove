@@ -150,6 +150,7 @@
 		box-shadow: none;
 		padding: 0;
 		font-size: var(--18px);
+		height: 18px;
 		border: none;
 		background: none;
 	}
