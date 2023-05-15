@@ -26,6 +26,7 @@
 		}
 	};
 
+	$: light = artist === "Sungazer";
 	$: if (seek === duration && audioEl) {
 		seek = 0;
 		audioEl.pause();
@@ -55,7 +56,7 @@
 			{/if}
 		</button>
 		<div class="time">{clockStr(seek)} / {clockStr(duration)}</div>
-		<div class="bar">
+		<div class="bar" class:light>
 			<div class="seek" style:width />
 		</div>
 	</div>
@@ -90,6 +91,9 @@
 		margin: 0 0.5em;
 		border-radius: 3px;
 		position: relative;
+	}
+	.bar.light {
+		background: var(--color-gray-300);
 	}
 	.seek {
 		background: var(--accent);
