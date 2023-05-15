@@ -31,7 +31,7 @@
 		{#each title.split(" ") as word}
 			<span class="word">
 				{#each word.split("") as letter}
-					<span>{letter}</span>
+					<span class="letter">{letter}</span>
 				{/each}
 				<span>&nbsp;</span>
 			</span>
@@ -49,30 +49,33 @@
 		display: flex;
 		flex-wrap: wrap;
 	}
-	:global(h3#swing span:nth-child(2)) {
+	.word {
+		display: flex;
+	}
+	:global(h3#swing .letter:nth-child(2)) {
 		transform: translate(0, 0);
 		transition: all 1s;
 		color: white;
 	}
-	:global(h3#swing.visible span:nth-child(2)) {
+	:global(h3#swing.visible .letter:nth-child(2)) {
 		transform: translate(0, 15px);
 		color: var(--accent);
 	}
-	:global(h3#swing span:nth-child(4)) {
+	:global(h3#swing .letter:nth-child(4)) {
 		transform: translate(0, 0);
 		transition: all 1s 500ms;
 		color: white;
 	}
-	:global(h3#swing.visible span:nth-child(4)) {
+	:global(h3#swing.visible .letter:nth-child(4)) {
 		transform: translate(0, 15px);
 		color: var(--accent);
 	}
-	:global(h3#shift span:nth-child(1)) {
+	:global(h3#shift .letter:nth-child(1)) {
 		transform: translate(0, 0);
 		transition: all 1s 500ms;
 		color: white;
 	}
-	:global(h3#shift.visible span:nth-child(1)) {
+	:global(h3#shift.visible .letter:nth-child(1)) {
 		transform: translate(0, -30px);
 		color: var(--accent);
 	}
