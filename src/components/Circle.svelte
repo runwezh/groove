@@ -120,6 +120,7 @@
 					(d) => `${_.round((Math.ceil(d / 2) / d) * 100, 1)}%`
 				)}
 				bind:value={currentDivision}
+				dotColor={"var(--accent)"}
 			/>
 		</div>
 	</div>

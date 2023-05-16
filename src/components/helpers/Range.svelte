@@ -8,6 +8,7 @@
 	export let label = "";
 	export let ticks;
 	export let ticksAbove;
+	export let dotColor = "var(--color-gray-900)";
 
 	const getDecimalCount = (value) => {
 		if (Math.floor(value) === value) return 0;
@@ -29,7 +30,15 @@
 			<span class="tick">{tick}</span>
 		{/each}
 	</div>
-	<input type="range" aria-label={label} {min} {max} {step} bind:value />
+	<input
+		type="range"
+		aria-label={label}
+		{min}
+		{max}
+		{step}
+		bind:value
+		style={`--dot-color: ${dotColor}`}
+	/>
 </div>
 
 <style>
@@ -73,7 +82,7 @@
 		height: var(--thumb-width);
 		width: var(--thumb-width);
 		border-radius: 50%;
-		background: var(--color-gray-900);
+		background: var(--dot-color);
 		appearance: none;
 		margin-top: calc(var(--thumb-width) / -3);
 	}
@@ -94,7 +103,7 @@
 		height: var(--thumb-width);
 		width: var(--thumb-width);
 		border-radius: 50%;
-		background: var(--color-gray-900);
+		background: var(--dot-color);
 	}
 
 	input[type="range"]::-ms-track {
@@ -118,7 +127,7 @@
 		height: var(--thumb-width);
 		width: var(--thumb-width);
 		border-radius: 50%;
-		background: var(--color-gray-900);
+		background: var(--dot-color);
 	}
 
 	input[type="range"]:focus::-ms-fill-lower,
