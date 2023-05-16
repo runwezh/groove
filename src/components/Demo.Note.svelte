@@ -9,8 +9,7 @@
 		getCurrentBeat,
 		getIsPlaying,
 		getHighlightedNotes,
-		getInstrumentToggles,
-		style
+		getInstrumentToggles
 	} = getContext("song");
 	const beat = getCurrentBeat();
 	const isPlaying = getIsPlaying();
@@ -49,22 +48,8 @@
 	}
 	.highlighted {
 		background: var(--accent);
-		/* border: 2px solid white; */
-		/* transform: translate(-50%, -50%) scale(1.5); */
 	}
-	/* .hihat {
-		background: var(--hihat);
-	}
-	.snare {
-		background: var(--snare);
-	}
-	.bass,
-	.synth {
-		background: var(--bass);
-	}
-	.kick {
-		background: var(--kick);
-	} */
+
 	@keyframes grow {
 		0% {
 			transform: translate(-50%, -50%) scale(1);

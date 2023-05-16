@@ -1,22 +1,15 @@
 <script>
-	import { Howl } from "howler";
 	import { getContext } from "svelte";
 
 	export let note;
 	export let cx;
 	export let cy;
 
-	const { getT } = getContext("song");
-	const t = getT();
+	const { getCurrentBeat } = getContext("song");
+	const beat = getCurrentBeat();
 
-	const hihat = new Howl({
-		src: ["assets/sound/hihat.mp3"]
-	});
-
-	const buffer = 0.05;
-	$: hit = $t >= note && $t < note + buffer;
-	$: if (hit && hihat.state() === "loaded") hihat.play();
-	$: played = $t >= note - buffer && Math.abs($t - note) < 0.2;
+	$: played =
+		(note !== 0 && $beat >= note - 0.05) || (note === 0 && $beat * 2 < 1);
 </script>
 
 <circle {cx} {cy} r={10} class:played />

@@ -29,9 +29,9 @@
 	export let pause;
 	export let reset;
 
-	let d = 0;
+	// let d = 0;
 
-	$: $duration = d;
+	// $: $duration = d;
 	$: trimOff = songId === "heart" ? 300 : songId === "money" ? 500 : 1300;
 	$: $trimmedDuration = $duration * 1000 - trimOff;
 	$: intro = songId === "normal" || songId === "drunk";

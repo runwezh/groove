@@ -9,60 +9,66 @@
 
 	export let dots = [0];
 	export let beatsPerRotation = 1;
-	export let division;
-	export let bpm = 60;
+	export let division = 3;
 	export let interactive;
+	export let measures = 4;
+	export let beatsPerMeasure = 4;
 
 	setContext("song", {
 		beatsPerRotation,
 		division,
-		getT: () => t,
-		getAngleScale: () => angleScale,
-		getCycleDuration: () => duration,
+		getSeek: () => seek,
+		getCurrentBeat: () => currentBeat,
 		getIsPlaying: () => isPlaying
 	});
 
-	let currentDivision = division;
-	let interval;
-	const t = tweened(0);
+	const seek = writable(0);
+	let audioEls = [];
+	let currentDivision = +division;
 	const height = 450;
-	const start = 0;
 	const circleR = height / 2 - 100;
 	const x = (theta) => circleR * Math.cos(theta);
 	const y = (theta) => circleR * Math.sin(theta);
 	const isPlaying = writable(false);
+	const currentBeat = writable(0);
+	const options = [3, 5, 7, 9, 11];
+	let d;
+	let duration = 0;
 
 	$: ratio = Math.ceil(currentDivision / 2) / currentDivision;
 	$: dotsData = interactive ? [0, ratio] : dots ? dots.map((d) => +d) : [];
-	$: end = beatsPerRotation;
 	$: percentageArc = arc()
 		.innerRadius(0)
 		.outerRadius(circleR)
-		.startAngle(angleScale(dotsData[0]) + Math.PI / 2)
-		.endAngle(angleScale(dotsData[dotsData.length - 1]) + Math.PI / 2);
-	$: duration = (60000 * beatsPerRotation) / bpm;
-	$: angleScale = scaleLinear()
-		.domain([0, end])
+		.startAngle(beatToAngle(dotsData[0]) + Math.PI / 2)
+		.endAngle(beatToAngle(dotsData[dotsData.length - 1]) + Math.PI / 2);
+	$: timeToBeat = scaleLinear()
+		.domain([0, duration / measures / beatsPerMeasure || 0])
+		.range([0, beatsPerRotation]);
+	$: beatToAngle = scaleLinear()
+		.domain([0, beatsPerRotation])
 		.range([-Math.PI / 2, (3 / 2) * Math.PI]); // to make 0 at the top
+	$: duration = d - 1.3;
+	$: $currentBeat = timeToBeat($seek) % beatsPerRotation;
+	$: if ($seek >= duration) {
+		reset();
+		play();
+	}
 
 	const pause = () => {
 		$isPlaying = false;
-		clearInterval(interval);
-		t.set(end, { duration: 0 });
+		audioEls.forEach((el) => el.pause());
 	};
 	const play = () => {
 		$isPlaying = true;
-		t.set(start, { duration: 0 });
-		t.set(end, { duration });
-		interval = setInterval(() => {
-			t.set(start, { duration: 0 });
-			t.set(end, { duration });
-		}, duration);
+		audioEls.forEach((el) => {
+			el.currentTime = $seek;
+			el.play();
+		});
 	};
-
-	onDestroy(() => {
-		clearInterval(interval);
-	});
+	const reset = () => {
+		$seek = 0;
+	};
 </script>
 
 <svg width={"100%"} {height}>
@@ -76,8 +82,8 @@
 				<line
 					x1={0}
 					y1={0}
-					x2={circleR * Math.cos(angleScale(i))}
-					y2={circleR * Math.sin(angleScale(i))}
+					x2={circleR * Math.cos(beatToAngle(i))}
+					y2={circleR * Math.sin(beatToAngle(i))}
 				/>
 			{/each}
 		{/if}
@@ -86,13 +92,13 @@
 			id="marker"
 			x1={0}
 			y1={0}
-			x2={x(angleScale($t))}
-			y2={y(angleScale($t))}
+			x2={x(beatToAngle(timeToBeat($seek)))}
+			y2={y(beatToAngle(timeToBeat($seek)))}
 		/>
 
 		{#each dotsData as dot, i}
-			{@const cx = x(angleScale(dot))}
-			{@const cy = y(angleScale(dot))}
+			{@const cx = x(beatToAngle(dot))}
+			{@const cy = y(beatToAngle(dot))}
 			<Note note={dot} {cx} {cy} />
 		{/each}
 	</g>
@@ -106,11 +112,11 @@
 		</div>
 		<div class="slider">
 			<Range
-				min={1}
+				min={3}
 				max={11}
 				step={2}
 				showTicks={true}
-				ticksAbove={range(1, 12, 2).map(
+				ticksAbove={options.map(
 					(d) => `${_.round((Math.ceil(d / 2) / d) * 100, 1)}%`
 				)}
 				bind:value={currentDivision}
@@ -121,6 +127,25 @@
 
 <button on:click={play}>play</button>
 <button on:click={pause}>pause</button>
+
+{#each options.slice(0, 2) as option, i}
+	{#if i === 0}
+		<audio
+			bind:this={audioEls[i]}
+			bind:currentTime={$seek}
+			bind:duration={d}
+			src={`assets/sound/swing-percentage/${option}.mp3`}
+			muted={option !== currentDivision}
+		/>
+	{:else}
+		<audio
+			bind:this={audioEls[i]}
+			currentTime={$seek}
+			src={`assets/sound/swing-percentage/${option}.mp3`}
+			muted={option !== currentDivision}
+		/>
+	{/if}
+{/each}
 
 <style>
 	.interactive {
@@ -139,17 +164,17 @@
 		flex: 1;
 	}
 	#outer {
-		stroke: white;
+		stroke: var(--color-gray-100);
 		stroke-width: 1px;
 		fill: none;
 	}
 	line {
-		stroke: white;
+		stroke: var(--color-gray-100);
 		stroke-width: 1px;
 		stroke-dasharray: 10px;
 	}
 	#marker {
-		stroke: var(--color-gray-500);
+		stroke: var(--color-gray-100);
 		stroke-width: 4px;
 		stroke-dasharray: 0px;
 	}
