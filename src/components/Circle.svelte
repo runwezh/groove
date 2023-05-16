@@ -1,8 +1,7 @@
 <script>
 	import Note from "$components/Circle.Note.svelte";
-	import { onDestroy, setContext } from "svelte";
+	import { setContext } from "svelte";
 	import { scaleLinear, range, arc } from "d3";
-	import { tweened } from "svelte/motion";
 	import Range from "$components/helpers/Range.svelte";
 	import _ from "lodash";
 	import { writable } from "svelte/store";
@@ -15,25 +14,23 @@
 	export let beatsPerMeasure = 4;
 
 	setContext("song", {
-		beatsPerRotation,
-		division,
-		getSeek: () => seek,
 		getCurrentBeat: () => currentBeat,
 		getIsPlaying: () => isPlaying
 	});
 
-	const seek = writable(0);
-	let audioEls = [];
-	let currentDivision = +division;
+	const options = [3, 5, 7, 9];
 	const height = 450;
 	const circleR = height / 2 - 100;
 	const x = (theta) => circleR * Math.cos(theta);
 	const y = (theta) => circleR * Math.sin(theta);
 	const isPlaying = writable(false);
+	const seek = writable(0);
 	const currentBeat = writable(0);
-	const options = [3, 5, 7, 9, 11];
+
 	let d;
 	let duration = 0;
+	let audioEls = [];
+	let currentDivision = +division;
 
 	$: ratio = Math.ceil(currentDivision / 2) / currentDivision;
 	$: dotsData = interactive ? [0, ratio] : dots ? dots.map((d) => +d) : [];
@@ -48,12 +45,19 @@
 	$: beatToAngle = scaleLinear()
 		.domain([0, beatsPerRotation])
 		.range([-Math.PI / 2, (3 / 2) * Math.PI]); // to make 0 at the top
-	$: duration = d - 1.3;
+	$: duration = d - 0.7;
 	$: $currentBeat = timeToBeat($seek) % beatsPerRotation;
 	$: if ($seek >= duration) {
 		reset();
 		play();
 	}
+	$: division, divisionChange();
+
+	const divisionChange = () => {
+		audioEls.forEach((el) => {
+			el.currentTime = $seek;
+		});
+	};
 
 	const pause = () => {
 		$isPlaying = false;
@@ -113,7 +117,7 @@
 		<div class="slider">
 			<Range
 				min={3}
-				max={11}
+				max={9}
 				step={2}
 				showTicks={true}
 				ticksAbove={options.map(
@@ -129,7 +133,7 @@
 <button on:click={play}>play</button>
 <button on:click={pause}>pause</button>
 
-{#each options.slice(0, 2) as option, i}
+{#each options as option, i}
 	{#if i === 0}
 		<audio
 			bind:this={audioEls[i]}
