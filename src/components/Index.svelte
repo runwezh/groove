@@ -16,11 +16,11 @@
 		startEl.scrollIntoView({ block: "center", behavior: "smooth" });
 	};
 
-	const debug = ["bonus"];
-	const sections = copy.sections.filter((d) => debug.includes(d.id));
-	$started = true;
+	const debug = [];
+	// const sections = copy.sections.filter((d) => debug.includes(d.id));
+	// $started = true;
 
-	// const sections = copy.sections;
+	const sections = copy.sections;
 
 	onMount(() => {
 		startEl = document.getElementById("start-of-story");
@@ -61,6 +61,17 @@
 				<Section {id} {title} {chunks} />
 			{/if}
 		{/each}
+
+		<iframe
+			style="border-radius:12px"
+			src="https://open.spotify.com/embed/playlist/2lv10HmmIbXoknNEoNDt2s?utm_source=generator&theme=0"
+			width="100%"
+			height="352"
+			frameBorder="0"
+			allowfullscreen=""
+			allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+			loading="lazy"
+		/>
 
 		<Footer />
 	</div>
@@ -133,16 +144,25 @@
 	button.start {
 		font-size: 1.8em;
 	}
+	:global(.byline a) {
+		color: var(--color-black);
+	}
+	:global(.byline a:hover) {
+		color: var(--color-gray-700);
+	}
 	details {
 		background: var(--color-gray-800);
-		border: 3px solid var(--accent-light);
+		border: 3px solid var(--accent);
 		padding: 2em;
+	}
+	summary {
+		font-weight: bold;
 	}
 	summary:hover {
 		cursor: pointer;
 	}
 	summary::marker {
-		color: var(--accent-light);
+		color: var(--accent);
 	}
 
 	@media (max-width: 600px) {

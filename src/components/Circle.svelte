@@ -19,8 +19,9 @@
 	});
 
 	const options = [3, 5, 7, 9];
-	const height = 450;
-	const circleR = height / 2 - 100;
+	const height = 300;
+	const padding = 30;
+	const circleR = height / 2 - padding;
 	const x = (theta) => circleR * Math.cos(theta);
 	const y = (theta) => circleR * Math.sin(theta);
 	const isPlaying = writable(false);
@@ -75,63 +76,65 @@
 	};
 </script>
 
-<svg width={"100%"} {height}>
-	<g style:transform={`translate(50%, 50%)`}>
-		<circle id="outer" r={circleR} />
+<div class="circle-wrapper">
+	<svg width={"100%"} {height}>
+		<g style:transform={`translate(50%, 50%)`}>
+			<circle id="outer" r={circleR} />
 
-		<path class="percentage" d={percentageArc()} />
+			<path class="percentage" d={percentageArc()} />
 
-		{#if division}
-			{#each range(0, 1, 1 / currentDivision) as i}
-				<line
-					x1={0}
-					y1={0}
-					x2={circleR * Math.cos(beatToAngle(i))}
-					y2={circleR * Math.sin(beatToAngle(i))}
-				/>
-			{/each}
-		{/if}
+			{#if division}
+				{#each range(0, 1, 1 / currentDivision) as i}
+					<line
+						x1={0}
+						y1={0}
+						x2={circleR * Math.cos(beatToAngle(i))}
+						y2={circleR * Math.sin(beatToAngle(i))}
+					/>
+				{/each}
+			{/if}
 
-		<line
-			id="marker"
-			x1={0}
-			y1={0}
-			x2={x(beatToAngle(timeToBeat($seek)))}
-			y2={y(beatToAngle(timeToBeat($seek)))}
-		/>
-
-		{#each dotsData as dot, i}
-			{@const cx = x(beatToAngle(dot))}
-			{@const cy = y(beatToAngle(dot))}
-			<Note note={dot} {cx} {cy} />
-		{/each}
-	</g>
-</svg>
-
-{#if interactive}
-	<div class="interactive">
-		<div class="labels">
-			<div>swing percentage</div>
-			<div>divide the beat in</div>
-		</div>
-		<div class="slider">
-			<Range
-				min={3}
-				max={9}
-				step={2}
-				showTicks={true}
-				ticksAbove={options.map(
-					(d) => `${_.round((Math.ceil(d / 2) / d) * 100, 1)}%`
-				)}
-				bind:value={currentDivision}
-				dotColor={"var(--accent)"}
+			<line
+				id="marker"
+				x1={0}
+				y1={0}
+				x2={x(beatToAngle(timeToBeat($seek)))}
+				y2={y(beatToAngle(timeToBeat($seek)))}
 			/>
-		</div>
-	</div>
-{/if}
 
-<button on:click={play}>play</button>
-<button on:click={pause}>pause</button>
+			{#each dotsData as dot, i}
+				{@const cx = x(beatToAngle(dot))}
+				{@const cy = y(beatToAngle(dot))}
+				<Note note={dot} {cx} {cy} />
+			{/each}
+		</g>
+	</svg>
+
+	{#if interactive}
+		<div class="interactive">
+			<div class="labels">
+				<div>swing percentage</div>
+				<div>divide the beat in</div>
+			</div>
+			<div class="slider">
+				<Range
+					min={3}
+					max={9}
+					step={2}
+					showTicks={true}
+					ticksAbove={options.map(
+						(d) => `${_.round((Math.ceil(d / 2) / d) * 100, 1)}%`
+					)}
+					bind:value={currentDivision}
+					dotColor={"var(--accent)"}
+				/>
+			</div>
+		</div>
+	{/if}
+
+	<button on:click={play}>play</button>
+	<button on:click={pause}>pause</button>
+</div>
 
 {#each options as option, i}
 	{#if i === 0}
@@ -153,10 +156,15 @@
 {/each}
 
 <style>
+	.circle-wrapper {
+		margin: 2em 0;
+	}
 	.interactive {
 		display: flex;
 		width: 100%;
 		align-items: flex-start;
+		margin-top: 2em;
+		margin-bottom: 1em;
 	}
 	.labels {
 		margin-right: 2em;

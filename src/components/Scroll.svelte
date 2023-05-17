@@ -123,6 +123,7 @@
 	}
 	.step:last-child {
 		height: auto;
+		margin-bottom: 70vh;
 	}
 	.active {
 		opacity: 1;

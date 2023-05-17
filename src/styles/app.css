@@ -39,6 +39,7 @@
 	/* colors */
 	--accent: #00ffc2;
 	--accent-light: #95a1bd;
+	--accent-dark: #063934;
 	--yellow: #f3dfa2;
 
 	--orange: #d69664;
@@ -117,6 +118,12 @@ button:active {
 }
 button:hover {
 	background: var(--color-gray-700);
+}
+a {
+	color: var(--accent);
+}
+a:hover {
+	color: var(--accent-light);
 }
 
 button.pulse {
