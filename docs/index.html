@@ -5,18 +5,19 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="content-security-policy" content="">
-		<link href="./_app/immutable/assets/_layout-bbda0d8e.css" rel="stylesheet">
-		<link href="./_app/immutable/assets/_page-cc925dfd.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/start-4ab18563.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index-8fa7dfec.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons-046f578c.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index-4112b392.js">
+		<link href="./_app/immutable/assets/_layout-ce0f27fd.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/_page-12c7aa9b.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/start-fe72394d.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index-78a5a872.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons-3ae8df57.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index-fd3ba593.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/paths-7a13a862.js">
-		<link rel="modulepreload" href="./_app/immutable/components/pages/_layout.svelte-3444edf2.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/preload-helper-41c905a7.js">
+		<link rel="modulepreload" href="./_app/immutable/components/pages/_layout.svelte-5ce4659a.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/wordmark-fc3f3709.js">
 		<link rel="modulepreload" href="./_app/immutable/modules/pages/_layout.js-5612100c.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/_layout-79cb23d1.js">
-		<link rel="modulepreload" href="./_app/immutable/components/pages/_page.svelte-48e70598.js">
+		<link rel="modulepreload" href="./_app/immutable/components/pages/_page.svelte-d1fd812d.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/transform-5bf7892f.js"><title>Title TK</title><!-- HEAD_svelte-1htu80s_START --><meta name="description" content="Description TK"><meta name="author" content="The Pudding"><meta name="news_keywords" content=""><meta property="og:title" content="Title TK"><meta property="og:site_name" content="The Pudding"><meta property="og:url" content="https://pudding.cool"><meta property="og:description" content="Description TK"><meta property="og:type" content="article"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://pudding.cool/assets/social-facebook.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="600"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="https://pudding.cool"><meta name="twitter:creator" content="@puddingviz"><meta name="twitter:title" content="Title TK"><meta name="twitter:description" content="Description TK"><meta name="twitter:image:src" content="https://pudding.cool/assets/social-twitter.jpg"><meta name="robots" content="max-image-preview:large"><link rel="canonical" href="https://pudding.cool/"><link rel="preload" href="https://pudding.cool/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://pudding.cool/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://pudding.cool/assets/fonts/national/National2Web-Regular.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="https://pudding.cool/assets/fonts/national/National2Web-Bold.woff2" as="font" type="font/woff2" crossorigin><!-- HEAD_svelte-1htu80s_END -->
 	</head>
 
@@ -28,75 +29,187 @@
 <header><div class="wordmark svelte-twiail"><a href="https://pudding.cool" aria-label="The Pudding" class="svelte-twiail"><!-- HTML_TAG_START --><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192.6 50"><path class="st0" d="M150.1 9.5c1.5 0 2.8 1.3 2.8 2.8s-1.3 2.8-2.8 2.8-2.8-1.3-2.8-2.8 1.3-2.8 2.8-2.8zM147.2 17.3h5.6v18.2h-5.6V17.3zM77.1 9.5h-8.9v26h5.6v-8.1h3.3c4.9 0 8.9-4 8.9-8.9s-3.9-9-8.9-9zm0 12.3h-3.3v-6.6h3.3c1.8 0 3.3 1.5 3.3 3.3s-1.4 3.3-3.3 3.3zM105.7 17.6h-5.6v8.9c0 1.8-1.5 3.3-3.3 3.3s-3.3-1.5-3.3-3.3v-8.9h-5.6v8.9c0 4.9 4 8.9 8.9 8.9s8.9-4 8.9-8.9v-8.9zM164.1 17.6c-4.9 0-8.9 4-8.9 8.9v8.9h5.6v-8.9c0-1.8 1.5-3.3 3.3-3.3s3.3 1.5 3.3 3.3v8.9h5.6v-8.9c0-4.9-4-8.9-8.9-8.9zM119.7 16.2v1.4h-3.3c-4.9 0-8.9 4-8.9 8.9s4 8.9 8.9 8.9h8.9V9.5l-5.6 3.3v3.4zm.1 8.4V29.8h-3.3c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3h3.3v1.4zM139.3 16.2v1.4H136c-4.9 0-8.9 4-8.9 8.9s4 8.9 8.9 8.9h8.9V9.5l-5.6 3.3v3.4zm.1 8.4V29.8H136c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3h3.3v1.4h.1zM183.7 17.6c-4.9 0-8.9 4-8.9 8.9s4 8.9 8.9 8.9h3.3v5.1c0 1.8-1.5 3.3-3.3 3.3s-3.3-1.5-3.3-3.3V38l-5.6 3.3c.4 4.5 4.2 8.1 8.9 8.1 4.9 0 8.9-4 8.9-8.9V17.6h-8.9zm3.3 5.8V30h-3.3c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3h3.3zM28.6 17.6c-1.2 0-2.3.2-3.3.6V9.5l-5.6 3.3v22.6h5.6v-8.9c0-1.8 1.5-3.3 3.3-3.3s3.3 1.5 3.3 3.3v8.9h5.6v-8.9c0-4.9-4-8.9-8.9-8.9zM17.8 9.5H0v5.6h6.1v20.3h5.6V15.1h6.1V9.5zM48.3 30.2c-.4 0-1.2-.1-1.8-.4l5.2-2.1 5.6-2.3-1-2.3-.1-.2c-.1-.3-.3-.6-.5-1-.1-.1-.1-.2-.2-.3 0 0 0-.1-.1-.1l-.1-.1-.1-.1c-1.6-2.2-4-3.5-6.7-3.7h-.6c-4.9 0-8.9 4-8.9 8.9 0 .4 0 .9.1 1.4V28.2c0 .3.1.5.2.8v.2c.1.3.2.7.4 1v.2c.1.3.3.5.4.8 0 .1.1.1.1.2.1.2.3.4.4.6v.1s0 .1.1.1l.1.1c1.7 2.1 4.4 3.4 7.2 3.4h6.1v-5.2c.4-.3-3.5-.3-5.8-.3zm7.9-7.3zm-11.6 2.8l-.2.1c.2-1.9 1.8-3.5 3.7-3.5.9 0 1.8.4 2.4.9L46.2 25l-1.6.7z"/></svg><!-- HTML_TAG_END --></a></div>
 </header>
 <main id="content">
-<article class="svelte-1ew1m3k"><div class="landing svelte-1ew1m3k"><h1 class="svelte-1ew1m3k"><!-- HTML_TAG_START -->WONKY<!-- HTML_TAG_END --></h1>
-			<div class="dek svelte-1ew1m3k">An exploration of rhythm</div>
-			<div class="dek svelte-1ew1m3k">and grooves that break the rules</div>
-			<div class="byline svelte-1ew1m3k" style="margin-bottom: 3em;"><!-- HTML_TAG_START -->By <a href=https://pudding.cool/author/michelle-mcghee/ target=_blank>Michelle McGhee</a><!-- HTML_TAG_END --></div>
+<article class="svelte-uc1fu9"><div class="landing svelte-uc1fu9"><h1 class="svelte-uc1fu9"><!-- HTML_TAG_START -->WONKY<!-- HTML_TAG_END --></h1>
+			<div class="dek svelte-uc1fu9">An exploration of rhythm</div>
+			<div class="dek svelte-uc1fu9">and grooves that break the rules</div>
+			<div class="byline svelte-uc1fu9" style="margin-bottom: 3em;"><!-- HTML_TAG_START -->By <a href=https://pudding.cool/author/michelle-mcghee/ target=_blank>Michelle McGhee</a><!-- HTML_TAG_END --></div>
 
-			<button class="start svelte-1ew1m3k" >start</button>
-			<button class="mute svelte-1ew1m3k">sound off</button></div>
+			<button class="start svelte-uc1fu9" >start</button>
 
-	<div class="sections svelte-1ew1m3k"><section id="intro" class="svelte-g23wl2">
+			<div class="mute-container svelte-uc1fu9"><button class="svelte-uc1fu9"></button>
+				<div class="svelte-uc1fu9">(sound is recommended!)</div></div></div>
 
-	<div class=" svelte-g23wl2"><div class="wrapper svelte-cy3q3z visible"><svg class="svelte-cy3q3z"><g transform="translate(0, 150)"><path d="M 0,0 C 1.83697019872103e-15,-30 0,-150 0,-150 C 0,-150 -1.1021821192326178e-14,-60 0,0 C 3.67394039744206e-15,60 0,150 0,150 C 0,150 1.83697019872103e-15,30 0,0" class="svelte-1z0km7q moving"></path><line x1="0" y1="0" x2="0" y2="0" class="svelte-1iq1fno"></line>
+	<div class="sections svelte-uc1fu9"><section id="intro" class="svelte-nsvnhb">
+
+	<div class=" svelte-nsvnhb"><div class="wrapper svelte-cy3q3z visible"><svg class="svelte-cy3q3z"><g transform="translate(0, 150)"><path d="M 0,0 C 1.83697019872103e-15,-30 0,-150 0,-150 C 0,-150 -1.1021821192326178e-14,-60 0,0 C 3.67394039744206e-15,60 0,150 0,150 C 0,150 1.83697019872103e-15,30 0,0" class="svelte-1z0km7q moving"></path><line x1="0" y1="0" x2="0" y2="0" class="svelte-1iq1fno"></line>
 </g></svg></div>
 
 <audio src="assets/sound/intro/normal.mp3" loop  preload="auto" currentTime="0" paused="true"></audio>
 <audio src="assets/sound/intro/drunk.mp3" loop  preload="auto" currentTime="0" paused="true" playbackRate="1"></audio>
 
-<div class="scroll-container svelte-1pq1gqd"><div>
+<div class="scroll-container svelte-1t6hraq"><div>
 			
 			
 
-			<div class="step svelte-1pq1gqd" id="start-of-story"><p class=" svelte-1pq1gqd"><!-- HTML_TAG_START -->One night outside a small music venue in North Carolina, Questlove’s life was changed forever. He was in the car leaving the venue when he heard a beat coming from inside that sounded… wrong.<!-- HTML_TAG_END --></p>
+			<div class="step svelte-1t6hraq" id="start-of-story"><p class=" svelte-1t6hraq"><!-- HTML_TAG_START -->One night outside a small music venue in North Carolina, Questlove’s life was changed forever. He was in the car leaving the venue when he heard a beat coming from inside that sounded… wrong.<!-- HTML_TAG_END --></p>
 				</div>
 
 			
 			
 			
 
-			<div class="step svelte-1pq1gqd" id=""><p class="quote svelte-1pq1gqd"><!-- HTML_TAG_START -->“As I’m leaving the club, I'm hearing the vibration of the kick drum. It was <span class=emphasis>the most life-changing moment</span> I ever had… like, did I hear that? It sounded like the kick drum was played by a drunk 3-year old, and i was like ‘Are you allowed to do that?’” <!-- HTML_TAG_END --></p>
-				<p class="speaker svelte-1pq1gqd">- Questlove</p></div>
+			<div class="step svelte-1t6hraq" id=""><p class="quote svelte-1t6hraq"><!-- HTML_TAG_START -->“As I’m leaving the club, I'm hearing the vibration of the kick drum. It was <span class=emphasis>the most life-changing moment</span> I ever had… like, did I hear that? It sounded like the kick drum was played by a drunk 3-year old, and i was like ‘Are you allowed to do that?’” <!-- HTML_TAG_END --></p>
+				<p class="speaker svelte-1t6hraq">- Questlove</p></div>
 
 			
 			
 			
 
-			<div class="step svelte-1pq1gqd" id=""><p class=" svelte-1pq1gqd"><!-- HTML_TAG_START -->The drums are, in many ways, the backbone of the band. They provide a steady beat for the other musicians to follow. Up until this point, Questlove, like many drummers, had essentially trained to be a metronome, keeping perfect time.<!-- HTML_TAG_END --></p>
+			<div class="step svelte-1t6hraq" id=""><p class=" svelte-1t6hraq"><!-- HTML_TAG_START -->The drums are the backbone of a band. They provide a steady beat for the other musicians to follow. Up until this point, Questlove, like many drummers, had essentially trained to be a metronome, keeping perfect time.<!-- HTML_TAG_END --></p>
 				</div>
 
 			
 			
 			
 
-			<div class="step svelte-1pq1gqd" id=""><p class=" svelte-1pq1gqd"><!-- HTML_TAG_START -->But what he heard that night was the opposite of perfect - some notes hit slightly sooner than expected or slightly later. The whole thing was unbalanced, off-kilter, unexpected. And it was… awesome.<!-- HTML_TAG_END --></p>
+			<div class="step svelte-1t6hraq" id=""><p class=" svelte-1t6hraq"><!-- HTML_TAG_START -->But what he heard that night was the opposite of perfect - some notes hit slightly sooner than expected, others slightly later. The whole thing was messy, imperfect, unexpected. And it was… awesome.<!-- HTML_TAG_END --></p>
 				</div>
 
 			
 			
 			
 
-			<div class="step svelte-1pq1gqd" id=""><p class="quote svelte-1pq1gqd"><!-- HTML_TAG_START -->“I’d never heard someone not give a f***, and that to me was <span class=emphasis>the most liberating</span> moment. like, all this pleasing my father, being perfect… Now I've got to undo all the education and all the hours of preparation that I did.” <!-- HTML_TAG_END --></p>
-				<p class="speaker svelte-1pq1gqd">- Questlove</p></div>
+			<div class="step svelte-1t6hraq" id=""><p class="quote svelte-1t6hraq"><!-- HTML_TAG_START -->“I’d never heard someone not give a f***, and that to me was <span class=emphasis>the most liberating</span> moment. like, all this pleasing my father, being perfect… Now I've got to undo all the education and all the hours of preparation that I did.” <!-- HTML_TAG_END --></p>
+				<p class="speaker svelte-1t6hraq">- Questlove</p></div>
 
 			
 			
 			
 
-			<div class="step svelte-1pq1gqd" id=""><p class=" svelte-1pq1gqd"><!-- HTML_TAG_START -->The beat Questlove was hearing was made by JDilla, a producer who pioneered an all-new way to think about rhythm that influences musicians to this day. It’s not just chaos, there’s a method to the madness. What’s going on and why does it work? Let’s dive in.<!-- HTML_TAG_END --></p>
+			<div class="step svelte-1t6hraq" id=""><p class=" svelte-1t6hraq"><!-- HTML_TAG_START -->The beat that captivated Questlove was made by the legendary James Dewitt Yancey, better known as J Dilla. The songs he produced reshaped our understanding of rhythm and time, and their influence persists among many contemporary musicians.<!-- HTML_TAG_END --></p>
+				</div>
+
+			
+			
+			
+
+			<div class="step svelte-1t6hraq" id=""><p class=" svelte-1t6hraq"><!-- HTML_TAG_START -->At first glance, it might look like chaos, but beneath the surface lies a meticulously crafted rhythmic sensibility. We’ll break down the techniques and subtleties that go into these grooves that break the rules.<!-- HTML_TAG_END --></p>
 				</div>
 
 			</div></div>
 
-<audio src="assets/sound/intro/club.mp3" loop  preload="auto" class="svelte-1pq1gqd" volume="1"></audio>
+<audio src="assets/sound/intro/club.mp3" loop  preload="auto" class="svelte-1t6hraq" volume="1"></audio>
 		</div>
-</section><section id="straight" class="svelte-g23wl2"><h3 id="straight" class="svelte-1stl7bi"><span>S</span><span>t</span><span>r</span><span>a</span><span>i</span><span>g</span><span>h</span><span>t</span>
-			<span> </span>
+</section><section id="note" class="svelte-nsvnhb">
+
+	<p class="note svelte-nsvnhb"><!-- HTML_TAG_START -->Note: This piece is heavily inspired by Dan Charnas’ great book <a href=https://dillati.me/ target=_blank>“Dilla Time”</a>, which is all about J Dilla’s life, music, and legacy. The goal with this piece is to add visuals that you can see + hear + touch to some of the material covered in Charnas’ work.<!-- HTML_TAG_END -->
+		</p>
+</section><section id="straight" class="svelte-nsvnhb"><h3 id="straight" class="svelte-1kid7yf"><span class="word svelte-1kid7yf"><span class="letter">S</span><span class="letter">t</span><span class="letter">r</span><span class="letter">a</span><span class="letter">i</span><span class="letter">g</span><span class="letter">h</span><span class="letter">t</span>
+				<span> </span>
+			</span>
 </h3>
 
-	<p class=" svelte-g23wl2"><!-- HTML_TAG_START -->Let’s begin with a basic groove.<!-- HTML_TAG_END -->
-		</p><div class=" svelte-g23wl2"><div class="buttons svelte-1cc7q4s">
-		<button class="svelte-1cc7q4s pulse">play</button></div>
+	<p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->Let’s begin with a basic groove.<!-- HTML_TAG_END -->
+		</p><div class=" svelte-nsvnhb"><div class="demo svelte-juqkg1">
+
+	<div class="chart svelte-juqkg1 visible faded" id="straight"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
+
+
+		<div class="grid svelte-juqkg1" style="width: 0px; left: 0px;">
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div></div>
+
+		
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7 clickable" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Bass
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	<button class="action-btn svelte-1geima7 mobile" disabled>add the bass</button>
+</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7 clickable" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Hi-hat
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	<button class="action-btn svelte-1geima7 mobile" disabled>add the hi-hat</button>
+</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7 clickable" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Kick
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	<button class="action-btn svelte-1geima7 mobile" disabled>add the kick</button>
+</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7 clickable" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Snare
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	<button class="action-btn svelte-1geima7 mobile" disabled>add the snare</button>
+</div>
+
+		</div>
+
+	<button class="svelte-enibq3 pulse"></button>
 
 
 
@@ -115,112 +228,166 @@
 		
 
 		
-<div class="wrapper svelte-1doxfxu"><div class="bar svelte-1doxfxu"></div>
-			<div class="text svelte-1doxfxu">Right now we have nothing. Click the button on the right to add in the bass.</div><div class="bar svelte-1doxfxu"></div>
-			<div class="text svelte-1doxfxu">The bass is going playing 2 notes for every beat. A beat is when you nod your head. Add in the hi-hat.</div><div class="bar svelte-1doxfxu"></div>
-			<div class="text svelte-1doxfxu">The hi-hat is a cymbal, part of the drum kit. Also playing 2 notes every beat. Add in the kick.</div><div class="bar svelte-1doxfxu"></div>
-			<div class="text svelte-1doxfxu">The kick drum aka the bass drum plays on the first and third beat. Finally, add in the snare.</div><div class="bar svelte-1doxfxu"></div>
-			<div class="text svelte-1doxfxu">The snare plays on the second and fourth. Like where you would clap. Nice job, you made a groove! You can click on any of the tracks to mute/unmute them.</div></div>
-
-<div class="chart svelte-42oajc visible" id="straight"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
-
-
-	<div class="grid svelte-42oajc" style="width: 0px; left: 0px;">
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div></div>
-
-	
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Bass</div>
-
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	<button class="action-btn svelte-fturu1" >add the bass</button>
+	<div class="wrapper svelte-1pvb70q" style="height: 0px;"><div class="bar svelte-1pvb70q"></div>
+			<div class="text svelte-1pvb70q">Right now we have nothing. Click to add in the bass guitar.
+			</div><div class="bar svelte-1pvb70q"></div>
+			<div class="text svelte-1pvb70q">Sweet! The lines mark the beat or the pulse, where your head might nod along as you listen. The bass plays 2 notes per beat. Add in the hi-hat.
+			</div><div class="bar svelte-1pvb70q"></div>
+			<div class="text svelte-1pvb70q">The hi-hat is part of a drum kit, made of two cymbals. It’s also playing 2 notes per beat. Add in the kick.
+			</div><div class="bar svelte-1pvb70q"></div>
+			<div class="text svelte-1pvb70q">The kick drum plays on the first and third beats. Finally, add in the snare.
+			</div><div class="bar svelte-1pvb70q"></div>
+			<div class="text svelte-1pvb70q">The snare plays on the second and fourth beats, where you might clap. Nice job, you made a groove!
+			</div></div>
 </div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Hi-hat</div>
-
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	<button class="action-btn svelte-fturu1" >add the hi-hat</button>
+		</div><p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->This groove is <strong>straight</strong>. Everything aligns perfectly with the evenly spaced grid. The space between notes stays consistent, so each note falls exactly where you would expect it to. This is the way Questlove had trained so hard to play.<!-- HTML_TAG_END -->
+		</p><p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->Here are some songs with straight grooves.<!-- HTML_TAG_END -->
+		</p><div class=" svelte-nsvnhb"><div class="wrapper svelte-jjooc9"><div class="prompt svelte-jjooc9">How do these feel to you?</div>
+	<div class="share svelte-jjooc9">To me they feel: precise, even, tight</div>
 </div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Kick</div>
+		</div><div class=" svelte-nsvnhb"><div class="container svelte-nhrxoe"><div class="description svelte-nhrxoe"><strong>Stars and Stripes Forever</strong> by John Philip Sousa</div>
 
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
+	<audio src="https://p.scdn.co/mp3-preview/752705adcabd783103808a0dde531aed67c06a9c?cid=cfe923b2d660439caf2b557b21f31221" preload="auto" paused="true" currentTime="0"></audio>
 
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	<button class="action-btn svelte-fturu1" >add the kick</button>
+	<div class="audio-player svelte-nhrxoe"><button class="svelte-nhrxoe"></button>
+		<div class="time svelte-nhrxoe">00:00 / NaN:NaN</div>
+		<div class="bar svelte-nhrxoe"><div class="seek svelte-nhrxoe" style="width: NaN%;"></div></div></div>
 </div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Snare</div>
+		</div><div class=" svelte-nsvnhb"><div class="container svelte-nhrxoe"><div class="description svelte-nhrxoe"><strong>Light Switch</strong> by Charlie Puth</div>
 
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
+	<audio src="https://p.scdn.co/mp3-preview/135cce6ee2119c739643b3bbc15465623a60522c?cid=cfe923b2d660439caf2b557b21f31221" preload="auto" paused="true" currentTime="0"></audio>
 
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	<button class="action-btn svelte-fturu1" >add the snare</button>
-</div>
-</div>
-		</div><p class=" svelte-g23wl2"><!-- HTML_TAG_START -->This groove is straight, everything lines up perfectly to this evenly spaced grid, happens when you would expect. You hear a note, a space, then another note, and that distance stays the same. It’s the way Questlove had trained so hard to play.<!-- HTML_TAG_END -->
-		</p><p class=" svelte-g23wl2"><!-- HTML_TAG_START -->Here are some songs with straight grooves. How do they feel to you? To me it feels: precise, even, tight.<!-- HTML_TAG_END -->
-		</p><div class=" svelte-g23wl2"><div class="container svelte-c43a6b"><div class="description svelte-c43a6b"><strong>Stars and Stripes Forever</strong> by John Philip Sousa</div>
-	<audio src="https://p.scdn.co/mp3-preview/752705adcabd783103808a0dde531aed67c06a9c?cid=cfe923b2d660439caf2b557b21f31221" controls preload="none"></audio>
-</div>
-		</div><div class=" svelte-g23wl2"><div class="container svelte-c43a6b"><div class="description svelte-c43a6b"><strong>Light Switch</strong> by Charlie Puth</div>
-	<audio src="https://p.scdn.co/mp3-preview/135cce6ee2119c739643b3bbc15465623a60522c?cid=cfe923b2d660439caf2b557b21f31221" controls preload="none"></audio>
+	<div class="audio-player svelte-nhrxoe"><button class="svelte-nhrxoe"></button>
+		<div class="time svelte-nhrxoe">00:00 / NaN:NaN</div>
+		<div class="bar svelte-nhrxoe"><div class="seek svelte-nhrxoe" style="width: NaN%;"></div></div></div>
 </div>
 		</div>
-</section><section id="swing" class="svelte-g23wl2"><h3 id="swing" class="svelte-1stl7bi"><span>S</span><span>w</span><span>i</span><span>n</span><span>g</span>
-			<span> </span>
+</section><section id="swing" class="svelte-nsvnhb"><h3 id="swing" class="svelte-1kid7yf"><span class="word svelte-1kid7yf"><span class="letter">S</span><span class="letter">w</span><span class="letter">i</span><span class="letter">n</span><span class="letter">g</span>
+				<span> </span>
+			</span>
 </h3>
 
-	<p class=" svelte-g23wl2"><!-- HTML_TAG_START -->Sometimes straight can get a little boring. Playing with a swing feel means delaying the backbeats, the notes in between the downbeats. This is common in jazz. The whole band does it, so it’s almost like the grid is getting stretched out and everyone’s playing on a new grid. It sounds like this:<!-- HTML_TAG_END -->
-		</p><div class=" svelte-g23wl2"><div class="buttons svelte-1cc7q4s">
-		<button class="svelte-1cc7q4s pulse">play</button></div>
+	<p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->Sometimes straight can get a little boring. Fitting an evenly spaced grid is just one way to think about rhythm. Another is swing, where the backbeats, which are the second notes within each beat, are intentionally delayed. So, the first beat is longer, and the second beat is shorter than if they were evenly spaced. It’s common in blues and jazz, and the whole band does it, all playing on this new long-short-long-short grid.<!-- HTML_TAG_END -->
+		</p><div class=" svelte-nsvnhb"><div class="demo svelte-juqkg1">
+
+	<div class="chart svelte-juqkg1 visible faded" id="swing"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
+
+
+		<div class="grid svelte-juqkg1" style="width: 0px; left: 0px;">
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div></div>
+
+		
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7 clickable" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Bass
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	<button class="action-btn svelte-1geima7 mobile" disabled>swing the bass</button>
+</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7 clickable" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Hi-hat
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	<button class="action-btn svelte-1geima7 mobile" disabled>swing the hi-hat</button>
+</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Kick
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	
+</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Snare
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="snare svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="snare svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	
+</div>
+
+		</div>
+
+	<button class="svelte-enibq3 pulse"></button>
 
 
 
@@ -235,134 +402,210 @@
 		<audio preload="none" src="assets/sound/straight/kick.mp3" ></audio>
 
 		<audio preload="none" src="assets/sound/straight/snare.mp3" ></audio>
-<div class="wrapper svelte-1doxfxu"><div class="bar svelte-1doxfxu"></div>
-			<div class="text svelte-1doxfxu">We’ll start off with the same straight groove. Click to make the bass swing.</div><div class="bar svelte-1doxfxu"></div>
-			<div class="text svelte-1doxfxu">We’ll also swing the hi-hat.</div><div class="bar svelte-1doxfxu"></div>
-			<div class="text svelte-1doxfxu">Now we’re talking!</div></div>
-
-<div class="chart svelte-42oajc visible" id="swing"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
-
-
-	<div class="grid svelte-42oajc" style="width: 0px; left: 0px;">
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div></div>
-
-	
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Bass</div>
-
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	<button class="action-btn svelte-fturu1" >swing the bass</button>
+	<div class="wrapper svelte-1pvb70q" style="height: 0px;"><div class="bar svelte-1pvb70q"></div>
+			<div class="text svelte-1pvb70q">We’ll start with the same straight groove. Click to make the bass swing.
+			</div><div class="bar svelte-1pvb70q"></div>
+			<div class="text svelte-1pvb70q">We’ll also swing the hi-hat.
+			</div><div class="bar svelte-1pvb70q"></div>
+			<div class="text svelte-1pvb70q">Now we’re talking!
+			</div></div>
 </div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Hi-hat</div>
-
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	<button class="action-btn svelte-fturu1" >swing the hi-hat</button>
+		</div><p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->Here are some songs with swung grooves. Can you hear a difference from the straight grooves?<!-- HTML_TAG_END -->
+		</p><div class=" svelte-nsvnhb"><div class="wrapper svelte-jjooc9"><div class="prompt svelte-jjooc9">How do these feel to you?</div>
+	<div class="share svelte-jjooc9">To me these feel loose, bouncing, make me want to dance</div>
 </div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Kick</div>
+		</div><div class=" svelte-nsvnhb"><div class="container svelte-nhrxoe"><div class="description svelte-nhrxoe"><strong>Beyond the Sea</strong> by Bobby Darin</div>
 
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
+	<audio src="https://p.scdn.co/mp3-preview/ab71015cd8957e29f04aadf38fb40741c8e2b711?cid=0b297fa8a249464ba34f5861d4140e58" preload="auto" paused="true" currentTime="0"></audio>
 
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	
+	<div class="audio-player svelte-nhrxoe"><button class="svelte-nhrxoe"></button>
+		<div class="time svelte-nhrxoe">00:00 / NaN:NaN</div>
+		<div class="bar svelte-nhrxoe"><div class="seek svelte-nhrxoe" style="width: NaN%;"></div></div></div>
 </div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Snare</div>
+		</div><div class=" svelte-nsvnhb"><div class="container svelte-nhrxoe"><div class="description svelte-nhrxoe"><strong>Higher Ground</strong> by Stevie Wonder</div>
 
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-			<div class="snare svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="snare svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
+	<audio src="https://p.scdn.co/mp3-preview/5b9df6d4e699b7b6f20d58eb796fe22965cd563e?cid=0b297fa8a249464ba34f5861d4140e58" preload="auto" paused="true" currentTime="0"></audio>
 
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	
-</div>
-</div>
-		</div><p class=" svelte-g23wl2"><!-- HTML_TAG_START -->Here are some songs with swung grooves. Can you hear a difference from the straight grooves? To me, these feel looser, make me want to dance and shake my head.<!-- HTML_TAG_END -->
-		</p><div class=" svelte-g23wl2"><div class="container svelte-c43a6b"><div class="description svelte-c43a6b"><strong>It Don’t Mean a Thing (If It Ain’t Got That Swing)</strong> by Louis Armstrong</div>
-	<audio src="https://p.scdn.co/mp3-preview/29df7433a8ed007b4e41fa010b625fabcd8e255e?cid=cfe923b2d660439caf2b557b21f31221" controls preload="none"></audio>
-</div>
-		</div><div class=" svelte-g23wl2"><div class="container svelte-c43a6b"><div class="description svelte-c43a6b"><strong>Groovin’ Hard</strong> by Buddy Rich</div>
-	<audio src="https://p.scdn.co/mp3-preview/fffd6028da8ddbc5f3db910bcb60b9ac5127b041?cid=cfe923b2d660439caf2b557b21f31221" controls preload="none"></audio>
+	<div class="audio-player svelte-nhrxoe"><button class="svelte-nhrxoe"></button>
+		<div class="time svelte-nhrxoe">00:00 / NaN:NaN</div>
+		<div class="bar svelte-nhrxoe"><div class="seek svelte-nhrxoe" style="width: NaN%;"></div></div></div>
 </div>
 		</div>
-</section><section id="bonus" class="svelte-g23wl2"><h3 id="bonus" class="svelte-1stl7bi visible"><!-- HTML_TAG_START -->advanced swing<!-- HTML_TAG_END -->
+</section><details class="svelte-uc1fu9"><summary class="svelte-uc1fu9">Nerdy aside: Exactly how late do you put the backbeat?</summary>
+					<section id="bonus" class="svelte-nsvnhb">
+
+	<p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->Swing is defined by delaying the backbeat, but by how much exactly? The swing examples you just heard are called <strong>triplet swing</strong> because if we divide each beat in 3 parts (called triplets), the groove can be felt as the first and third of those triplets. Ordinarily, the beat would be divided into an even number of parts, resulting in evenly spaced beats. Dividing the beat into an odd number of parts always results in an uneven, off-kilter feeling, since one beat must be slightly longer than the other.<!-- HTML_TAG_END -->
+		</p><div class=" svelte-nsvnhb"><img src="assets/img/static_swing.png" class="svelte-lkxlp1">
+		</div><p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->What about other odd divisions? This song’s groove is a <strong>quintuplet swing</strong>, derived by dividing the beat into 5 parts and playing on the first and fourth subdivisions. It’s a subtle difference, but the swing is slightly less steep, it’s closer to straight than the triplet swing.<!-- HTML_TAG_END -->
+		</p><div class=" svelte-nsvnhb"><div class="container svelte-nhrxoe"><div class="description svelte-nhrxoe"><strong>Sequence Start</strong> by Sungazer</div>
+
+	<audio src="https://p.scdn.co/mp3-preview/394674c181e04c009527b3c4f7a9e13f7698b585?cid=0b297fa8a249464ba34f5861d4140e58" preload="auto" paused="true" currentTime="0"></audio>
+
+	<div class="audio-player svelte-nhrxoe"><button class="svelte-nhrxoe"></button>
+		<div class="time svelte-nhrxoe">00:00 / NaN:NaN</div>
+		<div class="bar svelte-nhrxoe light"><div class="seek svelte-nhrxoe" style="width: NaN%;"></div></div></div>
+</div>
+		</div><p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->Let’s visualize this a different way. A rotation around this circle represents 1 beat. For a triplet swing, the beat is divided in 3 parts, and notes are played on the first and third, which is as close to even as we can get. Another way you can describe this rhythm is to say it has a 66.6% <strong>swing percentage</strong>, meaning that the first beat takes up 66.6% of the beat. The higher the swing percentage, the steeper the swing, the further from straight (50% swing percentage) we get.<!-- HTML_TAG_END -->
+		</p><div class=" svelte-nsvnhb"><div class="circle-wrapper svelte-m3juos"><svg width="100%" height="300"><g style="transform: translate(50%, 50%);"><circle id="outer" r="120" class="svelte-m3juos"></circle><path class="percentage svelte-m3juos" d="M0,-120A120,120,0,1,1,-103.671,60.435L0,0Z"></path><line x1="0" y1="0" x2="7.34788079488412e-15" y2="-120" class="svelte-m3juos"></line><line x1="0" y1="0" x2="103.92304845413264" y2="59.99999999999998" class="svelte-m3juos"></line><line x1="0" y1="0" x2="-103.92304845413261" y2="60.00000000000004" class="svelte-m3juos"></line><line id="marker" x1="0" y1="0" x2="7.34788079488412e-15" y2="120" class="svelte-m3juos"></line>
+				
+				<circle cx="7.34788079488412e-15" cy="-120" r="10" class="svelte-ff9lmm"></circle>
+				
+				<circle cx="-103.67081006314027" cy="60.43478419629127" r="10" class="svelte-ff9lmm"></circle></g></svg>
+
+	
+
+	<button>play</button>
+	<button>pause</button></div>
+
+<audio src="assets/sound/swing-percentage/3.mp3"  currentTime="0"></audio><audio currenttime="0" src="assets/sound/swing-percentage/5.mp3" muted></audio><audio currenttime="0" src="assets/sound/swing-percentage/7.mp3" muted></audio><audio currenttime="0" src="assets/sound/swing-percentage/9.mp3" muted></audio>
+		</div><p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->Depending on how many pieces you divide the beat into, the backbeat is delayed a different amount. Each of these swings is subtly different, try them out for yourself.<!-- HTML_TAG_END -->
+		</p><div class=" svelte-nsvnhb"><div class="circle-wrapper svelte-m3juos"><svg width="100%" height="300"><g style="transform: translate(50%, 50%);"><circle id="outer" r="120" class="svelte-m3juos"></circle><path class="percentage svelte-m3juos" d="M0,-120A120,120,0,1,1,-103.923,60L0,0Z"></path><line x1="0" y1="0" x2="7.34788079488412e-15" y2="-120" class="svelte-m3juos"></line><line x1="0" y1="0" x2="103.92304845413264" y2="59.99999999999998" class="svelte-m3juos"></line><line x1="0" y1="0" x2="-103.92304845413261" y2="60.00000000000004" class="svelte-m3juos"></line><line id="marker" x1="0" y1="0" x2="7.34788079488412e-15" y2="120" class="svelte-m3juos"></line>
+				
+				<circle cx="7.34788079488412e-15" cy="-120" r="10" class="svelte-ff9lmm"></circle>
+				
+				<circle cx="-103.92304845413261" cy="60.00000000000004" r="10" class="svelte-ff9lmm"></circle></g></svg>
+
+	<div class="interactive svelte-m3juos"><div class="labels svelte-m3juos"><div class="svelte-m3juos">swing percentage</div>
+				<div class="svelte-m3juos">divide the beat in</div></div>
+			<div class="slider svelte-m3juos"><div class="range svelte-lq8jy2"><div class="ticks svelte-lq8jy2"><span class="tick svelte-lq8jy2">3</span><span class="tick svelte-lq8jy2">5</span><span class="tick svelte-lq8jy2">7</span><span class="tick svelte-lq8jy2">9</span></div>
+	<div class="ticks-above svelte-lq8jy2"><span class="tick svelte-lq8jy2">66.7%</span><span class="tick svelte-lq8jy2">60%</span><span class="tick svelte-lq8jy2">57.1%</span><span class="tick svelte-lq8jy2">55.6%</span></div>
+	<input type="range" aria-label="" min="3" max="9" step="2" style="--dot-color: var(--accent)" class="svelte-lq8jy2" value="3">
+</div></div></div>
+
+	<button>play</button>
+	<button>pause</button></div>
+
+<audio src="assets/sound/swing-percentage/3.mp3"  currentTime="0"></audio><audio currenttime="0" src="assets/sound/swing-percentage/5.mp3" muted></audio><audio currenttime="0" src="assets/sound/swing-percentage/7.mp3" muted></audio><audio currenttime="0" src="assets/sound/swing-percentage/9.mp3" muted></audio>
+		</div><p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->As you divide the beat into more pieces, it inches closer to straight, but never quite reaching it. These grooves have a unique funkiness - caught between a swung and straight feel, they have a lilting, off-kilter feeling. To me it feels like we’re stumbling down a flight of stairs and never quite catching ourselves. This tension is signature to J Dilla’s style, infusing the music with an intrigue and humanity that others want to emulate.<!-- HTML_TAG_END -->
+		</p><p class=" svelte-nsvnhb"><!-- HTML_TAG_START --><a href=https://youtu.be/-fgw4jq1Fso?t=161 target=_blank>Some drummers</a> actually think about and count these subdivisions out in their head. Others just think “play somewhere between straight and swung” or “play drunk.”<!-- HTML_TAG_END -->
+		</p>
+</section>
+				</details><section id="shift" class="svelte-nsvnhb"><h3 id="shift" class="svelte-1kid7yf"><span class="word svelte-1kid7yf"><span class="letter">S</span><span class="letter">h</span><span class="letter">i</span><span class="letter">f</span><span class="letter">t</span>
+				<span> </span>
+			</span>
 </h3>
 
-	<div class=" svelte-g23wl2"><!-- HTML_TAG_START -->secret fun info!<!-- HTML_TAG_END -->
+	<p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->When most music is straight and even, we develop expectations of where notes should fall. Even a slight deviation can feel bizarre, but that bizarreness is what made J Dilla’s time-feel so compelling. Another technique he used was shifting an entire part over ever so slightly on his <a href=https://nmaahc.si.edu/object/nmaahc_2014.139.1 target=_blank>drum machine</a>. It results in this distinctive flam or rubbing effect between instruments that now fall slightly apart from each other.<!-- HTML_TAG_END -->
+		</p><div class=" svelte-nsvnhb"><div class="demo svelte-juqkg1">
+
+	<div class="chart svelte-juqkg1 visible faded" id="shift"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
+
+
+		<div class="grid svelte-juqkg1" style="width: 0px; left: 0px;">
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div></div>
+
+		
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Bass
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	
+</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Hi-hat
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	
+</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Kick
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	
+</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7 clickable" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Snare
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="snare svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="snare svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	<button class="action-btn svelte-1geima7 mobile" disabled>shift the snare</button>
+</div>
+
 		</div>
-</section><section id="shift" class="svelte-g23wl2"><h3 id="shift" class="svelte-1stl7bi"><span>S</span><span>h</span><span>i</span><span>f</span><span>t</span>
-			<span> </span>
-</h3>
 
-	<p class=" svelte-g23wl2"><!-- HTML_TAG_START -->Another interesting way to play off the grid is to shift an entire part over. This is easy to do with a drum machine. Common JDilla technique. Move the snare a little early and it creates this flam effect.<!-- HTML_TAG_END -->
-		</p><div class=" svelte-g23wl2"><div class="buttons svelte-1cc7q4s">
-		<button class="svelte-1cc7q4s pulse">play</button></div>
+	<button class="svelte-enibq3 pulse"></button>
 
 
 
@@ -375,123 +618,141 @@
 		<audio preload="none" src="assets/sound/straight/snare.mp3" ></audio>
 
 		<audio preload="none" src="assets/sound/shift/snare.mp3" muted></audio>
-<div class="wrapper svelte-1doxfxu"><div class="bar svelte-1doxfxu"></div>
-			<div class="text svelte-1doxfxu">Starting with the straight groove. This one is a subtle change, so listen carefully. Click to shift the snare ever so slightly.</div><div class="bar svelte-1doxfxu"></div>
-			<div class="text svelte-1doxfxu">Ooh… try going back and forth and see if you hear the difference. It also might help to mute the bass and kick to just hear that flam with the hi-hat against the shifted share.</div></div>
-
-<div class="chart svelte-42oajc visible" id="shift"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
-
-
-	<div class="grid svelte-42oajc" style="width: 0px; left: 0px;">
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div></div>
-
-	
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Bass</div>
-
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	
-</div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Hi-hat</div>
-
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	
-</div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Kick</div>
-
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	
-</div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Snare</div>
-
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-			<div class="snare svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="snare svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	<button class="action-btn svelte-fturu1" >shift the snare</button>
-</div>
+	<div class="wrapper svelte-1pvb70q" style="height: 0px;"><div class="bar svelte-1pvb70q"></div>
+			<div class="text svelte-1pvb70q">Starting with the straight groove. Click to shift the snare.
+			</div><div class="bar svelte-1pvb70q"></div>
+			<div class="text svelte-1pvb70q">This one’s subtle! Try going back and forth and see if you hear the difference. It also might help to mute the bass and kick drums to isolate that flam with the hi-hat against the shifted share.
+			</div></div>
 </div>
 		</div>
-</section><section id="dilla" class="svelte-g23wl2"><h3 id="dilla" class="svelte-1stl7bi"><span>D</span><span>i</span><span>l</span><span>l</span><span>a</span><span>’</span><span>s</span>
-			<span> </span><span>u</span><span>n</span><span>i</span><span>q</span><span>u</span><span>e</span>
-			<span> </span><span>t</span><span>i</span><span>m</span><span>e</span><span>f</span><span>e</span><span>e</span><span>l</span>
-			<span> </span>
+</section><section id="dilla" class="svelte-nsvnhb"><h3 id="dilla" class="svelte-1kid7yf"><span class="word svelte-1kid7yf"><span class="letter">D</span><span class="letter">i</span><span class="letter">l</span><span class="letter">l</span><span class="letter">a</span>
+				<span> </span>
+			</span><span class="word svelte-1kid7yf"><span class="letter">T</span><span class="letter">i</span><span class="letter">m</span><span class="letter">e</span>
+				<span> </span>
+			</span>
 </h3>
 
-	<p class=" svelte-g23wl2"><!-- HTML_TAG_START -->What dilla did was combine all of these elements together, different parts playing with different timefeels.<!-- HTML_TAG_END -->
-		</p><div class=" svelte-g23wl2"><div class="buttons svelte-1cc7q4s">
-		<button class="svelte-1cc7q4s pulse">play</button></div>
+	<p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->What made J Dilla truly groundbreaking was his fusion of these elements, giving different parts of the groove different timefeels and slight deviations. This creates the looseness, tension, and humanness that defines the innovative timefeel known as Dilla Time.<!-- HTML_TAG_END -->
+		</p><div class=" svelte-nsvnhb"><div class="demo svelte-juqkg1">
+
+	<div class="chart svelte-juqkg1 visible faded" id="dilla"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
+
+
+		<div class="grid svelte-juqkg1" style="width: 0px; left: 0px;">
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div></div>
+
+		
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7 clickable" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Bass
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="bass svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	<button class="action-btn svelte-1geima7 mobile" disabled>swing the bass</button>
+</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Hi-hat
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	
+</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Kick
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	
+</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7 clickable" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Snare
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="snare svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="snare svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	<button class="action-btn svelte-1geima7 mobile" disabled>shift the snare</button>
+</div>
+
+		</div>
+
+	<button class="svelte-enibq3 pulse"></button>
 
 
 
@@ -506,62 +767,47 @@
 		<audio preload="none" src="assets/sound/shift/snare.mp3" muted></audio>
 
 		<audio preload="none" src="assets/sound/dilla/bass.mp3" muted></audio>
-<div class="wrapper svelte-1doxfxu"><div class="bar svelte-1doxfxu"></div>
-			<div class="text svelte-1doxfxu">Starting out straight. Not for long… let’s start by swinging the bass. A little less steep than a triplet swing, a quintuplet swing (see previous advanced swing section).</div><div class="bar svelte-1doxfxu"></div>
-			<div class="text svelte-1doxfxu">We’ll actually leave the hi-hat and snare straight for a little extra tension. Go ahead and shift the snare slightly early.</div><div class="bar svelte-1doxfxu"></div>
-			<div class="text svelte-1doxfxu">Sweet! We’ve got straight, swung, and shifted parts, all going at the same time.</div></div>
-
-<div class="chart svelte-42oajc visible" id="dilla"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
-
-
-	<div class="grid svelte-42oajc" style="width: 0px; left: 0px;">
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div></div>
-
-	
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Bass</div>
-
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="bass svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	<button class="action-btn svelte-fturu1" >swing the bass</button>
+	<div class="wrapper svelte-1pvb70q" style="height: 0px;"><div class="bar svelte-1pvb70q"></div>
+			<div class="text svelte-1pvb70q">Let’s start by swinging the bass. This is called a quintuplet swing (see nerdy aside on advanced swing).
+			</div><div class="bar svelte-1pvb70q"></div>
+			<div class="text svelte-1pvb70q">We’ll actually leave the hi-hat and snare straight to create some tension. Now, shift the snare slightly earlier.
+			</div><div class="bar svelte-1pvb70q"></div>
+			<div class="text svelte-1pvb70q">Sweet! We’ve got straight, swung, and shifted parts, all going at the same time.
+			</div></div>
 </div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Hi-hat</div>
+		</div><p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->This toy example incorporates multiple J Dilla-inspired elements, but it's worth noting that every Dilla and Dilla-like song is distinct, featuring its own unique combination of these elements. Armed with this knowledge, we can now identify and label these elements as they appear in actual songs.<!-- HTML_TAG_END -->
+		</p><p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->This first one, “Fall in Love” by Erykah Badu (a frequent collaborator of J Dilla), has a similar feel to the beat we made.<!-- HTML_TAG_END -->
+		</p><div class=" svelte-nsvnhb"><div class="demo svelte-juqkg1 real"><h3 class="svelte-juqkg1"><span class="svelte-juqkg1">Fall in Love</span> by <span class="svelte-juqkg1">Erykah Badu</span></h3>
 
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
+	<div class="chart svelte-juqkg1 visible" id="erykah"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
+
+
+		<div class="grid svelte-juqkg1" style="width: 0px; left: 0px;">
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div></div>
+
+		
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Synth
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="synth svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="synth svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="synth svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="synth svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="synth svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="synth svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="synth svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="synth svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
 
 		
 			<div class="dot" style="left: 0px;"></div>
@@ -575,12 +821,21 @@
 
 	
 </div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Kick</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
 
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
+	<div class="label svelte-1geima7">Hi-hat
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
 
 		
 			<div class="dot" style="left: 0px;"></div>
@@ -594,12 +849,15 @@
 
 	
 </div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Snare</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
 
-	<div class="notes svelte-fturu1  clickable" style="height: 20px;">
-			<div class="snare svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="snare svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
+	<div class="label svelte-1geima7">Kick
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
 
 		
 			<div class="dot" style="left: 0px;"></div>
@@ -611,42 +869,75 @@
 			<div class="dot" style="left: 0px;"></div>
 			<div class="dot" style="left: 0px;"></div></div>
 
-	<button class="action-btn svelte-fturu1" >shift the snare</button>
+	
 </div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Snare
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="snare svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="snare svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	
 </div>
-		</div><p class=" svelte-g23wl2"><!-- HTML_TAG_START -->This is a toy example that uses Dilla elements, but every Dilla and Dilla-like song is different, using different combinations of elements. Now that we know the elements, we can see them in the songs, give them names.<!-- HTML_TAG_END -->
-		</p><div class=" svelte-g23wl2"><div class="buttons svelte-1cc7q4s"><h3 class="svelte-1cc7q4s">Fall in Love by Erykah Badu</h3>
-		<button class="svelte-1cc7q4s">play</button></div>
+
+		
+	
+	
+	<div class="annotation svelte-1evddjk" style="left: 0px; top: 0px; width: NaNpx;"><div class="icons svelte-1evddjk">
+			</div>
+		<div class="text svelte-1evddjk" style="transform: translate(0, -2px);">hi-hat and synth are both swung but also shifted</div>
+	</div></div>
+
+	<button class="svelte-enibq3  started"></button>
 
 <audio preload="none" class="leader" src="assets/sound/real-songs/erykah.mp3"  currentTime="0"></audio>
-
-
-<div class="chart svelte-42oajc visible" id="erykah"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
-
-
-	<div class="grid svelte-42oajc" style="width: 0px; left: 0px;">
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div></div>
-
 	
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Synth</div>
+</div>
+		</div><div class=" svelte-nsvnhb"><div class="demo svelte-juqkg1 real"><h3 class="svelte-juqkg1"><span class="svelte-juqkg1">Get Dis Money</span> by <span class="svelte-juqkg1">Slum Village</span></h3>
 
-	<div class="notes svelte-fturu1" style="height: 20px;">
-			<div class="synth svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="synth svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="synth svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="synth svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="synth svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="synth svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="synth svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="synth svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
+	<div class="chart svelte-juqkg1 visible" id="money"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
+
+
+		<div class="grid svelte-juqkg1" style="width: 0px; left: 0px;">
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div></div>
+
+		
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Hi-hat
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
 
 		
 			<div class="dot" style="left: 0px;"></div>
@@ -660,37 +951,17 @@
 
 	
 </div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Hi-hat</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
 
-	<div class="notes svelte-fturu1" style="height: 20px;">
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
+	<div class="label svelte-1geima7">Kick
+		<button class="mute svelte-1geima7"></button></div>
 
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	
-</div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Kick</div>
-
-	<div class="notes svelte-fturu1" style="height: 20px;">
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
+	<div class="notes svelte-1geima7">
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
 
 		
 			<div class="dot" style="left: 0px;"></div>
@@ -704,12 +975,15 @@
 
 	
 </div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Snare</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
 
-	<div class="notes svelte-fturu1" style="height: 20px;">
-			<div class="snare svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="snare svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
+	<div class="label svelte-1geima7">Snare
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="snare svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="snare svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
 
 		
 			<div class="dot" style="left: 0px;"></div>
@@ -723,39 +997,57 @@
 
 	
 </div>
-</div>
-		</div><div class=" svelte-g23wl2"><div class="buttons svelte-1cc7q4s"><h3 class="svelte-1cc7q4s">Get Dis Money by Slum Village</h3>
-		<button class="svelte-1cc7q4s">play</button></div>
+
+		
+	
+	
+	<div class="annotation svelte-1evddjk" style="left: 0px; top: 0px; width: NaNpx;"><div class="icons svelte-1evddjk">
+			</div>
+		<div class="text svelte-1evddjk" style="transform: translate(0, 2px);">hi-hat is slightly swung</div>
+	</div>
+	
+	
+	<div class="annotation svelte-1evddjk" style="left: 0px; top: 0px; width: NaNpx;"><div class="icons svelte-1evddjk">
+			</div>
+		<div class="text svelte-1evddjk" style="transform: translate(0, -8px);">snare is slightly early</div>
+	</div></div>
+
+	<button class="svelte-enibq3  started"></button>
 
 <audio preload="none" class="leader" src="assets/sound/real-songs/money.mp3"  currentTime="0"></audio>
-
-
-<div class="chart svelte-42oajc visible" id="money"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
-
-
-	<div class="grid svelte-42oajc" style="width: 0px; left: 0px;">
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div></div>
-
 	
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Hi-hat</div>
+</div>
+		</div><div class=" svelte-nsvnhb"><div class="demo svelte-juqkg1 real"><h3 class="svelte-juqkg1"><span class="svelte-juqkg1">Heart Don’t Stand a Chance</span> by <span class="svelte-juqkg1">Anderson .Paak</span></h3>
 
-	<div class="notes svelte-fturu1" style="height: 20px;">
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
+	<div class="chart svelte-juqkg1 visible" id="heart"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
+
+
+		<div class="grid svelte-juqkg1" style="width: 0px; left: 0px;">
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div>
+					
+					<div class="line svelte-juqkg1 thick" style="left: 0px; height: 0px;"></div></div>
+
+		
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Hi-hat
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="hihat svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
 
 		
 			<div class="dot" style="left: 0px;"></div>
@@ -769,33 +1061,15 @@
 
 	
 </div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Kick</div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
 
-	<div class="notes svelte-fturu1" style="height: 20px;">
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
+	<div class="label svelte-1geima7">Kick
+		<button class="mute svelte-1geima7"></button></div>
 
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	
-</div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Snare</div>
-
-	<div class="notes svelte-fturu1" style="height: 20px;">
-			<div class="snare svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="snare svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
+	<div class="notes svelte-1geima7">
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="kick svelte-1hql3w8" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
 
 		
 			<div class="dot" style="left: 0px;"></div>
@@ -809,97 +1083,57 @@
 
 	
 </div>
+			
+			<div class="instrument svelte-1geima7"><div class="interaction-layer svelte-1geima7" style="height: 0px; width: 0px; left: 0px;"></div>
+
+	<div class="label svelte-1geima7">Snare
+		<button class="mute svelte-1geima7"></button></div>
+
+	<div class="notes svelte-1geima7">
+			<div class="snare svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+			<div class="snare svelte-1hql3w8  highlighted" style="top: 50%; left: 0px; height: 20px; width: 20px;"></div>
+
+		
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div>
+			<div class="dot" style="left: 0px;"></div></div>
+
+	
 </div>
-		</div><div class=" svelte-g23wl2"><div class="buttons svelte-1cc7q4s"><h3 class="svelte-1cc7q4s">Heart Don’t Stand a Chance by Anderson .Paak</h3>
-		<button class="svelte-1cc7q4s">play</button></div>
+
+		
+	
+	
+	<div class="annotation svelte-1evddjk" style="left: 0px; top: 0px; width: NaNpx;"><div class="icons svelte-1evddjk">
+			</div>
+		<div class="text svelte-1evddjk" style="transform: translate(0, 2px);">hi-hat is at a quintuplet swing</div>
+	</div>
+	
+	
+	<div class="annotation svelte-1evddjk" style="left: 0px; top: 0px; width: NaNpx;"><div class="icons svelte-1evddjk">
+			</div>
+		<div class="text svelte-1evddjk" style="transform: translate(0, -8px);">snare is slightly early</div>
+	</div></div>
+
+	<button class="svelte-enibq3  started"></button>
 
 <audio preload="none" class="leader" src="assets/sound/real-songs/heart.mp3"  currentTime="0"></audio>
-
-
-<div class="chart svelte-42oajc visible" id="heart"><div class="marker svelte-1f7khv0" style="left: 0px;"></div>
-
-
-	<div class="grid svelte-42oajc" style="width: 0px; left: 0px;">
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div>
-				
-				<div class="line svelte-42oajc thick" style="left: 0px; height: 0px;"></div></div>
-
 	
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Hi-hat</div>
-
-	<div class="notes svelte-fturu1" style="height: 20px;">
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="hihat svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	
-</div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Kick</div>
-
-	<div class="notes svelte-fturu1" style="height: 20px;">
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="kick svelte-1fma9v1" style="left: 0px; height: 20px; width: 20px;"></div>
-
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	
-</div>
-		
-		<div class="instrument svelte-fturu1"><div class="label svelte-fturu1">Snare</div>
-
-	<div class="notes svelte-fturu1" style="height: 20px;">
-			<div class="snare svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-			<div class="snare svelte-1fma9v1  highlighted" style="left: 0px; height: 20px; width: 20px;"></div>
-
-		
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div>
-			<div class="dot" style="left: 0px;"></div></div>
-
-	
-</div>
 </div>
 		</div>
-</section><section id="conclusion" class="svelte-g23wl2">
+</section><section id="conclusion" class="svelte-nsvnhb">
 
-	<p class=" svelte-g23wl2"><!-- HTML_TAG_START -->Conclusion, something about subverting expectations and art. Coloring outside of the lines, playing “out of tune” / a “wrong” note, rules being overrated, it’s all about how it feels.<!-- HTML_TAG_END -->
+	<p class=" svelte-nsvnhb"><!-- HTML_TAG_START -->I’ll end with a quote I like from the musician <a href=https://www.vogue.co.uk/arts-and-lifestyle/article/jacob-collier-interview/amp target=_blank>Jacob Collier</a>, a contemporary musician deeply influenced by J Dilla’s work:<!-- HTML_TAG_END -->
+		</p><p class="quote svelte-nsvnhb"><!-- HTML_TAG_START -->“When you learn music, you’re trained to think [in terms of a] “right way” and a “wrong way.” It’s all just made up. You have to find your own way. And so often [in making music], the things that are deemed wrong, or unconventional, or strange — those are the things that work the best and move people the most, because <span class=emphasis>people are moved by things that aren’t perfect.</span>”<!-- HTML_TAG_END -->
 		</p>
 </section>
+
+		<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2lv10HmmIbXoknNEoNDt2s?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
 		<footer class="svelte-1en6glb"><section class="stories svelte-1en6glb"></section>
 
@@ -922,14 +1156,14 @@
 </article></main>
 
 
-		<script type="module" data-sveltekit-hydrate="1yvto8z">
-			import { start } from "./_app/immutable/start-4ab18563.js";
+		<script type="module" data-sveltekit-hydrate="fi726v">
+			import { start } from "./_app/immutable/start-fe72394d.js";
 
 			start({
 				assets: "",
 				env: {},
-				target: document.querySelector('[data-sveltekit-hydrate="1yvto8z"]').parentNode,
-				version: "1683766471628",
+				target: document.querySelector('[data-sveltekit-hydrate="fi726v"]').parentNode,
+				version: "1684288268823",
 				hydrate: {
 					node_ids: [0, 2],
 					data: [null,{type:"data",data:{data:["a","b","c"]},uses:{}}],
