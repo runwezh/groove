@@ -1,8 +1,6 @@
 <script>
-	import Demo from "$components/Demo.svelte";
 	import Animation from "$components/Scroll.Animation.svelte";
 	import Scrolly from "$components/helpers/Scrolly.svelte";
-	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
 	import { soundOn, started, scrollyStep, direction } from "$stores/misc.js";
 	import scrollY from "$stores/scrollY.js";
@@ -72,17 +70,6 @@
 					<p class="speaker">- {quoted}</p>
 				{/if}
 			</div>
-
-			<!-- {#if sound}
-				<audio
-					bind:this={sounds[i]}
-					bind:duration={soundDurations[i]}
-					src={`assets/sound/intro/${sound}.mp3`}
-					loop={true}
-					muted={!$soundOn}
-					preload="auto"
-				/>
-			{/if} -->
 		{/each}
 	</Scrolly>
 </div>

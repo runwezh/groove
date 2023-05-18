@@ -1,5 +1,4 @@
 <script>
-	import { max } from "d3";
 	import { getContext } from "svelte";
 	import Icon from "$components/helpers/Icon.svelte";
 
