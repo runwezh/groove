@@ -1,5 +1,4 @@
 <script>
-	import Animation from "$components/Scroll.Animation.svelte";
 	import Scrolly from "$components/helpers/Scrolly.svelte";
 	import { fade } from "svelte/transition";
 	import { soundOn, started, scrollyStep, direction } from "$stores/misc.js";
@@ -9,12 +8,10 @@
 
 	let containerEl;
 	let sounds = [];
-	let soundDurations = [];
 	let club;
 	let clubVolume = 1;
 	let paused;
 
-	$: clubPlaying = !paused;
 	$: if ($started && club) club.play();
 	$: $scrollyStep, scrollChange();
 
@@ -49,8 +46,6 @@
 		}
 	};
 </script>
-
-<Animation />
 
 <div class="scroll-container" bind:this={containerEl}>
 	<Scrolly bind:value={$scrollyStep}>

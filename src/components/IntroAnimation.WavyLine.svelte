@@ -22,7 +22,7 @@
 		const y = yKey[i];
 		return [x, y];
 	});
-	$: pathD = pointsToPath(points);
+	$: pathD = width ? pointsToPath(points) : "";
 
 	const line = (pointA, pointB) => {
 		const lengthX = pointB[0] - pointA[0];

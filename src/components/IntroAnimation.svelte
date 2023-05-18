@@ -1,6 +1,6 @@
 <script>
-	import WavyLine from "$components/Scroll.WavyLine.svelte";
-	import SimpleDemo from "$components/Scroll.SimpleDemo.svelte";
+	import WavyLine from "$components/IntroAnimation.WavyLine.svelte";
+	import SimpleDemo from "$components/IntroAnimation.SimpleDemo.svelte";
 	import { scrollyStep, direction, soundOn } from "$stores/misc.js";
 	import { scaleLinear, range } from "d3";
 
@@ -50,7 +50,9 @@
 <div class="wrapper" bind:clientWidth={width} class:visible>
 	<svg>
 		<g transform={`translate(0, ${yOffset})`}>
-			<WavyLine {width} {moving} />
+			{#if width}
+				<WavyLine {width} {moving} />
+			{/if}
 			<SimpleDemo {data} {xScale} {currentBeat} />
 		</g>
 	</svg>
