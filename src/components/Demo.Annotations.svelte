@@ -69,9 +69,9 @@
 		position: absolute;
 		font-family: var(--mono);
 		color: var(--yellow);
-		text-align: center;
 		display: flex;
 		align-items: center;
+		font-size: var(--16px);
 	}
 	.icons {
 		display: flex;
@@ -84,7 +84,7 @@
 	}
 	@media (max-width: 600px) {
 		.annotation {
-			font-size: var(--16px);
+			font-size: var(--14px);
 		}
 	}
 </style>
