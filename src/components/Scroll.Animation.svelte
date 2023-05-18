@@ -4,13 +4,20 @@
 	import { scrollyStep, direction, soundOn } from "$stores/misc.js";
 	import { scaleLinear, range } from "d3";
 
-	const yOffset = 150;
 	let beats = 32;
 	let width = 0;
 	let normalEl;
 	let drunkEl;
 	let normalSeek = 0;
 	let drunkSeek = 0;
+	let speed = 1;
+
+	const yOffset = 150;
+	const straightData = range(8, 32, 2);
+	const wonkyData = [
+		0.2, 1.44, 1.51, 1.8, 2.1, 2.4, 3.4, 4.4, 5.3, 5.5, 6.3, 6.6, 6.8, 7.1, 7.2,
+		7.7, 8.6, 9.3, 9.5, 9.67
+	].map((d) => d * (beats / 9.937958));
 
 	$: if (normalPlaying) normalSeek = 0;
 	$: if (drunkPlaying) drunkSeek = 0;
@@ -34,19 +41,10 @@
 		$scrollyStep !== 3 &&
 		($scrollyStep !== undefined || $direction === "up");
 	$: data =
-		$scrollyStep === 2
-			? range(8, 32, 2)
-			: $scrollyStep === 3
-			? [
-					0, 2.5, 3, 3.2, 5, 9, 10, 11, 12, 13.5, 13.7, 13.8, 15, 18, 18.5,
-					18.7, 20, 22, 25, 27, 28, 28.5, 28.9, 30
-			  ]
-			: [];
+		$scrollyStep === 2 ? straightData : $scrollyStep === 3 ? wonkyData : [];
 
 	$: xScale = scaleLinear().domain([0, beats]).range([0, width]);
 	$: timeToBeat = scaleLinear().domain([0, currentDuration]).range([0, beats]);
-
-	let speed = 1;
 </script>
 
 <div class="wrapper" bind:clientWidth={width} class:visible>
