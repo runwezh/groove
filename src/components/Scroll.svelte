@@ -102,11 +102,11 @@
 		transition: all 200ms ease-out;
 		transform: scale(1);
 		transform-origin: center;
-		text-align: center;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		background: rgb(1, 1, 1, 0.9);
+		background: rgb(34, 34, 34, 0.9);
+		text-align: left;
 	}
 	.step:last-child {
 		height: auto;
