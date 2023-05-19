@@ -17,11 +17,11 @@
 		startEl.scrollIntoView({ block: "center", behavior: "smooth" });
 	};
 
-	const debug = [];
-	// const sections = copy.sections.filter((d) => debug.includes(d.id));
-	// $started = true;
+	const debug = ["straight", "dilla"];
+	const sections = copy.sections.filter((d) => debug.includes(d.id));
+	$started = true;
 
-	const sections = copy.sections;
+	// const sections = copy.sections;
 
 	onMount(() => {
 		startEl = document.getElementById("start-of-story");
@@ -29,30 +29,29 @@
 </script>
 
 <!-- <IntroAnimation /> -->
+
 <article class:started={$started}>
-	<!-- {#if debug.length === 0} -->
-	<div class="landing">
-		<h1>{@html hed}</h1>
-		<div class="dek">{dek.split(" ").slice(0, 4).join(" ")}</div>
-		<div class="dek">{dek.split(" ").slice(4).join(" ")}</div>
-		<div class="byline" style:margin-bottom="3em">{@html byline}</div>
+	{#if debug.length === 0}
+		<div class="landing">
+			<h1>{@html hed}</h1>
+			<div class="dek">{dek.split(" ").slice(0, 4).join(" ")}</div>
+			<div class="dek">{dek.split(" ").slice(4).join(" ")}</div>
+			<div class="byline" style:margin-bottom="3em">{@html byline}</div>
 
-		<div class="buttons">
-			<button class="start" on:click={start} disabled={$started}
-				>start audio story</button
+			<div class="buttons">
+				<button class="start" on:click={start}>start audio story</button>
+				<Mute label={"bottom"} />
+			</div>
+
+			<div
+				class="fixed-mute"
+				class:visible={$started &&
+					($scrollyStep !== undefined || $direction === "down")}
 			>
-			<Mute label={"bottom"} />
+				<Mute label={"left"} />
+			</div>
 		</div>
-
-		<div
-			class="fixed-mute"
-			class:visible={$started &&
-				($scrollyStep !== undefined || $direction === "down")}
-		>
-			<Mute label={"left"} />
-		</div>
-	</div>
-	<!-- {/if} -->
+	{/if}
 
 	<div class="sections" class:started={$started}>
 		{#each sections as { id, title, chunks }}

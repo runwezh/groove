@@ -1,6 +1,8 @@
 <script>
 	import Icon from "$components/helpers/Icon.svelte";
 	import { timeFormat, scaleLinear } from "d3";
+	import { currentAudioId } from "$stores/misc.js";
+	import _ from "lodash";
 
 	export let url;
 	export let song;
@@ -21,18 +23,27 @@
 	const pausePlay = () => {
 		if (paused) {
 			audioEl.play();
+			$currentAudioId = _.kebabCase(song);
 		} else {
 			audioEl.pause();
+			$currentAudioId = undefined;
 		}
 	};
 
 	$: light = artist === "Sungazer";
+	$: xScale = scaleLinear().domain([0, duration]).range([0, 100]);
+	$: width = `${xScale(seek)}%`;
 	$: if (seek === duration && audioEl) {
 		seek = 0;
 		audioEl.pause();
 	}
-	$: xScale = scaleLinear().domain([0, duration]).range([0, 100]);
-	$: width = `${xScale(seek)}%`;
+	$: $currentAudioId, audioChange();
+	const audioChange = () => {
+		if ($currentAudioId && $currentAudioId !== _.kebabCase(song) && !paused) {
+			audioEl.pause();
+			seek = 0;
+		}
+	};
 </script>
 
 <div class="container">

@@ -1,21 +1,19 @@
 <script>
 	import AudioFile from "$components/Demo.AudioFile.svelte";
 	import Icon from "$components/helpers/Icon.svelte";
+	import { currentAudioId } from "$stores/misc.js";
 	import { getContext } from "svelte";
 
 	const {
 		songId,
 		autoplay,
 		getAllParts,
-		getVisible,
 		getDuration,
 		getTrimmedDuration,
 		getSeek,
 		getPlayClicked,
 		getIsPlaying,
-		style,
-		song,
-		artist
+		style
 	} = getContext("song");
 	const allParts = getAllParts();
 	const duration = getDuration();
@@ -23,7 +21,6 @@
 	const seek = getSeek();
 	const playClicked = getPlayClicked();
 	const isPlaying = getIsPlaying();
-	const visible = getVisible();
 
 	export let play;
 	export let pause;
@@ -37,14 +34,19 @@
 		reset();
 		play();
 	}
-
-	$: if ($visible && autoplay) {
+	$: if (autoplay) {
 		reset();
 		play();
 	}
-	$: if (!$visible) {
-		pause();
-	}
+
+	$: $currentAudioId, audioChange();
+	const audioChange = () => {
+		if ($currentAudioId && $currentAudioId !== songId && $isPlaying) {
+			console.log("pausing", songId);
+			pause();
+			reset();
+		}
+	};
 </script>
 
 <button

@@ -7,12 +7,11 @@
 	import { setContext } from "svelte";
 	import { scaleLinear, range } from "d3";
 	import { writable } from "svelte/store";
-	import { songData } from "$stores/misc.js";
+	import { songData, currentAudioId } from "$stores/misc.js";
 	import inView from "$actions/inView.js";
 	import _ from "lodash";
 
 	export let songId;
-	export let showing = true;
 	export let notes = [];
 	export let style = "default";
 	export let song;
@@ -35,7 +34,6 @@
 		beatsPerMeasure,
 		gridlines,
 		autoplay,
-		getVisible: () => visible,
 		getDuration: () => duration,
 		getTrimmedDuration: () => trimmedDuration,
 		getCurrentBeat: () => currentBeat,
@@ -80,7 +78,6 @@
 	const height = writable(0);
 	const xOffset = writable(0);
 	const playClicked = writable(false);
-	const visible = writable(true);
 	const currentActionIndex = writable(undefined);
 
 	const reset = () => {
@@ -96,10 +93,12 @@
 			highlightNextAction();
 		}
 		$isPlaying = true;
+		$currentAudioId = songId;
 	};
 	const pause = () => {
 		$isPlaying = false;
 		$audioEls.forEach((el) => el.pause());
+		$currentAudioId = undefined;
 	};
 	const highlightNextAction = () => {
 		const actionButtons = document.querySelectorAll(
@@ -119,7 +118,6 @@
 
 	const order = ["bass", "synth", "hihat", "kick", "snare"];
 
-	$: $visible = showing;
 	$: $timeToBeat = scaleLinear()
 		.domain([0, $trimmedDuration])
 		.range([0, beatsPerMeasure * measures]);
@@ -140,7 +138,6 @@
 		class="chart"
 		id={songId}
 		bind:clientHeight={$height}
-		class:visible={$visible}
 		class:faded={style !== "real" && !$playClicked}
 		use:inView
 		on:exit={onExit}
@@ -205,13 +202,9 @@
 		flex-direction: column;
 		justify-content: space-around;
 		position: relative;
-		visibility: hidden;
 	}
 	.chart.faded {
 		opacity: 0.2;
-	}
-	.chart.visible {
-		visibility: visible;
 	}
 	.dot {
 		background: var(--color-gray-200);
