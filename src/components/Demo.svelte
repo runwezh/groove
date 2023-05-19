@@ -127,6 +127,7 @@
 		_.uniq($allParts.map((d) => d.instrument)),
 		(d) => order.indexOf(d)
 	);
+	$: faded = style !== "real" && !$playClicked;
 </script>
 
 <div class="demo" class:real={style === "real"}>
@@ -138,7 +139,7 @@
 		class="chart"
 		id={songId}
 		bind:clientHeight={$height}
-		class:faded={style !== "real" && !$playClicked}
+		class:faded
 		use:inView
 		on:exit={onExit}
 	>
@@ -183,7 +184,10 @@
 	</div>
 
 	<Audio {play} {pause} {reset} />
-	<Descriptions {notes} />
+
+	<div class="below" class:faded>
+		<Descriptions {notes} />
+	</div>
 </div>
 
 <style>
@@ -205,7 +209,11 @@
 		opacity: 1;
 		transition: opacity 300ms;
 	}
-	.chart.faded {
+	.below {
+		opacity: 1;
+		transition: opacity 300ms;
+	}
+	.faded {
 		opacity: 0.2;
 	}
 	.dot {

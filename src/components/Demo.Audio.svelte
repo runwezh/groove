@@ -49,18 +49,18 @@
 </script>
 
 <button
+	class="fixed"
 	on:click={play}
 	class:pulse
-	class:visible={!$playClicked || style === "real"}
-	class:fixed={true}
+	class:visible={!$playClicked && style !== "real"}
 >
 	<Icon name="play" />
 </button>
 
 <button
+	class="static"
 	on:click={$isPlaying ? pause : play}
 	class:visible={$playClicked || style === "real"}
-	class:static={true}
 >
 	{#if $isPlaying}
 		<Icon name="pause" />
