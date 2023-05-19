@@ -50,7 +50,9 @@
 		getHeight: () => height,
 		getXOffset: () => xOffset,
 		getPlayClicked: () => playClicked,
+		getCurrentAction: () => currentAction,
 		getCurrentActionIndex: () => currentActionIndex,
+		actions,
 		style,
 		song,
 		artist
@@ -71,13 +73,14 @@
 		hihat: "on",
 		synth: "on"
 	});
-	const instrumentStyles = writable(defaultStyles);
+	const instrumentStyles = writable({ ...defaultStyles });
 	const highlightedNotes = writable(highlighted);
 	const isPlaying = writable(false);
 	const width = writable(0);
 	const height = writable(0);
 	const xOffset = writable(0);
 	const playClicked = writable(false);
+	const currentAction = writable(undefined);
 	const currentActionIndex = writable(undefined);
 
 	const reset = () => {
@@ -90,7 +93,8 @@
 		});
 		if (!$playClicked) {
 			$playClicked = true;
-			highlightNextAction();
+			$currentAction = actions[0];
+			$currentActionIndex = 0;
 		}
 		$isPlaying = true;
 		$currentAudioId = songId;
@@ -100,15 +104,13 @@
 		$audioEls.forEach((el) => el.pause());
 		$currentAudioId = undefined;
 	};
-	const highlightNextAction = () => {
-		const actionButtons = document.querySelectorAll(
-			`#${songId} button.action-btn`
-		);
-		if (actionButtons.length) {
-			const nextAction = actionButtons[0];
-			nextAction.classList.add("visible", "pulse");
-		}
+
+	const restartActions = () => {
+		$currentAction = actions[0];
 		$currentActionIndex = 0;
+		$highlightedNotes = [];
+		$instrumentStyles = { ...defaultStyles };
+		reset();
 	};
 
 	const onExit = () => {
@@ -166,7 +168,7 @@
 			</div>
 		{/if}
 
-		{#each sortedInstruments as instrument, i}
+		{#each sortedInstruments as instrument}
 			{@const data = $allParts.find(
 				(d) =>
 					d.instrument === instrument &&
@@ -175,7 +177,7 @@
 			{@const action = actions
 				? actions.find((d) => d.instrument === instrument)
 				: null}
-			<Row {i} id={instrument} {data} {action} />
+			<Row id={instrument} {data} {action} />
 		{/each}
 
 		{#if style === "real"}
@@ -183,7 +185,7 @@
 		{/if}
 	</div>
 
-	<Audio {play} {pause} {reset} />
+	<Audio {play} {pause} {reset} {restartActions} />
 
 	<div class="below" class:faded>
 		<Descriptions {notes} />

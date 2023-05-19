@@ -3,19 +3,12 @@
 
 	export let notes;
 
-	const { songId, getCurrentActionIndex, getPlayClicked, getHighlightedNotes } =
-		getContext("song");
+	const { getCurrentActionIndex, getPlayClicked } = getContext("song");
 	const currentActionIndex = getCurrentActionIndex();
 	const playClicked = getPlayClicked();
 
 	let textEls = [];
 	let maxTextHeight = 0;
-	let finished = false;
-	$: if ($currentActionIndex === notes.length - 1) finished = true;
-
-	const onClick = (i) => {
-		if (finished) $currentActionIndex = i;
-	};
 
 	onMount(() => {
 		if (notes.length) {
@@ -24,8 +17,6 @@
 			);
 		}
 	});
-
-	$: console.log(maxTextHeight, songId);
 </script>
 
 {#if notes.length}
@@ -35,12 +26,7 @@
 		style:height={`${maxTextHeight + 18}px`}
 	>
 		{#each notes as note, i}
-			<div
-				class="bar"
-				class:active={i === $currentActionIndex}
-				class:clickable={finished}
-				on:click={() => onClick(i)}
-			/>
+			<div class="bar" class:active={i === $currentActionIndex} />
 			<div
 				bind:this={textEls[i]}
 				class="text"
@@ -68,9 +54,6 @@
 	}
 	.bar.active {
 		opacity: 1;
-	}
-	.bar.clickable:hover {
-		cursor: pointer;
 	}
 	.text {
 		position: absolute;

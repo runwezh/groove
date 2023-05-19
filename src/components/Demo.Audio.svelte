@@ -25,6 +25,7 @@
 	export let play;
 	export let pause;
 	export let reset;
+	export let restartActions;
 
 	$: trimOff = songId === "heart" ? 300 : songId === "money" ? 500 : 1300;
 	$: $trimmedDuration = $duration * 1000 - trimOff;
@@ -57,17 +58,27 @@
 	<Icon name="play" />
 </button>
 
-<button
-	class="static"
-	on:click={$isPlaying ? pause : play}
-	class:visible={$playClicked || style === "real"}
->
-	{#if $isPlaying}
-		<Icon name="pause" />
-	{:else}
-		<Icon name="play" />
-	{/if}
-</button>
+<div class="buttons">
+	<button
+		class="static"
+		on:click={$isPlaying ? pause : play}
+		class:visible={$playClicked || style === "real"}
+	>
+		{#if $isPlaying}
+			<Icon name="pause" />
+		{:else}
+			<Icon name="play" />
+		{/if}
+	</button>
+	<button
+		class="static"
+		on:click={restartActions}
+		class:visible={$playClicked && style !== "real"}
+	>
+		<Icon name="restart" />
+		restart
+	</button>
+</div>
 
 {#if style === "real"}
 	<AudioFile
@@ -94,6 +105,11 @@
 {/if}
 
 <style>
+	.buttons {
+		display: flex;
+		align-items: center;
+	}
+
 	button.fixed {
 		position: absolute;
 		top: 35%;
@@ -110,7 +126,7 @@
 
 	button.static {
 		position: static;
-		margin: 1em 0;
+		margin: 1em 1em 1em 0;
 		transform: translate(0, 0);
 	}
 	button.static:active {

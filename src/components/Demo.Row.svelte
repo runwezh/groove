@@ -1,12 +1,11 @@
 <script>
 	import Note from "$components/Demo.Note.svelte";
-	import { getContext, onMount } from "svelte";
+	import { getContext } from "svelte";
 	import { range } from "d3";
 	import _ from "lodash";
 	import Icon from "$components/helpers/Icon.svelte";
 	import viewport from "$stores/viewport.js";
 
-	export let i;
 	export let id;
 	export let data;
 	export let action;
@@ -21,8 +20,10 @@
 		getHighlightedNotes,
 		getWidth,
 		getXOffset,
+		getCurrentAction,
 		getCurrentActionIndex,
-		style
+		style,
+		actions
 	} = getContext("song");
 	const allParts = getAllParts();
 	const xScale = getXScale();
@@ -31,12 +32,14 @@
 	const highlightedNotes = getHighlightedNotes();
 	const width = getWidth();
 	const xOffset = getXOffset();
+	const currentAction = getCurrentAction();
 	const currentActionIndex = getCurrentActionIndex();
 
 	let interactionHeight = 0;
 	let actionBtn;
 	let notesContainer;
 	let actionOn = false;
+	let actionClickedOnce = false;
 	let originalData = data;
 	let originalStyle = $instrumentStyles[id];
 
@@ -48,7 +51,7 @@
 		}
 	};
 
-	const doAction = (e) => {
+	const doAction = () => {
 		if (actionOn) {
 			$instrumentStyles[id] = originalStyle;
 			$highlightedNotes[id] = [];
@@ -57,27 +60,28 @@
 			const newNotes = $allParts.find(
 				(d) => d.instrument === id && d.style === action.style
 			).data;
-
 			if (songId === "straight") $highlightedNotes = {};
 			$highlightedNotes[id] = newNotes.filter((d) => !originalData.includes(d));
-		}
 
-		// button pulsing
-		if (e.target.classList.contains("pulse")) {
-			e.target.classList.remove("pulse");
-			const actionButtons = document.querySelectorAll(
-				`#${songId} button.action-btn`
-			);
-			const currentIndex = Array.from(actionButtons).indexOf(e.target);
-			const nextAction = actionButtons[currentIndex + 1];
-			if (nextAction) {
-				nextAction.classList.add("visible", "pulse");
+			if (!actionClickedOnce) {
+				const nextAction = actions[$currentActionIndex + 1];
+				if (nextAction) {
+					$currentAction = nextAction;
+				} else {
+					$currentAction = undefined;
+				}
+				$currentActionIndex += 1;
+
+				actionClickedOnce = true;
 			}
-			$currentActionIndex += 1;
 		}
 		actionOn = !actionOn;
 	};
 
+	$: if ($currentActionIndex === 0) {
+		actionOn = false;
+		actionClickedOnce = false;
+	}
 	$: muted = $instrumentToggles[id] === "off";
 	$: mobile = $viewport.width < 600;
 	$: onNotesClick =
@@ -89,18 +93,22 @@
 			: action && !actionOn
 			? `${action.description}`
 			: "";
+	$: actionVisible =
+		actions && $currentActionIndex >= actions.findIndex((d) => d === action);
 </script>
 
 <div class="instrument" class:muted bind:clientHeight={interactionHeight}>
-	<div
-		class="interaction-layer"
-		style:height={`${interactionHeight}px`}
-		style:width={`${$width}px`}
-		style:left={`${$xOffset}px`}
-		class:clickable={mobile && action}
-		on:click={onNotesClick}
-		on:keydown={onNotesClick}
-	/>
+	{#if mobile && action}
+		<div
+			class="interaction-layer"
+			style:height={`${interactionHeight}px`}
+			style:width={`${$width}px`}
+			style:left={`${$xOffset}px`}
+			class:clickable={mobile && action}
+			on:click={onNotesClick}
+			on:keydown={onNotesClick}
+		/>
+	{/if}
 
 	<div class="label">
 		{formatLabel(id)}
@@ -130,6 +138,8 @@
 			bind:this={actionBtn}
 			class="action-btn"
 			class:mobile
+			class:pulse={action === $currentAction}
+			class:visible={actionVisible}
 			on:click={doAction}
 			disabled={mobile || (songId === "straight" && actionOn)}
 			>{buttonText}</button
@@ -178,7 +188,7 @@
 		max-height: 100%;
 		flex-shrink: 0;
 	}
-	:global(.action-btn.visible) {
+	.action-btn.visible {
 		visibility: visible;
 	}
 	.action-btn.mobile {
