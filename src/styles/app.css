@@ -115,6 +115,7 @@ button {
 button:active {
 	box-shadow: 0px 0px 0px 0px;
 	transform: translate(5px, 5px);
+	animation: none;
 }
 button:hover {
 	background: var(--color-gray-700);

@@ -202,6 +202,8 @@
 		flex-direction: column;
 		justify-content: space-around;
 		position: relative;
+		opacity: 1;
+		transition: opacity 300ms;
 	}
 	.chart.faded {
 		opacity: 0.2;

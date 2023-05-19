@@ -24,13 +24,15 @@
 			);
 		}
 	});
+
+	$: console.log(maxTextHeight, songId);
 </script>
 
 {#if notes.length}
 	<div
 		class="wrapper"
 		class:visible={$playClicked}
-		style:height={`${$playClicked ? maxTextHeight + 18 : 0}px`}
+		style:height={`${maxTextHeight + 18}px`}
 	>
 		{#each notes as note, i}
 			<div

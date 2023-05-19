@@ -42,7 +42,6 @@
 	$: $currentAudioId, audioChange();
 	const audioChange = () => {
 		if ($currentAudioId && $currentAudioId !== songId && $isPlaying) {
-			console.log("pausing", songId);
 			pause();
 			reset();
 		}
@@ -50,9 +49,18 @@
 </script>
 
 <button
-	on:click={$isPlaying ? pause : play}
+	on:click={play}
 	class:pulse
-	class:started={$playClicked || style === "real"}
+	class:visible={!$playClicked || style === "real"}
+	class:fixed={true}
+>
+	<Icon name="play" />
+</button>
+
+<button
+	on:click={$isPlaying ? pause : play}
+	class:visible={$playClicked || style === "real"}
+	class:static={true}
 >
 	{#if $isPlaying}
 		<Icon name="pause" />
@@ -86,25 +94,43 @@
 {/if}
 
 <style>
-	button {
+	button.fixed {
 		position: absolute;
-		top: 50%;
+		top: 35%;
 		left: 50%;
 		height: 40px;
 		transform: translate(-50%, -50%);
 		z-index: 1000;
 	}
-	button.started {
+	button.fixed:active {
+		box-shadow: 0px 0px 0px 0px;
+		transform: translate(calc(-50% + 5px), calc(-50% + 5px));
+		animation: none;
+	}
+
+	button.static {
 		position: static;
 		margin: 1em 0;
 		transform: translate(0, 0);
 	}
+	button.static:active {
+		transform: translate(5px, 5px);
+	}
+
+	button {
+		visibility: hidden;
+		height: 2.5em;
+		width: 2.5em;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	button.visible {
+		visibility: visible;
+	}
+
 	button.pulse {
 		animation: pulse 0.4s infinite alternate;
-	}
-	button:active {
-		box-shadow: 0px 0px 0px 0px;
-		transform: translate(5px, 5px);
 	}
 	@keyframes pulse {
 		to {
