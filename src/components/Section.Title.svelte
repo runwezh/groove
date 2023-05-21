@@ -85,6 +85,9 @@
 		display: flex;
 		position: relative;
 	}
+	h3#notes-title {
+		font-size: 2.5em;
+	}
 
 	/* SWING */
 	:global(h3#swing-title .letter:nth-child(2)) {

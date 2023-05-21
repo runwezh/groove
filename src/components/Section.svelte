@@ -20,10 +20,14 @@
 		<Title {id} {title} />
 	{/if}
 
-	{#each chunks as { type, text, component, classname, steps, notes, songId, style, url, song, artist, dots, division, interactive, prompt, share, src, alt }}
+	{#each chunks as { type, text, list, component, classname, steps, notes, songId, style, url, song, artist, dots, division, interactive, prompt, share, src, alt }}
 		<svelte:element this={type} class={classname}>
 			{#if text}
 				{@html text}
+			{:else if list}
+				{#each list as item}
+					<li>{@html item}</li>
+				{/each}
 			{:else}
 				<svelte:component
 					this={components[component]}
