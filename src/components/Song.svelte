@@ -116,6 +116,8 @@
 	}
 	button {
 		margin-right: 1em;
+		height: 2.5em;
+		width: 2.7em;
 	}
 	@media (max-width: 600px) {
 		.container {

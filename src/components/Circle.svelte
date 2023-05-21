@@ -1,5 +1,6 @@
 <script>
 	import Note from "$components/Circle.Note.svelte";
+	import Icon from "$components/helpers/Icon.svelte";
 	import { setContext } from "svelte";
 	import { scaleLinear, range, arc } from "d3";
 	import Range from "$components/helpers/Range.svelte";
@@ -77,6 +78,14 @@
 </script>
 
 <div class="circle-wrapper">
+	<button on:click={$isPlaying ? pause : play}>
+		{#if $isPlaying}
+			<Icon name="pause" />
+		{:else}
+			<Icon name="play" />
+		{/if}
+	</button>
+
 	<svg width={"100%"} {height}>
 		<g style:transform={`translate(50%, 50%)`}>
 			<circle id="outer" r={circleR} />
@@ -126,14 +135,11 @@
 						(d) => `${_.round((Math.ceil(d / 2) / d) * 100, 1)}%`
 					)}
 					bind:value={currentDivision}
-					dotColor={"var(--accent)"}
+					dotColor={"var(--accent-light)"}
 				/>
 			</div>
 		</div>
 	{/if}
-
-	<button on:click={play}>play</button>
-	<button on:click={pause}>pause</button>
 </div>
 
 {#each options as option, i}
@@ -194,5 +200,9 @@
 	.percentage {
 		fill: var(--accent);
 		opacity: 0.5;
+	}
+	button {
+		height: 2.5em;
+		width: 2.7em;
 	}
 </style>

@@ -75,8 +75,7 @@
 		on:click={restartActions}
 		class:visible={$playClicked && style !== "real"}
 	>
-		<Icon name="restart" />
-		restart
+		<Icon name="circle-ccw" />
 	</button>
 </div>
 
@@ -136,7 +135,7 @@
 	button {
 		visibility: hidden;
 		height: 2.5em;
-		width: 2.5em;
+		width: 2.7em;
 		display: flex;
 		align-items: center;
 		justify-content: center;

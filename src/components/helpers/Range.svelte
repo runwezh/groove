@@ -80,8 +80,7 @@
 
 	input[type="range"]::-webkit-slider-thumb {
 		height: var(--thumb-width);
-		width: var(--thumb-width);
-		border-radius: 50%;
+		width: calc(var(--thumb-width) / 1.5);
 		background: var(--dot-color);
 		appearance: none;
 		margin-top: calc(var(--thumb-width) / -3);
@@ -101,7 +100,7 @@
 	input[type="range"]::-moz-range-thumb {
 		box-shadow: 1px 1px 1px var(--color-black), 0 0 1px var(--color-black);
 		height: var(--thumb-width);
-		width: var(--thumb-width);
+		width: calc(var(--thumb-width) / 1.5);
 		border-radius: 50%;
 		background: var(--dot-color);
 	}
@@ -125,7 +124,7 @@
 
 	input[type="range"]::-ms-thumb {
 		height: var(--thumb-width);
-		width: var(--thumb-width);
+		width: calc(var(--thumb-width) / 1.5);
 		border-radius: 50%;
 		background: var(--dot-color);
 	}
