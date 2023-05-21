@@ -78,7 +78,10 @@
 </script>
 
 <div class="circle-wrapper">
-	<button on:click={$isPlaying ? pause : play}>
+	<button
+		on:click={$isPlaying ? pause : play}
+		aria-label={$isPlaying ? "pause" : "play"}
+	>
 		{#if $isPlaying}
 			<Icon name="pause" />
 		{:else}
@@ -88,7 +91,7 @@
 
 	<svg width={"100%"} {height}>
 		<g style:transform={`translate(50%, 50%)`}>
-			<circle id="outer" r={circleR} />
+			<circle class="outer" r={circleR} />
 
 			<path class="percentage" d={percentageArc()} />
 
@@ -104,7 +107,7 @@
 			{/if}
 
 			<line
-				id="marker"
+				class="marker"
 				x1={0}
 				y1={0}
 				x2={x(beatToAngle(timeToBeat($seek)))}
@@ -182,7 +185,7 @@
 	.slider {
 		flex: 1;
 	}
-	#outer {
+	.outer {
 		stroke: var(--color-gray-100);
 		stroke-width: 1px;
 		fill: none;
@@ -192,7 +195,7 @@
 		stroke-width: 1px;
 		stroke-dasharray: 10px;
 	}
-	#marker {
+	.marker {
 		stroke: var(--color-gray-100);
 		stroke-width: 4px;
 		stroke-dasharray: 0px;

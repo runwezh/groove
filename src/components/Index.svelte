@@ -17,11 +17,11 @@
 		startEl.scrollIntoView({ block: "center", behavior: "smooth" });
 	};
 
-	const debug = ["bonus"];
-	const sections = copy.sections.filter((d) => debug.includes(d.id));
-	$started = true;
+	const debug = [];
+	// const sections = copy.sections.filter((d) => debug.includes(d.id));
+	// $started = true;
 
-	// const sections = copy.sections;
+	const sections = copy.sections;
 
 	onMount(() => {
 		startEl = document.getElementById("start-of-story");
@@ -74,6 +74,7 @@
 			allowfullscreen=""
 			allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
 			loading="lazy"
+			title="playlist of songs with wonky grooves"
 		/>
 
 		<Footer />

@@ -77,6 +77,11 @@
 		}
 		actionOn = !actionOn;
 	};
+	const mobileAction = () => {
+		if (actionVisible || (songId === "straight" && current && !actionOn)) {
+			doAction({ target: actionBtn });
+		}
+	};
 
 	$: if ($currentActionIndex === 0) {
 		actionOn = false;
@@ -84,8 +89,7 @@
 	}
 	$: muted = $instrumentToggles[id] === "off";
 	$: mobile = $viewport.width < 600;
-	$: onNotesClick =
-		mobile && action ? () => doAction({ target: actionBtn }) : null;
+	$: current = $currentAction && $currentAction.instrument === id;
 	$: if ($width && notesContainer) $xOffset = notesContainer.offsetLeft;
 	$: buttonText =
 		action && actionOn
@@ -104,15 +108,20 @@
 			style:height={`${interactionHeight}px`}
 			style:width={`${$width}px`}
 			style:left={`${$xOffset}px`}
-			class:clickable={mobile && action}
-			on:click={onNotesClick}
-			on:keydown={onNotesClick}
+			class:current
+			class:highlight={actionVisible && !current}
+			on:click={mobileAction}
+			on:keydown={mobileAction}
 		/>
 	{/if}
 
 	<div class="label">
 		{formatLabel(id)}
-		<button class="mute" on:click={() => mute(id)}>
+		<button
+			class="mute"
+			on:click={() => mute(id)}
+			aria-label={muted ? "unmute" : "mute"}
+		>
 			{#if muted}
 				<Icon name="volume-x" />
 			{:else}
@@ -201,7 +210,16 @@
 		top: 0;
 		z-index: 1000;
 	}
-	.clickable:hover {
+	.highlight {
+		background: var(--color-gray-300);
+		opacity: 0.1;
+	}
+	.current {
+		background: var(--yellow);
+		opacity: 0.2;
+	}
+	.highlight:hover,
+	.current:hover {
 		cursor: pointer;
 	}
 

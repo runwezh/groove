@@ -59,7 +59,7 @@
 	/>
 
 	<div class="audio-player">
-		<button on:click={pausePlay}>
+		<button on:click={pausePlay} aria-label={paused ? "play" : "pause"}>
 			{#if paused}
 				<Icon name="play" />
 			{:else}

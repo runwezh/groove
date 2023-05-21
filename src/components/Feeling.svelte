@@ -11,7 +11,7 @@
 <style>
 	.wrapper {
 		background: var(--color-gray-900);
-		border-left: 5px solid var(--accent-light);
+		border-left: 5px solid var(--yellow);
 		padding: 1em;
 		margin-top: 2em;
 	}

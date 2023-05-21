@@ -1,8 +1,9 @@
 <script>
 	export let src;
+	export let alt;
 </script>
 
-<img src={`assets/img/${src}`} />
+<img src={`assets/img/${src}`} {alt} />
 
 <style>
 	img {

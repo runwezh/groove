@@ -20,7 +20,7 @@
 		<Title {id} {title} />
 	{/if}
 
-	{#each chunks as { type, text, component, classname, steps, notes, songId, style, url, song, artist, dots, division, interactive, prompt, share, src }}
+	{#each chunks as { type, text, component, classname, steps, notes, songId, style, url, song, artist, dots, division, interactive, prompt, share, src, alt }}
 		<svelte:element this={type} class={classname}>
 			{#if text}
 				{@html text}
@@ -40,6 +40,7 @@
 					{prompt}
 					{share}
 					{src}
+					{alt}
 				/>
 			{/if}
 		</svelte:element>

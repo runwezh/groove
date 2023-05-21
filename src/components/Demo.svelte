@@ -82,6 +82,8 @@
 	const playClicked = writable(false);
 	const currentAction = writable(undefined);
 	const currentActionIndex = writable(undefined);
+	const order = ["bass", "synth", "hihat", "kick", "snare"];
+	let caption = { song: "", info: "" };
 
 	const reset = () => {
 		$seek = 0;
@@ -104,7 +106,6 @@
 		$audioEls.forEach((el) => el.pause());
 		$currentAudioId = undefined;
 	};
-
 	const restartActions = () => {
 		$currentAction = actions[0];
 		$currentActionIndex = 0;
@@ -118,7 +119,15 @@
 		reset();
 	};
 
-	const order = ["bass", "synth", "hihat", "kick", "snare"];
+	const simplify = (instrument, style) => {
+		if (style === "straight" || style === "missing") {
+			return style;
+		} else if (instrument === "snare") {
+			return "shifted";
+		} else {
+			return "swung";
+		}
+	};
 
 	$: $timeToBeat = scaleLinear()
 		.domain([0, $trimmedDuration])
@@ -130,6 +139,21 @@
 		(d) => order.indexOf(d)
 	);
 	$: faded = style !== "real" && !$playClicked;
+	$: {
+		const instruments = order
+			.filter(
+				(d) => $instrumentStyles[d] && (songId !== "money" || d !== "kick")
+			)
+			.map((d) => `the ${d} is ${simplify(d, $instrumentStyles[d])}`);
+		const info = instruments.join(", ");
+
+		if (style !== "real") {
+			caption = { song: "a basic groove", info };
+		} else {
+			caption = { song: `${song} by ${artist}`, info };
+		}
+	}
+	$: figcaption = `visualizing each part of ${caption.song} where ${caption.info}.`;
 </script>
 
 <div class="demo" class:real={style === "real"}>
@@ -137,14 +161,9 @@
 		<h3><span>{song}</span> by <span>{artist}</span></h3>
 	{/if}
 
-	<div
-		class="chart"
-		id={songId}
-		bind:clientHeight={$height}
-		class:faded
-		use:inView
-		on:exit={onExit}
-	>
+	<figure bind:clientHeight={$height} class:faded use:inView on:exit={onExit}>
+		<figcaption class="sr-only" aria-live="polite">{figcaption}</figcaption>
+
 		{#if marker}
 			<Marker />
 		{/if}
@@ -183,7 +202,7 @@
 		{#if style === "real"}
 			<Annotations />
 		{/if}
-	</div>
+	</figure>
 
 	<Audio {play} {pause} {reset} {restartActions} />
 
@@ -202,7 +221,7 @@
 	.demo.real {
 		background: none;
 	}
-	.chart {
+	figure {
 		width: 100%;
 		display: flex;
 		flex-direction: column;

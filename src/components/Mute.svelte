@@ -6,7 +6,11 @@
 </script>
 
 <div class="wrapper">
-	<button on:click={() => ($soundOn = !$soundOn)} class:faded={!$soundOn}>
+	<button
+		on:click={() => ($soundOn = !$soundOn)}
+		class:faded={!$soundOn}
+		aria-label={$soundOn ? "mute" : "unmute"}
+	>
 		{#if $soundOn}
 			<Icon name="volume-2" />
 		{:else}

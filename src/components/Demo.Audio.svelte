@@ -54,6 +54,7 @@
 	on:click={play}
 	class:pulse
 	class:visible={!$playClicked && style !== "real"}
+	aria-label="play"
 >
 	<Icon name="play" />
 </button>
@@ -63,6 +64,7 @@
 		class="static"
 		on:click={$isPlaying ? pause : play}
 		class:visible={$playClicked || style === "real"}
+		aria-label={$isPlaying ? "pause" : "play"}
 	>
 		{#if $isPlaying}
 			<Icon name="pause" />
@@ -74,6 +76,7 @@
 		class="static"
 		on:click={restartActions}
 		class:visible={$playClicked && style !== "real"}
+		aria-label="restart"
 	>
 		<Icon name="circle-ccw" />
 	</button>

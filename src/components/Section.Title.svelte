@@ -32,7 +32,7 @@
 </script>
 
 <h3
-	{id}
+	id={`${id}-title`}
 	class:visible={showTitle}
 	use:inView
 	on:enter={onEnter}
@@ -87,46 +87,46 @@
 	}
 
 	/* SWING */
-	:global(h3#swing .letter:nth-child(2)) {
+	:global(h3#swing-title .letter:nth-child(2)) {
 		transform: translate(0, 0);
 		transition: all 1s;
 		color: white;
 	}
-	:global(h3#swing.visible .letter:nth-child(2)) {
+	:global(h3#swing-title.visible .letter:nth-child(2)) {
 		transform: translate(15px, 0px);
 		color: var(--accent);
 	}
-	:global(h3#swing .letter:nth-child(3)) {
+	:global(h3#swing-title .letter:nth-child(3)) {
 		transform: translate(0, 0);
 		transition: all 1s 250ms;
 	}
-	:global(h3#swing.visible .letter:nth-child(3)) {
+	:global(h3#swing-title.visible .letter:nth-child(3)) {
 		transform: translate(10px, 0px);
 	}
-	:global(h3#swing .letter:nth-child(4)) {
+	:global(h3#swing-title .letter:nth-child(4)) {
 		transform: translate(0, 0);
 		transition: all 1s 500ms;
 		color: white;
 	}
-	:global(h3#swing.visible .letter:nth-child(4)) {
+	:global(h3#swing-title.visible .letter:nth-child(4)) {
 		transform: translate(25px, 0px);
 		color: var(--accent);
 	}
-	:global(h3#swing .letter:nth-child(5)) {
+	:global(h3#swing-title .letter:nth-child(5)) {
 		transform: translate(0, 0);
 		transition: all 1s 750ms;
 	}
-	:global(h3#swing.visible .letter:nth-child(5)) {
+	:global(h3#swing-title.visible .letter:nth-child(5)) {
 		transform: translate(20px, 0px);
 	}
 
 	/* SHIFT */
-	:global(h3#shift .letter:nth-child(1)) {
+	:global(h3#shift-title .letter:nth-child(1)) {
 		transform: translate(0, 0);
 		transition: all 1s 500ms;
 		color: white;
 	}
-	:global(h3#shift.visible .letter:nth-child(1)) {
+	:global(h3#shift-title.visible .letter:nth-child(1)) {
 		transform: translate(0, -30px);
 		color: var(--accent);
 	}

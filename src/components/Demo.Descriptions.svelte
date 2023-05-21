@@ -32,7 +32,7 @@
 				class="text"
 				class:visible={i === $currentActionIndex}
 			>
-				{note}
+				{@html note}
 			</div>
 		{/each}
 	</div>
@@ -63,5 +63,13 @@
 	}
 	.visible {
 		visibility: visible;
+	}
+	:global(span.mobile-only) {
+		display: inline;
+	}
+	@media (hover: hover) and (pointer: fine) {
+		:global(span.mobile-only) {
+			display: none;
+		}
 	}
 </style>
