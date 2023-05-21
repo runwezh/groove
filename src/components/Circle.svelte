@@ -6,6 +6,7 @@
 	import Range from "$components/helpers/Range.svelte";
 	import _ from "lodash";
 	import { writable } from "svelte/store";
+	import { currentAudioId } from "$stores/misc.js";
 
 	export let dots = [0];
 	export let beatsPerRotation = 1;
@@ -33,6 +34,7 @@
 	let duration = 0;
 	let audioEls = [];
 	let currentDivision = +division;
+	let id = interactive ? "circle-interactive" : "circle";
 
 	$: ratio = Math.ceil(currentDivision / 2) / currentDivision;
 	$: dotsData = interactive ? [0, ratio] : dots ? dots.map((d) => +d) : [];
@@ -54,6 +56,12 @@
 		play();
 	}
 	$: division, divisionChange();
+	$: $currentAudioId, audioChange();
+	const audioChange = () => {
+		if ($currentAudioId && $currentAudioId !== id && $isPlaying) {
+			pause();
+		}
+	};
 
 	const divisionChange = () => {
 		audioEls.forEach((el) => {
@@ -63,10 +71,12 @@
 
 	const pause = () => {
 		$isPlaying = false;
+		$currentAudioId = undefined;
 		audioEls.forEach((el) => el.pause());
 	};
 	const play = () => {
 		$isPlaying = true;
+		$currentAudioId = id;
 		audioEls.forEach((el) => {
 			el.currentTime = $seek;
 			el.play();

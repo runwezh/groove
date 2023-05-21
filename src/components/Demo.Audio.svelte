@@ -78,7 +78,7 @@
 		class:visible={$playClicked && style !== "real"}
 		aria-label="restart"
 	>
-		<Icon name="circle-ccw" />
+		<Icon name="rotate-ccw" />
 	</button>
 </div>
 

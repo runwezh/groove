@@ -98,10 +98,10 @@
 	}
 
 	input[type="range"]::-moz-range-thumb {
-		box-shadow: 1px 1px 1px var(--color-black), 0 0 1px var(--color-black);
+		border-radius: 0;
+		border: none;
 		height: var(--thumb-width);
 		width: calc(var(--thumb-width) / 1.5);
-		border-radius: 50%;
 		background: var(--dot-color);
 	}
 
