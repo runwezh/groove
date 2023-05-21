@@ -46,9 +46,7 @@
 	const formatLabel = (str) => _.upperFirst(str === "hihat" ? "hi-hat" : str);
 
 	const mute = (id) => {
-		if (style !== "real") {
-			$instrumentToggles[id] = $instrumentToggles[id] === "off" ? "on" : "off";
-		}
+		$instrumentToggles[id] = $instrumentToggles[id] === "off" ? "on" : "off";
 	};
 
 	const doAction = () => {
@@ -119,6 +117,7 @@
 		{formatLabel(id)}
 		<button
 			class="mute"
+			class:visible={style !== "real"}
 			on:click={() => mute(id)}
 			aria-label={muted ? "unmute" : "mute"}
 		>
@@ -172,6 +171,10 @@
 		height: 18px;
 		border: none;
 		background: none;
+		visibility: hidden;
+	}
+	button.mute.visible {
+		visibility: visible;
 	}
 	button.mute:active {
 		transform: none;
