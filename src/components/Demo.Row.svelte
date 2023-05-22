@@ -150,8 +150,9 @@
 			class:visible={actionVisible}
 			on:click={doAction}
 			disabled={mobile || (songId === "straight" && actionOn)}
-			>{buttonText}</button
 		>
+			{@html buttonText.replace("hi-hat", "<br/>hi-hat")}
+		</button>
 	{/if}
 </div>
 
