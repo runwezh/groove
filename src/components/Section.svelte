@@ -28,7 +28,7 @@
 				{#each list as item}
 					<li>{@html item}</li>
 				{/each}
-			{:else}
+			{:else if component !== "Demo" || $started}
 				<svelte:component
 					this={components[component]}
 					{steps}

@@ -19,30 +19,10 @@
 	font-display: swap;
 }
 
-/* Tiempos Text */
-@font-face {
-	font-family: "Tiempos Text Web";
-	src: url("https://pudding.cool/assets/fonts/tiempos/TiemposTextWeb-Regular.woff2")
-		format("woff2");
-	font-weight: 400;
-	font-style: normal;
-	font-stretch: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Tiempos Text Web";
-	src: url("https://pudding.cool/assets/fonts/tiempos/TiemposTextWeb-Bold.woff2")
-		format("woff2");
-	font-weight: 700;
-	font-style: normal;
-	font-stretch: normal;
-	font-display: swap;
-}
-
 @font-face {
 	font-family: "Nicolatte";
-	src: url("assets/font/Nicolatte_Regular.otf") format("opentype");
+	src: url("https://pudding.cool/assets/fonts/nicolatte/Nicolatte-Regular.otf")
+		format("opentype");
 	font-weight: 700;
 	font-style: normal;
 	font-stretch: normal;

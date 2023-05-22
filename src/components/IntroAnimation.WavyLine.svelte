@@ -1,5 +1,6 @@
 <script>
 	import { tweened } from "svelte/motion";
+	import { fade } from "svelte/transition";
 	import { range } from "d3";
 	import { quadOut } from "svelte/easing";
 	import _ from "lodash";
@@ -78,7 +79,7 @@
 	};
 </script>
 
-<path d={pathD} class:moving />
+<path d={pathD} class:moving transition:fade />
 
 <style>
 	path {

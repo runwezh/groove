@@ -1,5 +1,6 @@
 <script>
-	import Icon from "$components/helpers/Icon.svelte";
+	import volumeOn from "$svg/volume-2.svg";
+	import volumeOff from "$svg/volume-x.svg";
 	import { soundOn } from "$stores/misc.js";
 
 	export let label;
@@ -12,9 +13,9 @@
 		aria-label={$soundOn ? "mute" : "unmute"}
 	>
 		{#if $soundOn}
-			<Icon name="volume-2" />
+			{@html volumeOn}
 		{:else}
-			<Icon name="volume-x" />
+			{@html volumeOff}
 		{/if}
 	</button>
 	<div
