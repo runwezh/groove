@@ -28,7 +28,11 @@ const missingSnare = {
 	data: []
 };
 const straightSnare = { instrument: "snare", style: "straight", data: [1, 3] };
-const shiftedSnare = { instrument: "snare", style: "shift", data: [0.9, 2.9] };
+const shiftedSnare = {
+	instrument: "snare",
+	style: "shift",
+	data: [0.88, 2.88]
+};
 
 const missingHihat = {
 	instrument: "hihat",

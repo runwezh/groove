@@ -77,7 +77,7 @@
 	};
 	const mobileAction = () => {
 		if (actionVisible || (songId === "straight" && current && !actionOn)) {
-			doAction({ target: actionBtn });
+			doAction();
 		}
 	};
 

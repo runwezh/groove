@@ -7,7 +7,7 @@
 	import { setContext } from "svelte";
 	import { scaleLinear, range } from "d3";
 	import { writable } from "svelte/store";
-	import { songData, currentAudioId } from "$stores/misc.js";
+	import { songData, currentAudioId, started } from "$stores/misc.js";
 	import inView from "$actions/inView.js";
 	import _ from "lodash";
 
@@ -91,6 +91,8 @@
 	const play = async () => {
 		$audioEls.forEach((el) => {
 			el.currentTime = $seek;
+		});
+		$audioEls.forEach((el) => {
 			el.play();
 		});
 		if (!$playClicked) {
@@ -161,6 +163,10 @@
 		<h3><span>{song}</span> by <span>{artist}</span></h3>
 	{/if}
 
+	<div class="descriptions" class:faded>
+		<Descriptions {notes} />
+	</div>
+
 	<figure bind:clientHeight={$height} class:faded use:inView on:exit={onExit}>
 		<figcaption class="sr-only" aria-live="polite">{figcaption}</figcaption>
 
@@ -187,17 +193,19 @@
 			</div>
 		{/if}
 
-		{#each sortedInstruments as instrument}
-			{@const data = $allParts.find(
-				(d) =>
-					d.instrument === instrument &&
-					d.style === $instrumentStyles[instrument]
-			)?.data}
-			{@const action = actions
-				? actions.find((d) => d.instrument === instrument)
-				: null}
-			<Row id={instrument} {data} {action} />
-		{/each}
+		{#if $started}
+			{#each sortedInstruments as instrument}
+				{@const data = $allParts.find(
+					(d) =>
+						d.instrument === instrument &&
+						d.style === $instrumentStyles[instrument]
+				)?.data}
+				{@const action = actions
+					? actions.find((d) => d.instrument === instrument)
+					: null}
+				<Row id={instrument} {data} {action} />
+			{/each}
+		{/if}
 
 		{#if style === "real"}
 			<Annotations />
@@ -205,10 +213,6 @@
 	</figure>
 
 	<Audio {play} {pause} {reset} {restartActions} />
-
-	<div class="below" class:faded>
-		<Descriptions {notes} />
-	</div>
 </div>
 
 <style>
@@ -230,7 +234,7 @@
 		opacity: 1;
 		transition: opacity 300ms;
 	}
-	.below {
+	.descriptions {
 		opacity: 1;
 		transition: opacity 300ms;
 	}

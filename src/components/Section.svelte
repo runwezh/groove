@@ -28,7 +28,7 @@
 				{#each list as item}
 					<li>{@html item}</li>
 				{/each}
-			{:else if component !== "Demo" || $started}
+			{:else}
 				<svelte:component
 					this={components[component]}
 					{steps}
@@ -80,8 +80,9 @@
 		margin-bottom: 2em;
 	}
 	.note {
-		font-style: italic;
-		font-size: var(--16px);
+		background: var(--color-gray-900);
+		border-left: 5px solid var(--color-gray-100);
+		padding: 1em;
 	}
 	.feeling {
 		font-style: italic;

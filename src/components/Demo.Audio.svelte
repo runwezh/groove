@@ -111,10 +111,9 @@
 		display: flex;
 		align-items: center;
 	}
-
 	button.fixed {
 		position: absolute;
-		top: 35%;
+		top: 50%;
 		left: 50%;
 		height: 40px;
 		transform: translate(-50%, -50%);
@@ -134,7 +133,6 @@
 	button.static:active {
 		transform: translate(5px, 5px);
 	}
-
 	button {
 		visibility: hidden;
 		height: 2.5em;
@@ -146,7 +144,6 @@
 	button.visible {
 		visibility: visible;
 	}
-
 	button.pulse {
 		animation: pulse 0.4s infinite alternate;
 	}

@@ -31,9 +31,13 @@
 		$instrumentToggles[instrument] === "off" ||
 		$instrumentStyles[instrument] !== style;
 
-	$: if (!muted) align();
+	$: muted, align();
 
 	const align = () => {
+		console.log("align");
+
+		// pause for a sec before going back in?
+
 		if ($audioEls && $audioEls.length) {
 			$audioEls.forEach((audioEl) => {
 				audioEl.currentTime = $seek;

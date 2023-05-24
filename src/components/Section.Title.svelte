@@ -53,7 +53,7 @@
 						bind:this={letterEls[overallTitleI]}>{letter}</span
 					>
 
-					{#if id === "dilla"}
+					<!-- {#if id === "dilla"}
 						<span
 							class="letter dilla"
 							style={`--random-left: ${Math.random() * 200}px; --random-top: ${
@@ -63,7 +63,7 @@
 							}ms; --color: ${Math.random() > 0.5 ? "var(--accent)" : "white"}`}
 							>{letter}</span
 						>
-					{/if}
+					{/if} -->
 				{/each}
 				<span>&nbsp;</span>
 			</span>
@@ -104,7 +104,7 @@
 		transition: all 1s 250ms;
 	}
 	:global(h3#swing-title.visible .letter:nth-child(3)) {
-		transform: translate(10px, 0px);
+		transform: translate(15px, 0px);
 	}
 	:global(h3#swing-title .letter:nth-child(4)) {
 		transform: translate(0, 0);
@@ -120,7 +120,7 @@
 		transition: all 1s 750ms;
 	}
 	:global(h3#swing-title.visible .letter:nth-child(5)) {
-		transform: translate(20px, 0px);
+		transform: translate(25px, 0px);
 	}
 
 	/* SHIFT */
@@ -135,21 +135,14 @@
 	}
 
 	/* DILLA */
-	.ghost {
-		opacity: 0;
+	:global(h3#dilla-title .word:nth-child(1) .letter:nth-child(2)) {
+		transform: translate(0, 0);
+		transition: all 1s 500ms;
+		color: white;
 	}
-	.letter.dilla {
-		position: absolute;
-		z-index: 1000;
-		top: var(--random-top);
-		left: var(--random-left);
-		transition: all 2s var(--delay) ease-in;
-		opacity: 0;
-	}
-	.visible .letter.dilla {
-		left: var(--true-left);
-		top: 0;
-		opacity: 1;
-		color: var(--color);
+	:global(h3#dilla-title.visible .word:nth-child(1) .letter:nth-child(2)) {
+		transform: translate(15px, 20px);
+		transition: all 1s 500ms;
+		color: var(--accent);
 	}
 </style>
