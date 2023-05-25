@@ -3,6 +3,7 @@
 	import Icon from "$components/helpers/Icon.svelte";
 	import { currentAudioId } from "$stores/misc.js";
 	import { getContext } from "svelte";
+	import mq from "$stores/mq.js";
 
 	const {
 		songId,
@@ -30,7 +31,7 @@
 	$: trimOff = songId === "heart" ? 300 : songId === "money" ? 500 : 1300;
 	$: $trimmedDuration = $duration * 1000 - trimOff;
 	$: intro = songId === "normal" || songId === "drunk";
-	$: pulse = !$playClicked && style !== "real";
+	$: pulse = !$playClicked && style !== "real" && !$mq.reducedMotion;
 	$: if ($duration && $seek * 1000 > $trimmedDuration) {
 		reset();
 		play();

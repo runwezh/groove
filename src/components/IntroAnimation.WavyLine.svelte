@@ -87,7 +87,7 @@
 		fill: none;
 		stroke-width: 2px;
 		opacity: 1;
-		transition: opacity 300ms;
+		transition: opacity calc(var(--1s) * 0.3);
 	}
 	path.moving {
 		opacity: 0.5;

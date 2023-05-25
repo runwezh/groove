@@ -1,6 +1,7 @@
 <script>
 	import inView from "$actions/inView.js";
 	import _ from "lodash";
+	import mq from "$stores/mq.js";
 
 	export let id;
 	export let title;
@@ -37,7 +38,7 @@
 					{@const randomRotate = _.random(-30, 30)}
 					<span
 						class="letter"
-						style={`--delay: ${_.random(0, 1000)}ms`}
+						style={`--delay: ${$mq.reducedMotion ? 0 : _.random(0, 1000)}ms`}
 						style:transform={id !== "dilla"
 							? null
 							: !showTitle
@@ -72,7 +73,7 @@
 	/* SWING */
 	h3#swing-title .letter:nth-child(2) {
 		transform: translate(0, 0);
-		transition: all 1s;
+		transition: all var(--1s);
 		color: white;
 	}
 	h3#swing-title.visible .letter:nth-child(2) {
@@ -81,14 +82,14 @@
 	}
 	h3#swing-title .letter:nth-child(3) {
 		transform: translate(0, 0);
-		transition: all 1s 250ms;
+		transition: all var(--1s) calc(var(--1s) * 0.25);
 	}
 	h3#swing-title.visible .letter:nth-child(3) {
 		transform: translate(15px, 0px);
 	}
 	h3#swing-title .letter:nth-child(4) {
 		transform: translate(0, 0);
-		transition: all 1s 500ms;
+		transition: all var(--1s) calc(var(--1s) * 0.5);
 		color: white;
 	}
 	h3#swing-title.visible .letter:nth-child(4) {
@@ -97,7 +98,7 @@
 	}
 	h3#swing-title .letter:nth-child(5) {
 		transform: translate(0, 0);
-		transition: all 1s 750ms;
+		transition: all var(--1s) calc(var(--1s) * 0.75);
 	}
 	h3#swing-title.visible .letter:nth-child(5) {
 		transform: translate(25px, 0px);
@@ -106,7 +107,7 @@
 	/* SHIFT */
 	h3#shift-title .letter:nth-child(1) {
 		transform: translate(0, 0);
-		transition: all 1s 500ms;
+		transition: all var(--1s) calc(var(--1s) * 0.5);
 		color: white;
 	}
 	h3#shift-title.visible .letter:nth-child(1) {
@@ -120,6 +121,6 @@
 	}
 	h3#dilla-title.visible .letter {
 		color: var(--accent);
-		transition: all 1s var(--delay);
+		transition: all var(--1s) var(--delay);
 	}
 </style>

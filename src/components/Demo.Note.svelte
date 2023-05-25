@@ -40,11 +40,11 @@
 		border-radius: 10px;
 		position: absolute;
 		transform: translate(-50%, -50%);
-		transition: width 800ms, all 300ms;
+		transition: width calc(var(--1s) * 0.8), all calc(var(--1s) * 0.3);
 		background: var(--accent-light);
 	}
 	.played {
-		animation: 300ms ease-in-out grow;
+		animation: calc(var(--1s) * 0.3) ease-in-out grow;
 	}
 	.highlighted {
 		background: var(--accent);

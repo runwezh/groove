@@ -31,11 +31,11 @@
 		visibility: visible;
 	}
 	circle {
-		transition: cx 1.5s ease-in-out;
+		transition: cx calc(var(--1s) * 1.5) ease-in-out;
 	}
 	circle.played {
 		fill: var(--accent);
-		animation: 300ms ease-in-out grow;
+		animation: calc(var(--1s) * 0.3) ease-in-out grow;
 		transform-box: fill-box;
 		transform-origin: center;
 	}

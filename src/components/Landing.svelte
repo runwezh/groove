@@ -1,15 +1,22 @@
 <script>
 	import Mute from "$components/Mute.svelte";
+	import { tick, onMount } from "svelte";
 	import copy from "$data/copy.json";
 	import { started, scrollyStep, direction } from "$stores/misc.js";
 
 	const { hed, dek, byline, byline_illo } = copy;
+
+	let startEl;
 
 	const start = async () => {
 		$started = true;
 		await tick();
 		startEl.scrollIntoView({ block: "center", behavior: "smooth" });
 	};
+
+	onMount(() => {
+		startEl = document.getElementById("start-of-story");
+	});
 </script>
 
 <div class="landing">
@@ -70,7 +77,7 @@
 		top: 1em;
 		right: 1em;
 		opacity: 0;
-		transition: opacity 500ms;
+		transition: opacity calc(var(--1s) * 0.5);
 	}
 	.fixed-mute.visible {
 		opacity: 1;

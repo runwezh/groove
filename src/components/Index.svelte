@@ -4,20 +4,13 @@
 	import Footer from "$components/Footer.svelte";
 	import Section from "$components/Section.svelte";
 	import { started } from "$stores/misc.js";
-	import { onMount } from "svelte";
 	import copy from "$data/copy.json";
-
-	let startEl;
 
 	const debug = [];
 	// const sections = copy.sections.filter((d) => debug.includes(d.id));
 	// $started = true;
 
 	const sections = copy.sections;
-
-	onMount(() => {
-		startEl = document.getElementById("start-of-story");
-	});
 </script>
 
 <IntroAnimation />

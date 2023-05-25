@@ -95,7 +95,7 @@
 		margin: 40vh 0;
 		padding: 1em;
 		opacity: 0.2;
-		transition: all 200ms ease-out;
+		transition: all calc(var(--1s) * 0.2) ease-out;
 		transform: scale(1);
 		transform-origin: center;
 		display: flex;

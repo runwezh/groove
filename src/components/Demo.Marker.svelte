@@ -1,5 +1,6 @@
 <script>
 	import { getContext } from "svelte";
+	import mq from "$stores/mq.js";
 
 	const { getXScale, getSeek, getCurrentBeat, getTimeToBeat, getXOffset } =
 		getContext("song");
@@ -33,6 +34,7 @@
 <div
 	bind:this={markerEl}
 	class="marker"
+	class:visible={!$mq.reducedMotion}
 	style:left
 	on:mousedown={onMouseDown}
 />
@@ -47,6 +49,10 @@
 		height: 100%;
 		z-index: 1000;
 		transform: translate(-50%, 0);
+		visibility: hidden;
+	}
+	.marker.visible {
+		visibility: visible;
 	}
 	.marker:hover {
 		cursor: move;

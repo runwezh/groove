@@ -7,6 +7,7 @@
 	import _ from "lodash";
 	import { writable } from "svelte/store";
 	import { currentAudioId } from "$stores/misc.js";
+	import mq from "$stores/mq.js";
 
 	export let dots = [0];
 	export let beatsPerRotation = 1;
@@ -118,6 +119,7 @@
 
 			<line
 				class="marker"
+				class:visible={!$mq.reducedMotion}
 				x1={0}
 				y1={0}
 				x2={x(beatToAngle(timeToBeat($seek)))}
@@ -209,6 +211,10 @@
 		stroke: var(--color-gray-100);
 		stroke-width: 4px;
 		stroke-dasharray: 0px;
+		visibility: hidden;
+	}
+	.marker.visible {
+		visibility: visible;
 	}
 	.percentage {
 		fill: var(--accent);

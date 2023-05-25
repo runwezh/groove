@@ -3,6 +3,7 @@
 	import SimpleDemo from "$components/IntroAnimation.SimpleDemo.svelte";
 	import { scrollyStep, direction, soundOn } from "$stores/misc.js";
 	import { scaleLinear, range } from "d3";
+	import mq from "$stores/mq.js";
 
 	let beats = 32;
 	let width = 0;
@@ -39,7 +40,8 @@
 	$: moving =
 		$scrollyStep !== 2 &&
 		$scrollyStep !== 3 &&
-		($scrollyStep !== undefined || $direction === "up");
+		($scrollyStep !== undefined || $direction === "up") &&
+		!$mq.reducedMotion;
 	$: data =
 		$scrollyStep === 2 ? straightData : $scrollyStep === 3 ? wonkyData : [];
 
@@ -88,7 +90,7 @@
 		left: 0;
 		z-index: -1;
 		opacity: 0;
-		transition: opacity 800ms;
+		transition: opacity calc(var(--1s) * 0.8);
 	}
 	svg {
 		position: fixed;

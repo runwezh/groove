@@ -5,6 +5,7 @@
 	import _ from "lodash";
 	import Icon from "$components/helpers/Icon.svelte";
 	import viewport from "$stores/viewport.js";
+	import mq from "$stores/mq.js";
 
 	export let id;
 	export let data;
@@ -146,7 +147,7 @@
 			bind:this={actionBtn}
 			class="action-btn"
 			class:mobile
-			class:pulse={action === $currentAction}
+			class:pulse={action === $currentAction && !$mq.reducedMotion}
 			class:visible={actionVisible}
 			on:click={doAction}
 			disabled={mobile || (songId === "straight" && actionOn)}

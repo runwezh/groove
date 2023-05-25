@@ -18,11 +18,11 @@
 	circle {
 		transform-box: fill-box;
 		transform-origin: center;
-		transition: fill 100ms;
+		transition: fill calc(var(--1s) * 0.1);
 		fill: var(--accent-light);
 	}
 	.played {
-		animation: 300ms ease-in-out grow;
+		animation: calc(var(--1s) * 0.3) ease-in-out grow;
 	}
 
 	@keyframes grow {

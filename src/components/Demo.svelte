@@ -233,11 +233,11 @@
 		justify-content: space-around;
 		position: relative;
 		opacity: 1;
-		transition: opacity 300ms;
+		transition: opacity calc(var(--1s) * 0.3);
 	}
 	.descriptions {
 		opacity: 1;
-		transition: opacity 300ms;
+		transition: opacity calc(var(--1s) * 0.3);
 	}
 	.faded {
 		opacity: 0.2;
