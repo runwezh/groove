@@ -1,6 +1,6 @@
 <script>
 	import inView from "$actions/inView.js";
-	import { onMount } from "svelte";
+	import _ from "lodash";
 
 	export let id;
 	export let title;
@@ -8,8 +8,6 @@
 	let hasAnimation =
 		id === "straight" || id === "swing" || id === "shift" || id === "dilla";
 	let showTitle = hasAnimation ? false : true;
-	let letterEls = [];
-	let letterXs = [];
 
 	const onEnter = () => {
 		if (hasAnimation) {
@@ -21,14 +19,6 @@
 			showTitle = false;
 		}
 	};
-
-	onMount(() => {
-		if (id === "dilla") {
-			letterXs = letterEls.map((d) => {
-				return d.offsetLeft;
-			});
-		}
-	});
 </script>
 
 <h3
@@ -42,28 +32,18 @@
 		{#each title.split(" ") as word, i}
 			<span class="word">
 				{#each word.split("") as letter, j}
-					{@const prevWordLetters = title
-						.split(" ")
-						.slice(0, i)
-						.join("").length}
-					{@const overallTitleI = prevWordLetters + j}
+					{@const randomX = _.random(-50, 50)}
+					{@const randomY = _.random(-50, 50)}
+					{@const randomRotate = _.random(-30, 30)}
 					<span
 						class="letter"
-						class:ghost={id === "dilla"}
-						bind:this={letterEls[overallTitleI]}>{letter}</span
+						style={`--delay: ${_.random(0, 1000)}ms`}
+						style:transform={id !== "dilla"
+							? null
+							: !showTitle
+							? `rotate(${randomX}deg) translate(${randomY}px, ${randomRotate}px)`
+							: "rotate(0) translate(0,0)"}>{letter}</span
 					>
-
-					<!-- {#if id === "dilla"}
-						<span
-							class="letter dilla"
-							style={`--random-left: ${Math.random() * 200}px; --random-top: ${
-								Math.random() * 200
-							}px; --true-left: ${letterXs[overallTitleI]}px; --delay: ${
-								Math.random() * 600
-							}ms; --color: ${Math.random() > 0.5 ? "var(--accent)" : "white"}`}
-							>{letter}</span
-						>
-					{/if} -->
 				{/each}
 				<span>&nbsp;</span>
 			</span>
@@ -90,59 +70,56 @@
 	}
 
 	/* SWING */
-	:global(h3#swing-title .letter:nth-child(2)) {
+	h3#swing-title .letter:nth-child(2) {
 		transform: translate(0, 0);
 		transition: all 1s;
 		color: white;
 	}
-	:global(h3#swing-title.visible .letter:nth-child(2)) {
+	h3#swing-title.visible .letter:nth-child(2) {
 		transform: translate(15px, 0px);
 		color: var(--accent);
 	}
-	:global(h3#swing-title .letter:nth-child(3)) {
+	h3#swing-title .letter:nth-child(3) {
 		transform: translate(0, 0);
 		transition: all 1s 250ms;
 	}
-	:global(h3#swing-title.visible .letter:nth-child(3)) {
+	h3#swing-title.visible .letter:nth-child(3) {
 		transform: translate(15px, 0px);
 	}
-	:global(h3#swing-title .letter:nth-child(4)) {
+	h3#swing-title .letter:nth-child(4) {
 		transform: translate(0, 0);
 		transition: all 1s 500ms;
 		color: white;
 	}
-	:global(h3#swing-title.visible .letter:nth-child(4)) {
+	h3#swing-title.visible .letter:nth-child(4) {
 		transform: translate(25px, 0px);
 		color: var(--accent);
 	}
-	:global(h3#swing-title .letter:nth-child(5)) {
+	h3#swing-title .letter:nth-child(5) {
 		transform: translate(0, 0);
 		transition: all 1s 750ms;
 	}
-	:global(h3#swing-title.visible .letter:nth-child(5)) {
+	h3#swing-title.visible .letter:nth-child(5) {
 		transform: translate(25px, 0px);
 	}
 
 	/* SHIFT */
-	:global(h3#shift-title .letter:nth-child(1)) {
+	h3#shift-title .letter:nth-child(1) {
 		transform: translate(0, 0);
 		transition: all 1s 500ms;
 		color: white;
 	}
-	:global(h3#shift-title.visible .letter:nth-child(1)) {
+	h3#shift-title.visible .letter:nth-child(1) {
 		transform: translate(0, -30px);
 		color: var(--accent);
 	}
 
 	/* DILLA */
-	:global(h3#dilla-title .word:nth-child(1) .letter:nth-child(2)) {
-		transform: translate(0, 0);
-		transition: all 1s 500ms;
+	h3#dilla-title {
 		color: white;
 	}
-	:global(h3#dilla-title.visible .word:nth-child(1) .letter:nth-child(2)) {
-		transform: translate(15px, 20px);
-		transition: all 1s 500ms;
+	h3#dilla-title.visible .letter {
 		color: var(--accent);
+		transition: all 1s var(--delay);
 	}
 </style>

@@ -34,22 +34,23 @@
 					<summary>{title}</summary>
 					<Section {id} {chunks} />
 				</details>
+			{:else if id === "notes"}
+				<iframe
+					style="border-radius:12px"
+					src="https://open.spotify.com/embed/playlist/2lv10HmmIbXoknNEoNDt2s?utm_source=generator&theme=0"
+					width="100%"
+					height="352"
+					frameBorder="0"
+					allowfullscreen=""
+					allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+					loading="lazy"
+					title="playlist of songs with wonky grooves"
+				/>
+				<Section {id} {title} {chunks} />
 			{:else}
 				<Section {id} {title} {chunks} />
 			{/if}
 		{/each}
-
-		<iframe
-			style="border-radius:12px"
-			src="https://open.spotify.com/embed/playlist/2lv10HmmIbXoknNEoNDt2s?utm_source=generator&theme=0"
-			width="100%"
-			height="352"
-			frameBorder="0"
-			allowfullscreen=""
-			allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-			loading="lazy"
-			title="playlist of songs with wonky grooves"
-		/>
 	</div>
 </article>
 
