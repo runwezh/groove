@@ -13,44 +13,56 @@
 </script>
 
 <div class="landing">
-	<h1>{@html hed}</h1>
+	<div class="contents">
+		<h1>{@html hed}</h1>
 
-	<div class="dek">{@html dek}</div>
+		<div class="dek">{@html dek}</div>
 
-	<div class="image">
 		<img
 			src="assets/img/header_transparent.png"
 			alt="illustration of erykah badu, j dilla on his drum machine, and stevie wonder"
 		/>
-	</div>
 
-	<div class="byline">{@html byline}</div>
+		<div class="byline">{@html byline}</div>
 
-	<div class="byline illo">{@html byline_illo}</div>
+		<div class="byline illo">{@html byline_illo}</div>
 
-	<div class="buttons">
-		<button class="start" on:click={start}>start audio story</button>
-		<Mute label={"bottom"} />
-	</div>
+		<div class="buttons">
+			<button class="start" on:click={start}>start audio story</button>
+			<Mute label={"bottom"} />
+		</div>
 
-	<div
-		class="fixed-mute"
-		class:visible={$started &&
-			($scrollyStep !== undefined || $direction === "down")}
-	>
-		<Mute label={"left"} />
+		<div
+			class="fixed-mute"
+			class:visible={$started &&
+				($scrollyStep !== undefined || $direction === "down")}
+		>
+			<Mute label={"left"} />
+		</div>
 	</div>
 </div>
 
 <style>
 	.landing {
-		height: calc(100vh - 79.43px);
+		height: calc(100vh - 78.92px);
+	}
+	.contents {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		position: absolute;
+		width: 100%;
+		left: 0;
+		top: 78.92px;
+		padding: 0 1em;
+		min-height: 80%;
+		justify-content: space-between;
 	}
 	img {
-		width: 100%;
+		max-height: 45vh;
+		width: auto;
+		margin: 0 auto;
+		max-width: 90%;
 	}
 	.fixed-mute {
 		position: fixed;
@@ -70,9 +82,6 @@
 		color: var(--accent);
 		margin: 0;
 	}
-	.image {
-		position: relative;
-	}
 	.buttons {
 		margin-top: 3em;
 		display: flex;
@@ -83,6 +92,7 @@
 	}
 	.dek {
 		font-size: var(--20px);
+		text-align: center;
 	}
 	.byline {
 		font-family: var(--mono);
@@ -95,6 +105,28 @@
 	@media (max-width: 600px) {
 		h1 {
 			font-size: 6em;
+			line-height: 125px;
+		}
+	}
+	@media (max-height: 900px) {
+		h1 {
+			font-size: 6em;
+			line-height: 125px;
+		}
+		button.start {
+			font-size: 1em;
+		}
+		.buttons {
+			margin-top: 1em;
+		}
+	}
+	@media (max-height: 750px) {
+		h1 {
+			font-size: 4em;
+			line-height: 90px;
+		}
+		img {
+			max-height: 30vh;
 		}
 	}
 </style>

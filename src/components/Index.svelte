@@ -57,7 +57,7 @@
 
 <style>
 	article {
-		height: calc(100vh - 79.43px);
+		height: calc(100vh - 78.92px);
 		overflow: hidden;
 		max-width: 800px;
 		margin: auto;
