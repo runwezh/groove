@@ -65,7 +65,7 @@
 
 	const loop = () => {
 		amplitude
-			.set(_.random(0, 120), { duration: _.random(400, 800) })
+			.set(_.random(-120, 120), { duration: _.random(600, 1000) })
 			.then(loop);
 	};
 

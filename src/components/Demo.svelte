@@ -214,19 +214,17 @@
 			</div>
 		{/if}
 
-		{#if $started}
-			{#each sortedInstruments as instrument}
-				{@const data = $allParts.find(
-					(d) =>
-						d.instrument === instrument &&
-						d.style === $instrumentStyles[instrument]
-				)?.data}
-				{@const action = actions
-					? actions.find((d) => d.instrument === instrument)
-					: null}
-				<Row id={instrument} {data} {action} />
-			{/each}
-		{/if}
+		{#each sortedInstruments as instrument}
+			{@const data = $allParts.find(
+				(d) =>
+					d.instrument === instrument &&
+					d.style === $instrumentStyles[instrument]
+			)?.data}
+			{@const action = actions
+				? actions.find((d) => d.instrument === instrument)
+				: null}
+			<Row id={instrument} {data} {action} />
+		{/each}
 
 		{#if style === "real"}
 			<Annotations />
