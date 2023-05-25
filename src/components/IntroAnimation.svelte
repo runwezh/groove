@@ -47,6 +47,7 @@
 
 	$: xScale = scaleLinear().domain([0, beats]).range([0, width]);
 	$: timeToBeat = scaleLinear().domain([0, currentDuration]).range([0, beats]);
+	$: drunkVolume = $scrollyStep === 1 ? 0.5 : 1;
 </script>
 
 <div class="wrapper" bind:clientWidth={width} class:visible>
@@ -78,6 +79,7 @@
 	loop={true}
 	muted={!$soundOn}
 	preload="auto"
+	bind:volume={drunkVolume}
 />
 
 <style>
