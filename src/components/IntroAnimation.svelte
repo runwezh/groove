@@ -35,7 +35,7 @@
 		: 0;
 	$: currentBeat = timeToBeat(currentSeek);
 
-	$: visible = $scrollyStep !== undefined || $direction === "up";
+	$: visible = $scrollyStep !== undefined;
 	$: moving =
 		$scrollyStep !== 2 &&
 		$scrollyStep !== 3 &&

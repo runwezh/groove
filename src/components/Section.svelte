@@ -20,7 +20,7 @@
 		<Title {id} {title} />
 	{/if}
 
-	{#each chunks as { type, text, list, component, classname, steps, notes, songId, style, url, song, artist, dots, division, interactive, prompt, share, src, alt }}
+	{#each chunks as { type, text, list, component, classname, steps, notes, songId, style, url, song, artist, year, dots, division, interactive, prompt, share, src, alt }}
 		<svelte:element this={type} class={classname}>
 			{#if text}
 				{@html text}
@@ -38,6 +38,7 @@
 					{url}
 					{song}
 					{artist}
+					{year}
 					{dots}
 					{division}
 					interactive={interactive === "true"}
@@ -81,7 +82,7 @@
 	}
 	.note {
 		background: var(--color-gray-900);
-		border-left: 5px solid var(--color-gray-100);
+		border-left: 5px solid white;
 		padding: 1em;
 	}
 	.feeling {
@@ -90,5 +91,9 @@
 	.quote {
 		font-size: var(--28px);
 		margin: 2em 0;
+	}
+	section#straight p:last-child {
+		margin-top: 3em;
+		margin-bottom: 0;
 	}
 </style>

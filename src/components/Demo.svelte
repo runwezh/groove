@@ -16,6 +16,7 @@
 	export let style = "default";
 	export let song;
 	export let artist;
+	export let year;
 
 	const {
 		parts,
@@ -160,7 +161,7 @@
 
 <div class="demo" class:real={style === "real"}>
 	{#if song && artist}
-		<h3><span>{song}</span> by <span>{artist}</span></h3>
+		<h3><span>{song}</span> by <span>{artist}</span> ({year})</h3>
 	{/if}
 
 	<div class="descriptions" class:faded>

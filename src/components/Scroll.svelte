@@ -91,6 +91,7 @@
 		top: 0;
 	}
 	.step {
+		font-size: var(--20px);
 		margin: 40vh 0;
 		padding: 1em;
 		opacity: 0.2;
@@ -100,7 +101,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		background: rgb(34, 34, 34, 0.9);
+		background: rgb(30, 40, 45, 0.9);
 		text-align: left;
 	}
 	.step:last-child {
@@ -112,11 +113,11 @@
 		transform: scale(1.03);
 	}
 	.quote {
-		font-size: 2em;
+		font-size: 1.8em;
 		text-align: start;
 	}
 	.speaker {
-		font-size: 1.5em;
+		font-size: 1.2em;
 		color: var(--accent);
 		text-align: start;
 	}
