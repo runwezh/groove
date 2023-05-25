@@ -1,5 +1,6 @@
 <script>
 	import Scrolly from "$components/helpers/Scrolly.svelte";
+	import Quote from "$components/Quote.svelte";
 	import { fade } from "svelte/transition";
 	import { soundOn, started, scrollyStep, direction } from "$stores/misc.js";
 	import scrollY from "$stores/scrollY.js";
@@ -49,7 +50,7 @@
 
 <div class="scroll-container" bind:this={containerEl}>
 	<Scrolly bind:value={$scrollyStep}>
-		{#each steps as { text, classname, sound, showNotes }, i}
+		{#each steps as { text, classname, id }, i}
 			{@const active = i === $scrollyStep && $started}
 			{@const paragraph = classname === "quote" ? text.split("~")[0] : text}
 			{@const quoted = classname === "quote" ? text.split("~")[1] : null}
@@ -60,9 +61,10 @@
 				transition:fade
 				id={i === 0 ? "start-of-story" : ""}
 			>
-				<p class={classname}>{@html paragraph}</p>
 				{#if quoted}
-					<p class="speaker">- {quoted}</p>
+					<Quote text={paragraph} {quoted} {id} step={i} />
+				{:else}
+					<p class={classname}>{@html paragraph}</p>
 				{/if}
 			</div>
 		{/each}
