@@ -24,6 +24,7 @@
 	export let style;
 
 	let d = 0;
+	let paused;
 	$: $duration = d;
 
 	$: muted =
@@ -34,11 +35,7 @@
 	$: muted, align();
 
 	const align = () => {
-		console.log("align");
-
-		// pause for a sec before going back in?
-
-		if ($audioEls && $audioEls.length) {
+		if ($audioEls && $audioEls.length && !paused) {
 			$audioEls.forEach((audioEl) => {
 				audioEl.currentTime = $seek;
 			});
@@ -53,6 +50,7 @@
 		bind:duration={d}
 		bind:currentTime={$seek}
 		bind:this={$audioEls[i]}
+		bind:paused
 		{src}
 		{muted}
 	/>

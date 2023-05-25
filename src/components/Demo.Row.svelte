@@ -21,6 +21,7 @@
 		getHighlightedNotes,
 		getWidth,
 		getXOffset,
+		getInteractionHeight,
 		getCurrentAction,
 		getCurrentActionIndex,
 		style,
@@ -33,10 +34,10 @@
 	const highlightedNotes = getHighlightedNotes();
 	const width = getWidth();
 	const xOffset = getXOffset();
+	const interactionHeight = getInteractionHeight();
 	const currentAction = getCurrentAction();
 	const currentActionIndex = getCurrentActionIndex();
 
-	let interactionHeight = 0;
 	let actionBtn;
 	let notesContainer;
 	let actionOn = false;
@@ -100,11 +101,11 @@
 		actions && $currentActionIndex >= actions.findIndex((d) => d === action);
 </script>
 
-<div class="instrument" class:muted bind:clientHeight={interactionHeight}>
+<div class="instrument" class:muted>
 	{#if mobile && action}
 		<div
 			class="interaction-layer"
-			style:height={`${interactionHeight}px`}
+			style:height={`${$interactionHeight}px`}
 			style:width={`${$width}px`}
 			style:left={`${$xOffset}px`}
 			class:current
@@ -130,7 +131,7 @@
 		</button>
 	</div>
 
-	<div class="notes" bind:clientWidth={$width} bind:this={notesContainer}>
+	<div class="notes" bind:this={notesContainer}>
 		{#each data as note}
 			{@const x = $xScale(note % beatsPerMeasure)}
 			<Note noteData={note} instrumentId={id} {x} />

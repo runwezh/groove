@@ -1,5 +1,6 @@
 <script>
 	import { getContext, onMount } from "svelte";
+	import viewport from "$stores/viewport.js";
 
 	export let notes;
 
@@ -10,12 +11,18 @@
 	let textEls = [];
 	let maxTextHeight = 0;
 
-	onMount(() => {
+	$: if ($viewport.width && $viewport.height) measureMaxHeight();
+
+	const measureMaxHeight = () => {
 		if (notes.length) {
 			maxTextHeight = Math.max(
 				...textEls.map((el) => el.getBoundingClientRect().height)
 			);
 		}
+	};
+
+	onMount(() => {
+		measureMaxHeight();
 	});
 </script>
 

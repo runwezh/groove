@@ -4,10 +4,11 @@
 	import Audio from "$components/Demo.Audio.svelte";
 	import Annotations from "$components/Demo.Annotations.svelte";
 	import Descriptions from "$components/Demo.Descriptions.svelte";
-	import { setContext } from "svelte";
+	import { setContext, onMount, tick } from "svelte";
 	import { scaleLinear, range } from "d3";
 	import { writable } from "svelte/store";
 	import { songData, currentAudioId, started } from "$stores/misc.js";
+	import viewport from "$stores/viewport.js";
 	import inView from "$actions/inView.js";
 	import _ from "lodash";
 
@@ -50,6 +51,7 @@
 		getWidth: () => width,
 		getHeight: () => height,
 		getXOffset: () => xOffset,
+		getInteractionHeight: () => interactionHeight,
 		getPlayClicked: () => playClicked,
 		getCurrentAction: () => currentAction,
 		getCurrentActionIndex: () => currentActionIndex,
@@ -80,6 +82,7 @@
 	const width = writable(0);
 	const height = writable(0);
 	const xOffset = writable(0);
+	const interactionHeight = writable(0);
 	const playClicked = writable(false);
 	const currentAction = writable(undefined);
 	const currentActionIndex = writable(undefined);
@@ -157,9 +160,26 @@
 		}
 	}
 	$: figcaption = `visualizing each part of ${caption.song} where ${caption.info}.`;
+	$: if ($viewport.height && $viewport.width) measure();
+
+	const measure = async () => {
+		await tick();
+		const noteEl = document.querySelector(
+			"div#straight-demo figure .instrument .notes"
+		);
+		if (noteEl) $width = noteEl.clientWidth;
+		const instrumentEl = document.querySelector(
+			"div#straight-demo figure .instrument"
+		);
+		if (instrumentEl) $interactionHeight = instrumentEl.clientHeight;
+	};
+
+	onMount(() => {
+		measure();
+	});
 </script>
 
-<div class="demo" class:real={style === "real"}>
+<div id={`${songId}-demo`} class="demo" class:real={style === "real"}>
 	{#if song && artist}
 		<h3><span>{song}</span> by <span>{artist}</span> ({year})</h3>
 	{/if}
