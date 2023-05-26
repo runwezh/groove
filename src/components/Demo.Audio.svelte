@@ -2,7 +2,7 @@
 	import AudioFile from "$components/Demo.AudioFile.svelte";
 	import Icon from "$components/helpers/Icon.svelte";
 	import { currentAudioId } from "$stores/misc.js";
-	import { getContext } from "svelte";
+	import { getContext, onMount } from "svelte";
 	import mq from "$stores/mq.js";
 
 	const {
@@ -14,7 +14,10 @@
 		getSeek,
 		getPlayClicked,
 		getIsPlaying,
-		style
+		style,
+		getCurrentAction,
+		getCurrentActionIndex,
+		actions
 	} = getContext("song");
 	const allParts = getAllParts();
 	const duration = getDuration();
@@ -22,6 +25,8 @@
 	const seek = getSeek();
 	const playClicked = getPlayClicked();
 	const isPlaying = getIsPlaying();
+	const currentAction = getCurrentAction();
+	const currentActionIndex = getCurrentActionIndex();
 
 	export let play;
 	export let pause;
@@ -48,11 +53,68 @@
 			reset();
 		}
 	};
+
+	// New
+	let audioCtx;
+	let offset = 0;
+	let tracks;
+
+	$: console.log({ tracks, audioCtx });
+
+	const getFile = async (filepath) => {
+		const response = await fetch(filepath);
+		const arrayBuffer = await response.arrayBuffer();
+		const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+		return audioBuffer;
+	};
+	async function loadFile(filePath) {
+		const track = await getFile(filePath);
+		return track;
+	}
+	function playTrack(audioBuffer) {
+		const trackSource = new AudioBufferSourceNode(audioCtx, {
+			buffer: audioBuffer
+		});
+		trackSource.connect(audioCtx.destination);
+
+		if (offset == 0) {
+			trackSource.start();
+			offset = audioCtx.currentTime;
+		} else {
+			trackSource.start(0, audioCtx.currentTime - offset);
+		}
+		return trackSource;
+	}
+	const playNew = () => {
+		tracks.forEach((track) => {
+			playTrack(track);
+		});
+		if (!$playClicked) {
+			$playClicked = true;
+			$currentAction = actions[0];
+			$currentActionIndex = 0;
+		}
+		$isPlaying = true;
+		$currentAudioId = songId;
+	};
+	const pauseNew = () => {};
+
+	onMount(async () => {
+		audioCtx = new AudioContext();
+
+		const files = [
+			"assets/sound/straight/bass.mp3",
+			"assets/sound/straight/hihat.mp3",
+			"assets/sound/straight/kick.mp3",
+			"assets/sound/straight/snare.mp3"
+		];
+		tracks = await Promise.all(files.map(loadFile));
+	});
 </script>
 
 <button
 	class="fixed"
-	on:click={play}
+	on:click={playNew}
 	class:pulse
 	class:visible={!$playClicked && style !== "real"}
 	aria-label="play"
@@ -63,7 +125,7 @@
 <div class="buttons">
 	<button
 		class="static"
-		on:click={$isPlaying ? pause : play}
+		on:click={$isPlaying ? pauseNew : playNew}
 		class:visible={$playClicked || style === "real"}
 		aria-label={$isPlaying ? "pause" : "play"}
 	>
@@ -83,7 +145,7 @@
 	</button>
 </div>
 
-{#if style === "real"}
+<!-- {#if style === "real"}
 	<AudioFile
 		src={`assets/sound/real-songs/${songId}.mp3`}
 		preload="none"
@@ -105,8 +167,7 @@
 			/>
 		{/if}
 	{/each}
-{/if}
-
+{/if} -->
 <style>
 	.buttons {
 		display: flex;

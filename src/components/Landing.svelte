@@ -32,8 +32,6 @@
 
 		<div class="byline">{@html byline}</div>
 
-		<div class="byline illo">{@html byline_illo}</div>
-
 		<div class="buttons">
 			<button class="start" on:click={start}>start audio story</button>
 			<Mute label={"bottom"} />
@@ -103,10 +101,6 @@
 	}
 	.byline {
 		font-family: var(--mono);
-	}
-	.illo {
-		font-size: var(--16px);
-		margin-top: 0.6em;
 	}
 
 	@media (max-width: 600px) {

@@ -6,11 +6,11 @@
 	import { started } from "$stores/misc.js";
 	import copy from "$data/copy.json";
 
-	const debug = [];
-	// const sections = copy.sections.filter((d) => debug.includes(d.id));
-	// $started = true;
+	const debug = ["straight"];
+	const sections = copy.sections.filter((d) => debug.includes(d.id));
+	$started = true;
 
-	const sections = copy.sections;
+	// const sections = copy.sections;
 </script>
 
 <IntroAnimation />
