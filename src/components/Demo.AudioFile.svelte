@@ -34,9 +34,9 @@
 
 	$: muted, align();
 
+	// sync
 	const align = () => {
 		if ($audioEls && $audioEls.length && !paused) {
-			console.log("align");
 			$audioEls.forEach((audioEl) => {
 				audioEl.currentTime = $seek;
 			});

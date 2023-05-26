@@ -93,6 +93,7 @@
 		$seek = 0;
 	};
 	const play = async () => {
+		// sync
 		$audioEls.forEach((el) => {
 			el.currentTime = $seek;
 		});

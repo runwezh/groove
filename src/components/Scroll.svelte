@@ -50,7 +50,7 @@
 
 <div class="scroll-container" bind:this={containerEl}>
 	<Scrolly bind:value={$scrollyStep}>
-		{#each steps as { text, classname, id }, i}
+		{#each steps as { text, classname, id, source }, i}
 			{@const active = i === $scrollyStep && $started}
 			{@const paragraph = classname === "quote" ? text.split("~")[0] : text}
 			{@const quoted = classname === "quote" ? text.split("~")[1] : null}
@@ -62,7 +62,7 @@
 				id={i === 0 ? "start-of-story" : ""}
 			>
 				{#if quoted}
-					<Quote text={paragraph} {quoted} {id} step={i} />
+					<Quote text={paragraph} {quoted} {id} step={i} {source} />
 				{:else}
 					<p class={classname}>{@html paragraph}</p>
 				{/if}
@@ -129,6 +129,9 @@
 	}
 
 	@media (max-width: 600px) {
+		.step {
+			font-size: var(--18px);
+		}
 		.quote {
 			font-size: 1.3em;
 		}

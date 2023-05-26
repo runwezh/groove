@@ -6,6 +6,7 @@
 	export let quoted;
 	export let id;
 	export let step;
+	export let source;
 
 	let audioEl;
 	let seek = 0;
@@ -61,8 +62,8 @@
 		<span class:dark class:emphasis>{word} </span>
 	{/each}
 </p>
-
 <p class="speaker">- {quoted}</p>
+<p class="source">{@html source}</p>
 
 <audio
 	bind:this={audioEl}
@@ -93,5 +94,18 @@
 		font-size: 1.2em;
 		color: var(--accent);
 		text-align: start;
+	}
+	.source {
+		font-size: var(--14px);
+		color: var(--color-gray-300);
+	}
+	:global(.source a) {
+		color: var(--color-gray-400);
+	}
+
+	@media (max-width: 600px) {
+		.quote {
+			font-size: 1.3em;
+		}
 	}
 </style>
