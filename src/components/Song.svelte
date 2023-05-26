@@ -1,7 +1,7 @@
 <script>
 	import Icon from "$components/helpers/Icon.svelte";
 	import { timeFormat, scaleLinear } from "d3";
-	import { currentAudioId } from "$stores/misc.js";
+	import { currentAudioId, soundOn } from "$stores/misc.js";
 	import _ from "lodash";
 
 	export let url;
@@ -56,6 +56,7 @@
 		bind:paused
 		bind:duration
 		bind:currentTime={seek}
+		muted={!$soundOn}
 	/>
 
 	<div class="audio-player">

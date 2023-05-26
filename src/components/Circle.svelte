@@ -6,7 +6,7 @@
 	import Range from "$components/helpers/Range.svelte";
 	import _ from "lodash";
 	import { writable } from "svelte/store";
-	import { currentAudioId } from "$stores/misc.js";
+	import { currentAudioId, soundOn } from "$stores/misc.js";
 	import mq from "$stores/mq.js";
 
 	export let dots = [0];
@@ -21,7 +21,6 @@
 		getIsPlaying: () => isPlaying
 	});
 
-	const options = [3, 5, 7, 9];
 	const height = 300;
 	const padding = 30;
 	const circleR = height / 2 - padding;
@@ -37,6 +36,9 @@
 	let currentDivision = +division;
 	let id = interactive ? "circle-interactive" : "circle";
 
+	$: console.log({ options });
+
+	$: options = interactive ? [3, 5, 7, 9] : [currentDivision];
 	$: ratio = Math.ceil(currentDivision / 2) / currentDivision;
 	$: dotsData = interactive ? [0, ratio] : dots ? dots.map((d) => +d) : [];
 	$: percentageArc = arc()
@@ -158,21 +160,18 @@
 </div>
 
 {#each options as option, i}
+	{@const src = `assets/sound/swing-percentage/${option}.mp3`}
+	{@const muted = option !== currentDivision || !$soundOn}
 	{#if i === 0}
 		<audio
 			bind:this={audioEls[i]}
 			bind:currentTime={$seek}
 			bind:duration={d}
-			src={`assets/sound/swing-percentage/${option}.mp3`}
-			muted={option !== currentDivision}
+			{src}
+			{muted}
 		/>
 	{:else}
-		<audio
-			bind:this={audioEls[i]}
-			currentTime={$seek}
-			src={`assets/sound/swing-percentage/${option}.mp3`}
-			muted={option !== currentDivision}
-		/>
+		<audio bind:this={audioEls[i]} currentTime={$seek} {src} {muted} />
 	{/if}
 {/each}
 
