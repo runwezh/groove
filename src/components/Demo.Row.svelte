@@ -3,7 +3,6 @@
 	import { getContext } from "svelte";
 	import { range } from "d3";
 	import _ from "lodash";
-	import Icon from "$components/helpers/Icon.svelte";
 	import viewport from "$stores/viewport.js";
 	import mq from "$stores/mq.js";
 
@@ -13,10 +12,11 @@
 
 	const {
 		songId,
+		getAudioEls,
+		getSeek,
 		getAllParts,
 		beatsPerMeasure,
 		getXScale,
-		getInstrumentToggles,
 		getInstrumentStyles,
 		getHighlightedNotes,
 		getWidth,
@@ -24,12 +24,12 @@
 		getInteractionHeight,
 		getCurrentAction,
 		getCurrentActionIndex,
-		style,
-		actions
+		getActions
 	} = getContext("song");
 	const allParts = getAllParts();
+	const audioEls = getAudioEls();
+	const seek = getSeek();
 	const xScale = getXScale();
-	const instrumentToggles = getInstrumentToggles();
 	const instrumentStyles = getInstrumentStyles();
 	const highlightedNotes = getHighlightedNotes();
 	const width = getWidth();
@@ -37,22 +37,22 @@
 	const interactionHeight = getInteractionHeight();
 	const currentAction = getCurrentAction();
 	const currentActionIndex = getCurrentActionIndex();
+	const actions = getActions();
 
 	let actionBtn;
 	let notesContainer;
-	let actionOn = false;
 	let actionClickedOnce = false;
 	let originalData = data;
 	let originalStyle = $instrumentStyles[id];
 
 	const formatLabel = (str) => _.upperFirst(str === "hihat" ? "hi-hat" : str);
 
-	const mute = (id) => {
-		$instrumentToggles[id] = $instrumentToggles[id] === "off" ? "on" : "off";
-	};
-
 	const doAction = () => {
-		if (actionOn) {
+		$audioEls.forEach((el) => {
+			el.currentTime = $seek;
+		});
+
+		if (action.on) {
 			$instrumentStyles[id] = originalStyle;
 			$highlightedNotes[id] = [];
 		} else {
@@ -64,7 +64,7 @@
 			$highlightedNotes[id] = newNotes.filter((d) => !originalData.includes(d));
 
 			if (!actionClickedOnce) {
-				const nextAction = actions[$currentActionIndex + 1];
+				const nextAction = $actions[$currentActionIndex + 1];
 				if (nextAction) {
 					$currentAction = nextAction;
 				} else {
@@ -75,33 +75,33 @@
 				actionClickedOnce = true;
 			}
 		}
-		actionOn = !actionOn;
+		action.on = !action.on;
+		$actions = $actions;
 	};
 	const mobileAction = () => {
-		if (actionVisible || (songId === "straight" && current && !actionOn)) {
+		if (actionVisible || (songId === "straight" && current && !action.on)) {
 			doAction();
 		}
 	};
 
 	$: if ($currentActionIndex === 0) {
-		actionOn = false;
 		actionClickedOnce = false;
 	}
-	$: muted = $instrumentToggles[id] === "off";
+
 	$: mobile = $viewport.width < 600;
 	$: current = $currentAction && $currentAction.instrument === id;
 	$: if ($width && notesContainer) $xOffset = notesContainer.offsetLeft;
 	$: buttonText =
-		action && actionOn
+		action && action.on
 			? `${songId === "straight" ? "" : "un-"}${action.description}`
-			: action && !actionOn
+			: action && !action.on
 			? `${action.description}`
 			: "";
 	$: actionVisible =
-		actions && $currentActionIndex >= actions.findIndex((d) => d === action);
+		$actions && $currentActionIndex >= $actions.findIndex((d) => d === action);
 </script>
 
-<div class="instrument" class:muted>
+<div class="instrument">
 	{#if mobile && action}
 		<div
 			class="interaction-layer"
@@ -117,18 +117,6 @@
 
 	<div class="label">
 		{formatLabel(id)}
-		<button
-			class="mute"
-			class:visible={style !== "real"}
-			on:click={() => mute(id)}
-			aria-label={muted ? "unmute" : "mute"}
-		>
-			{#if muted}
-				<Icon name="volume-x" />
-			{:else}
-				<Icon name="volume-2" />
-			{/if}
-		</button>
 	</div>
 
 	<div class="notes" bind:this={notesContainer}>
@@ -151,7 +139,7 @@
 			class:pulse={action === $currentAction && !$mq.reducedMotion}
 			class:visible={actionVisible}
 			on:click={doAction}
-			disabled={mobile || (songId === "straight" && actionOn)}
+			disabled={mobile || (songId === "straight" && action.on)}
 		>
 			{@html buttonText.replace("hi-hat", "<br/>hi-hat")}
 		</button>
@@ -163,24 +151,8 @@
 		display: flex;
 		align-items: center;
 		padding: 1em 0;
-		min-height: 50px;
+		min-height: 80px;
 		position: relative;
-	}
-	button.mute {
-		display: block;
-		box-shadow: none;
-		padding: 0;
-		font-size: var(--18px);
-		height: 18px;
-		border: none;
-		background: none;
-		visibility: hidden;
-	}
-	button.mute.visible {
-		visibility: visible;
-	}
-	button.mute:active {
-		transform: none;
 	}
 	.muted {
 		opacity: 0.5;
@@ -191,7 +163,7 @@
 		margin-left: 3em;
 	}
 	.label {
-		min-width: 15%;
+		width: 10%;
 		font-family: var(--mono);
 	}
 	.action-btn {
@@ -199,9 +171,21 @@
 		font-size: var(--14px);
 		visibility: hidden;
 		width: 15%;
-		margin-left: 5%;
 		max-height: 100%;
 		flex-shrink: 0;
+		padding: 6px 0;
+		position: absolute;
+		right: 0;
+		top: 50%;
+		transform: translate(0, -50%);
+	}
+	.action-btn.pulse {
+		animation: pulse 0.4s infinite alternate;
+	}
+	@keyframes pulse {
+		to {
+			transform: translate(0, -50%) scale(1.1);
+		}
 	}
 	.action-btn.visible {
 		visibility: visible;

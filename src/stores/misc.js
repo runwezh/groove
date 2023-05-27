@@ -131,7 +131,7 @@ export const songData = readable({
 			kick: "missing",
 			snare: "missing"
 		},
-		actions: [
+		actionsData: [
 			{ instrument: "bass", description: "add the bass", style: "straight" },
 			{ instrument: "hihat", description: "add the hi-hat", style: "straight" },
 			{ instrument: "kick", description: "add the kick", style: "straight" },
@@ -155,7 +155,7 @@ export const songData = readable({
 			kick: "straight",
 			snare: "straight"
 		},
-		actions: [
+		actionsData: [
 			{
 				instrument: "bass",
 				description: "swing the bass",
@@ -184,7 +184,7 @@ export const songData = readable({
 			kick: "straight",
 			snare: "straight"
 		},
-		actions: [
+		actionsData: [
 			{
 				instrument: "snare",
 				description: "shift the snare",
@@ -209,7 +209,7 @@ export const songData = readable({
 			kick: "straight",
 			snare: "straight"
 		},
-		actions: [
+		actionsData: [
 			{
 				instrument: "bass",
 				description: "swing the bass",
@@ -232,7 +232,7 @@ export const songData = readable({
 			kick: "straight",
 			snare: "straight"
 		},
-		actions: [],
+		actionsData: [],
 		beatsPerMeasure: 4,
 		measures: 8,
 		highlighted: {
@@ -247,7 +247,7 @@ export const songData = readable({
 			kick: "money",
 			snare: "shift"
 		},
-		actions: [],
+		actionsData: [],
 		beatsPerMeasure: 4,
 		measures: 4,
 		highlighted: {
@@ -262,7 +262,7 @@ export const songData = readable({
 			kick: "straight",
 			snare: "shift"
 		},
-		actions: [],
+		actionsData: [],
 		beatsPerMeasure: 4,
 		measures: 4,
 		highlighted: {

@@ -5,23 +5,15 @@
 	export let instrumentId;
 	export let x;
 
-	const {
-		getCurrentBeat,
-		getIsPlaying,
-		getHighlightedNotes,
-		getInstrumentToggles
-	} = getContext("song");
+	const { getCurrentBeat, getIsPlaying, getHighlightedNotes } =
+		getContext("song");
 	const beat = getCurrentBeat();
 	const isPlaying = getIsPlaying();
 	const highlightedNotes = getHighlightedNotes();
-	const instrumentToggles = getInstrumentToggles();
 
 	const height = 20;
 
-	$: played =
-		$beat >= noteData - 0.05 &&
-		$isPlaying &&
-		$instrumentToggles[instrumentId] === "on";
+	$: played = $beat >= noteData - 0.05 && $isPlaying;
 	$: highlighted = $highlightedNotes[instrumentId]?.includes(noteData);
 </script>
 

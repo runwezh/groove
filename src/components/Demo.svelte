@@ -7,7 +7,7 @@
 	import { setContext, onMount, tick } from "svelte";
 	import { scaleLinear, range } from "d3";
 	import { writable } from "svelte/store";
-	import { songData, currentAudioId, started } from "$stores/misc.js";
+	import { songData, currentAudioId } from "$stores/misc.js";
 	import viewport from "$stores/viewport.js";
 	import inView from "$actions/inView.js";
 	import _ from "lodash";
@@ -22,7 +22,7 @@
 	const {
 		parts,
 		defaultStyles,
-		actions,
+		actionsData,
 		beatsPerMeasure = 4,
 		measures = 1,
 		highlighted = {},
@@ -41,7 +41,6 @@
 		getCurrentBeat: () => currentBeat,
 		getTimeToBeat: () => timeToBeat,
 		getXScale: () => xScale,
-		getInstrumentToggles: () => instrumentToggles,
 		getInstrumentStyles: () => instrumentStyles,
 		getHighlightedNotes: () => highlightedNotes,
 		getIsPlaying: () => isPlaying,
@@ -55,7 +54,7 @@
 		getPlayClicked: () => playClicked,
 		getCurrentAction: () => currentAction,
 		getCurrentActionIndex: () => currentActionIndex,
-		actions,
+		getActions: () => actions,
 		style,
 		song,
 		artist
@@ -69,13 +68,7 @@
 	const currentBeat = writable(0);
 	const timeToBeat = writable(undefined);
 	const xScale = writable(undefined);
-	const instrumentToggles = writable({
-		bass: "on",
-		kick: "on",
-		snare: "on",
-		hihat: "on",
-		synth: "on"
-	});
+	const actions = writable(actionsData.map((d) => ({ ...d, on: false })));
 	const instrumentStyles = writable({ ...defaultStyles });
 	const highlightedNotes = writable(highlighted);
 	const isPlaying = writable(false);
@@ -93,7 +86,6 @@
 		$seek = 0;
 	};
 	const play = async () => {
-		// sync
 		$audioEls.forEach((el) => {
 			el.currentTime = $seek;
 		});
@@ -102,7 +94,7 @@
 		});
 		if (!$playClicked) {
 			$playClicked = true;
-			$currentAction = actions[0];
+			$currentAction = $actions[0];
 			$currentActionIndex = 0;
 		}
 		$isPlaying = true;
@@ -114,7 +106,8 @@
 		$currentAudioId = undefined;
 	};
 	const restartActions = () => {
-		$currentAction = actions[0];
+		$actions = $actions.map((d) => ({ ...d, on: false }));
+		$currentAction = $actions[0];
 		$currentActionIndex = 0;
 		$highlightedNotes = [];
 		$instrumentStyles = { ...defaultStyles };
@@ -221,8 +214,8 @@
 					d.instrument === instrument &&
 					d.style === $instrumentStyles[instrument]
 			)?.data}
-			{@const action = actions
-				? actions.find((d) => d.instrument === instrument)
+			{@const action = $actions
+				? $actions.find((d) => d.instrument === instrument)
 				: null}
 			<Row id={instrument} {data} {action} />
 		{/each}
