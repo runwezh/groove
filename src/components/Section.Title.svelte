@@ -116,11 +116,13 @@
 	}
 
 	/* DILLA */
-	h3#dilla-title {
+	h3#dilla-title .letter {
 		color: white;
+		opacity: 0;
 	}
 	h3#dilla-title.visible .letter {
 		color: var(--accent);
 		transition: all var(--1s) var(--delay);
+		opacity: 1;
 	}
 </style>

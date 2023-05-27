@@ -80,6 +80,9 @@
 		margin-top: 5em;
 		margin-bottom: 2em;
 	}
+	section#notes {
+		margin-bottom: 3em;
+	}
 	.note {
 		background: var(--color-gray-900);
 		border-left: 5px solid white;
@@ -92,7 +95,8 @@
 		font-size: var(--28px);
 		margin: 2em 0;
 	}
-	section#straight p:last-child {
+	section#straight p:last-child,
+	section#notes p:last-child {
 		margin-top: 3em;
 		margin-bottom: 0;
 	}
