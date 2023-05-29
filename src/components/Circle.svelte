@@ -36,8 +36,6 @@
 	let currentDivision = +division;
 	let id = interactive ? "circle-interactive" : "circle";
 
-	$: console.log({ options });
-
 	$: options = interactive ? [3, 5, 7, 9] : [currentDivision];
 	$: ratio = Math.ceil(currentDivision / 2) / currentDivision;
 	$: dotsData = interactive ? [0, ratio] : dots ? dots.map((d) => +d) : [];

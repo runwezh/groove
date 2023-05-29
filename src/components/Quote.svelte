@@ -35,8 +35,8 @@
 		"undo-education": "no_fucks_edited"
 	};
 	const emphases = {
-		"life-changing": [15, 16, 17, 18, 19, 20],
-		"undo-education": [13, 14, 15, 16]
+		"life-changing": _.range(15, 19),
+		"undo-education": _.range(14, 17)
 	};
 	const words = text.split(" ");
 	const data = {
