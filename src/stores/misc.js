@@ -3,6 +3,7 @@ import { range } from "d3";
 
 export const started = writable(false);
 export const soundOn = writable(true);
+export const userMuted = writable(false);
 export const scrollyStep = writable(undefined);
 export const direction = writable("up");
 export const currentAudioId = writable(undefined);

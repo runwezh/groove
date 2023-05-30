@@ -1,12 +1,23 @@
 <script>
+	import { onMount } from "svelte";
 	import Landing from "$components/Landing.svelte";
 	import IntroAnimation from "$components/IntroAnimation.svelte";
 	import Footer from "$components/Footer.svelte";
 	import Section from "$components/Section.svelte";
-	import { started } from "$stores/misc.js";
+	import { started, soundOn, userMuted } from "$stores/misc.js";
 	import copy from "$data/copy.json";
 
 	const sections = copy.sections;
+
+	onMount(() => {
+		document.addEventListener("visibilitychange", (event) => {
+			if (document.visibilityState == "visible") {
+				if (!$userMuted) $soundOn = true;
+			} else {
+				$soundOn = false;
+			}
+		});
+	});
 </script>
 
 <IntroAnimation />

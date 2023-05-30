@@ -1,14 +1,19 @@
 <script>
 	import volumeOn from "$svg/volume-2.svg";
 	import volumeOff from "$svg/volume-x.svg";
-	import { soundOn } from "$stores/misc.js";
+	import { soundOn, userMuted } from "$stores/misc.js";
 
 	export let label;
+
+	const onClick = () => {
+		$userMuted = !$userMuted;
+		$soundOn = !$soundOn;
+	};
 </script>
 
 <div class="wrapper">
 	<button
-		on:click={() => ($soundOn = !$soundOn)}
+		on:click={onClick}
 		class:faded={!$soundOn}
 		aria-label={$soundOn ? "mute" : "unmute"}
 	>
