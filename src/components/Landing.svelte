@@ -27,7 +27,7 @@
 		<div class="dek">{@html dek}</div>
 
 		<img
-			src="assets/img/header_transparent.png"
+			src="assets/img/header.png"
 			alt="illustration of erykah badu, j dilla on his drum machine, and stevie wonder"
 		/>
 
