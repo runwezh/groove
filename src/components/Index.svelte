@@ -3,6 +3,7 @@
 	import IntroAnimation from "$components/IntroAnimation.svelte";
 	import Footer from "$components/Footer.svelte";
 	import Section from "$components/Section.svelte";
+	import Tip from "$components/helpers/Tip.svelte";
 	import { started } from "$stores/misc.js";
 	import copy from "$data/copy.json";
 
@@ -39,6 +40,7 @@
 					loading="lazy"
 					title="playlist of songs with wonky grooves"
 				/>
+
 				<Section {id} {title} {chunks} />
 			{:else}
 				<Section {id} {title} {chunks} />

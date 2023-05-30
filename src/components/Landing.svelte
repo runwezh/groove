@@ -3,8 +3,9 @@
 	import { tick, onMount } from "svelte";
 	import copy from "$data/copy.json";
 	import { started, scrollyStep, direction } from "$stores/misc.js";
+	import { fade } from "svelte/transition";
 
-	const { hed, dek, byline, byline_illo } = copy;
+	const { hed, dek, byline } = copy;
 
 	let startEl;
 
@@ -37,13 +38,11 @@
 			<Mute label={"bottom"} />
 		</div>
 
-		<div
-			class="fixed-mute"
-			class:visible={$started &&
-				($scrollyStep !== undefined || $direction === "down")}
-		>
-			<Mute label={"left"} />
-		</div>
+		{#if $started && ($scrollyStep !== undefined || $direction === "down")}
+			<div class="fixed-mute" transition:fade>
+				<Mute label={"left"} />
+			</div>
+		{/if}
 	</div>
 </div>
 
@@ -74,11 +73,7 @@
 		z-index: 100000;
 		top: 1em;
 		right: 1em;
-		opacity: 0;
 		transition: opacity calc(var(--1s) * 0.5);
-	}
-	.fixed-mute.visible {
-		opacity: 1;
 	}
 	h1 {
 		font-family: var(--mono);

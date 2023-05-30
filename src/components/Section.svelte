@@ -81,7 +81,7 @@
 		margin-bottom: 2em;
 	}
 	section#notes {
-		margin-bottom: 3em;
+		margin-bottom: 5em;
 	}
 	.note {
 		background: var(--color-gray-900);
