@@ -13,7 +13,10 @@
 
 	const height = 20;
 
-	$: played = $beat >= noteData - 0.05 && $isPlaying;
+	$: played =
+		noteData === 0
+			? ($beat < 2) & $isPlaying
+			: $beat >= noteData - 0.05 && $isPlaying;
 	$: highlighted = $highlightedNotes[instrumentId]?.includes(noteData);
 </script>
 
