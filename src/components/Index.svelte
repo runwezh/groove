@@ -3,13 +3,8 @@
 	import IntroAnimation from "$components/IntroAnimation.svelte";
 	import Footer from "$components/Footer.svelte";
 	import Section from "$components/Section.svelte";
-	import Tip from "$components/helpers/Tip.svelte";
 	import { started } from "$stores/misc.js";
 	import copy from "$data/copy.json";
-
-	const debug = [];
-	// const sections = copy.sections.filter((d) => debug.includes(d.id));
-	// $started = true;
 
 	const sections = copy.sections;
 </script>
@@ -17,9 +12,7 @@
 <IntroAnimation />
 
 <article class:started={$started}>
-	{#if debug.length === 0}
-		<Landing />
-	{/if}
+	<Landing />
 
 	<div class="sections" class:started={$started}>
 		{#each sections as { id, title, chunks }}
@@ -40,7 +33,6 @@
 					loading="lazy"
 					title="playlist of songs with wonky grooves"
 				/>
-
 				<Section {id} {title} {chunks} />
 			{:else}
 				<Section {id} {title} {chunks} />

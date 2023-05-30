@@ -5,7 +5,6 @@
 	import { scaleLinear, range } from "d3";
 	import mq from "$stores/mq.js";
 
-	let beats = 32;
 	let width = 0;
 	let normalEl;
 	let drunkEl;
@@ -14,11 +13,11 @@
 	let speed = 1;
 
 	const yOffset = 150;
-	const straightData = range(8, 32, 2);
+	const straightData = range(4, 28, 2);
 	const wonkyData = [
 		0.2, 1.44, 1.51, 1.8, 2.1, 2.4, 3.4, 4.2, 5.3, 5.5, 6.3, 6.6, 6.8, 7.1, 7.2,
 		7.7, 8.6, 9.3, 9.5, 9.67
-	].map((d) => d * (beats / 9.937958));
+	].map((d) => d * (32 / 9.937958));
 
 	$: if (normalPlaying) normalSeek = 0;
 	$: if (drunkPlaying) drunkSeek = 0;
@@ -28,9 +27,10 @@
 	$: normalPaused = !normalPlaying;
 	$: drunkPaused = !drunkPlaying;
 
+	$: beats = normalPlaying ? 28 : 32;
 	$: currentSeek = normalPlaying ? normalSeek : drunkPlaying ? drunkSeek : 0;
 	$: currentDuration = normalPlaying
-		? normalEl.duration - 2
+		? normalEl.duration - 1.2
 		: drunkPlaying
 		? drunkEl.duration - 2
 		: 0;

@@ -4,33 +4,39 @@
 	import { fade } from "svelte/transition";
 	import { soundOn, started, scrollyStep, direction } from "$stores/misc.js";
 	import scrollY from "$stores/scrollY.js";
+	import { tweened } from "svelte/motion";
 
 	export let steps;
 
 	let containerEl;
 	let sounds = [];
 	let club;
-	let clubVolume = 1;
 	let paused;
+	const clubVolume = tweened(0, { duration: 1000 });
 
 	$: if ($started && club) club.play();
 	$: $scrollyStep, scrollChange();
+	$: {
+		if (club) club.volume = $clubVolume;
+	}
 
 	const scrollChange = () => {
 		if ($started) {
 			if ($scrollyStep === undefined) {
 				if (club) {
-					club.pause();
-					club.currentTime = 0;
+					clubVolume.set(0).then(() => {
+						club.pause();
+						club.currentTime = 0;
+					});
 				}
 				if ($scrollY < 1000) $direction = "up";
 				else $direction = "down";
 			}
 
 			if ($scrollyStep === 0) {
-				clubVolume = 1;
-			} else {
-				clubVolume = 0.2;
+				clubVolume.set(1);
+			} else if ($scrollyStep !== undefined) {
+				clubVolume.set(0.2);
 			}
 
 			if ($scrollyStep !== undefined) {
@@ -77,7 +83,6 @@
 	src={`assets/sound/intro/club.mp3`}
 	loop={true}
 	muted={!$soundOn}
-	bind:volume={clubVolume}
 	preload="auto"
 />
 

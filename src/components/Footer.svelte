@@ -33,8 +33,11 @@
 <footer>
 	<section class="stories">
 		{#each stories as { hed, url, image }}
+			{@const href = url.startsWith("http")
+				? url
+				: `https://pudding.cool/${url}`}
 			<div class="story">
-				<a href="https://pudding.cool/{url}">
+				<a {href}>
 					<img
 						src="https://pudding.cool/common/assets/thumbnails/640/{image}.jpg"
 						alt="thumbnail"
@@ -50,7 +53,7 @@
 			{@html wordmark}
 		</div>
 		<p>
-			<a href="https://pudding.cool">The Pudding</a>
+			<a href="https://pudding.cool" target="_self">The Pudding</a>
 			is a digital publication that explains ideas debated in culture with visual
 			essays.
 		</p>
@@ -60,7 +63,7 @@
 		<ul>
 			{#each links as link}
 				<li>
-					<a href={link.url}>
+					<a href={link.url} target="_self">
 						<span>{link.name.toUpperCase()}</span>
 					</a>
 				</li>
@@ -101,7 +104,7 @@
 
 	.story a {
 		display: block;
-		font-weight: 700;
+		font-weight: 900;
 		text-decoration: none;
 		border: none;
 	}
