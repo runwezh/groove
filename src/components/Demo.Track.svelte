@@ -24,12 +24,20 @@
 	$: muted = !$soundOn || silent;
 	$: if (i === 0) $duration = d;
 
+	let f;
+
 	$: if ($currentVersionI === i && $isPlaying) {
 		trackTime();
 	}
+
 	const trackTime = () => {
-		$seek = $audioEls[i].currentTime;
-		requestAnimationFrame(trackTime);
+		if ($currentVersionI === i && $isPlaying) {
+			console.log("trackTime", i);
+			$seek = $audioEls[i].currentTime;
+			f = requestAnimationFrame(trackTime);
+		} else {
+			cancelAnimationFrame(f);
+		}
 	};
 </script>
 

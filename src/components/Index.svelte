@@ -7,8 +7,7 @@
 	import { started, soundOn, userMuted } from "$stores/misc.js";
 	import copy from "$data/copy.json";
 
-	const sections = copy.sections.filter((d) => d.id === "bonus");
-	$started = true;
+	const sections = copy.sections;
 
 	onMount(() => {
 		document.addEventListener("visibilitychange", (event) => {
@@ -24,7 +23,7 @@
 <IntroAnimation />
 
 <article class:started={$started}>
-	<!-- <Landing /> -->
+	<Landing />
 
 	<div class="sections" class:started={$started}>
 		{#each sections as { id, title, chunks }}
