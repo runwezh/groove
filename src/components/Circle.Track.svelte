@@ -14,6 +14,7 @@
 	const seek = getSeek();
 
 	let d = 0;
+	let f;
 	$: if (i === 0) $duration = d;
 	$: muted = !$soundOn;
 
@@ -21,8 +22,12 @@
 		trackTime();
 	}
 	const trackTime = () => {
-		$seek = $audioEls[i]?.currentTime;
-		requestAnimationFrame(trackTime);
+		if ($currentTrackI === i && $isPlaying && $audioEls.length) {
+			$seek = $audioEls[i]?.currentTime;
+			f = requestAnimationFrame(trackTime);
+		} else {
+			cancelAnimationFrame(f);
+		}
 	};
 </script>
 
