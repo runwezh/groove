@@ -97,7 +97,8 @@
 	let caption = { song: "", info: "" };
 
 	const reset = () => {
-		$audioEls[$currentVersionI].currentTime = 0;
+		if (style === "real") $audioEls[0].currentTime = 0;
+		else $audioEls[$currentVersionI].currentTime = 0;
 	};
 	const play = async () => {
 		if (style === "real") $audioEls[0].play();

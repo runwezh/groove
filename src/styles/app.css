@@ -50,7 +50,7 @@
 }
 
 /* dark theme */
-@media screen and (prefers-color-scheme: dark) {
+/* @media screen and (prefers-color-scheme: dark) {
 	:root {
 		--color-bg: var(--color-gray-800);
 		--color-fg: var(--color-gray-100);
@@ -68,7 +68,7 @@
 		--color-placeholder: var(--color-gray-400);
 		--color-text-outline: var(--color-bg);
 	}
-}
+} */
 
 @media screen and (prefers-reduced-motion: no-preference) {
 	:root {
