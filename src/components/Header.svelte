@@ -1,6 +1,9 @@
 <script>
 	import Tip from "$components/helpers/Tip.svelte";
 	import wordmark from "$svg/wordmark.svg";
+	import viewport from "$stores/viewport.js";
+
+	$: mobile = $viewport && $viewport.width < 600;
 </script>
 
 <header>
@@ -10,9 +13,11 @@
 		>
 	</div>
 
-	<div class="tip">
-		<Tip href={"https://donate.stripe.com/00g03oaJRggE3zqeUW"} />
-	</div>
+	{#if !mobile}
+		<div class="tip">
+			<Tip href={"https://donate.stripe.com/00g03oaJRggE3zqeUW"} />
+		</div>
+	{/if}
 </header>
 
 <style>

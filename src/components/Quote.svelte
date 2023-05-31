@@ -1,6 +1,6 @@
 <script>
 	import _ from "lodash";
-	import { scrollyStep, soundOn } from "$stores/misc.js";
+	import { scrollyStep, soundOn, ios } from "$stores/misc.js";
 
 	export let text;
 	export let quoted;
@@ -57,7 +57,7 @@
 
 <p class="quote">
 	{#each words as word, i}
-		{@const dark = seek >= data[id][i]}
+		{@const dark = seek >= data[id][i] || $ios}
 		{@const emphasis = emphases[id].includes(i)}
 		<span class:dark class:emphasis>{word} </span>
 	{/each}
@@ -65,15 +65,17 @@
 <p class="speaker">- {quoted}</p>
 <p class="source">{@html source}</p>
 
-<audio
-	bind:this={audioEl}
-	src={`assets/sound/intro/${srcs[id]}.mp3`}
-	bind:currentTime={seek}
-	bind:duration
-	bind:paused
-	bind:ended
-	muted={!$soundOn}
-/>
+{#if !$ios}
+	<audio
+		bind:this={audioEl}
+		src={`assets/sound/intro/${srcs[id]}.mp3`}
+		bind:currentTime={seek}
+		bind:duration
+		bind:paused
+		bind:ended
+		muted={!$soundOn}
+	/>
+{/if}
 
 <style>
 	.quote {

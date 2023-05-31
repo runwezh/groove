@@ -2,33 +2,39 @@
 	import Scrolly from "$components/helpers/Scrolly.svelte";
 	import Quote from "$components/Quote.svelte";
 	import { fade } from "svelte/transition";
-	import { soundOn, started, scrollyStep, direction } from "$stores/misc.js";
+	import {
+		soundOn,
+		started,
+		scrollyStep,
+		direction,
+		ios
+	} from "$stores/misc.js";
 	import scrollY from "$stores/scrollY.js";
 	import { tweened } from "svelte/motion";
 
 	export let steps;
 
 	let containerEl;
-	let sounds = [];
 	let club;
 	let paused;
 	const clubVolume = tweened(0, { duration: 1000 });
 
-	$: if ($started && club) club.play();
-	$: $scrollyStep, scrollChange();
+	$: if ($started && club) {
+		club.play();
+	}
 	$: {
 		if (club) club.volume = $clubVolume;
 	}
+	$: $scrollyStep, scrollChange();
 
 	const scrollChange = () => {
-		if ($started) {
+		if ($started && club) {
 			if ($scrollyStep === undefined) {
-				if (club) {
-					clubVolume.set(0).then(() => {
-						club.pause();
-						club.currentTime = 0;
-					});
-				}
+				clubVolume.set(0).then(() => {
+					club.pause();
+					club.currentTime = 0;
+				});
+
 				if ($scrollY < 1000) $direction = "up";
 				else $direction = "down";
 			}
@@ -41,14 +47,6 @@
 
 			if ($scrollyStep !== undefined) {
 				paused = false;
-
-				sounds.forEach((sound, i) => {
-					if (i === $scrollyStep) {
-						sound.play();
-					} else {
-						sound.pause();
-					}
-				});
 			}
 		}
 	};
@@ -77,14 +75,16 @@
 	</Scrolly>
 </div>
 
-<audio
-	bind:this={club}
-	bind:paused
-	src={`assets/sound/intro/club.mp3`}
-	loop={true}
-	muted={!$soundOn}
-	preload="auto"
-/>
+{#if !$ios}
+	<audio
+		bind:this={club}
+		bind:paused
+		src={`assets/sound/intro/club.mp3`}
+		loop={true}
+		muted={!$soundOn}
+		preload="auto"
+	/>
+{/if}
 
 <style>
 	.scroll-container {
@@ -92,10 +92,6 @@
 	}
 	audio {
 		display: none;
-	}
-	.sticky {
-		position: sticky;
-		top: 0;
 	}
 	.step {
 		font-size: var(--20px);

@@ -183,7 +183,7 @@
 			$audioEls[$prevVersionI].currentTime = 0;
 
 			$audioEls[$currentVersionI].currentTime = prevTime;
-			$audioEls[$currentVersionI].play();
+			if ($isPlaying) $audioEls[$currentVersionI].play();
 		}
 	};
 
@@ -308,5 +308,11 @@
 	}
 	h3 span {
 		font-weight: bold;
+	}
+
+	@media (max-width: 600px) {
+		.demo {
+			padding: 0;
+		}
 	}
 </style>

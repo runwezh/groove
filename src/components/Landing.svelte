@@ -13,6 +13,15 @@
 		$started = true;
 		await tick();
 		startEl.scrollIntoView({ block: "center", behavior: "smooth" });
+
+		// ios audio hack
+		const audio = document.querySelectorAll("audio.intro-audio");
+		audio.forEach((a) => a.play());
+		await tick();
+		audio.forEach((a) => {
+			a.pause();
+			a.currentTime = 0;
+		});
 	};
 
 	onMount(() => {

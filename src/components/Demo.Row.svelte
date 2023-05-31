@@ -1,4 +1,5 @@
 <script>
+	import Toggle from "$components/helpers/Toggle.svelte";
 	import Note from "$components/Demo.Note.svelte";
 	import { getContext, tick } from "svelte";
 	import { range } from "d3";
@@ -30,7 +31,6 @@
 	const highlightedNotes = getHighlightedNotes();
 	const width = getWidth();
 	const xOffset = getXOffset();
-	const interactionHeight = getInteractionHeight();
 	const currentAction = getCurrentAction();
 	const currentActionIndex = getCurrentActionIndex();
 	const actions = getActions();
@@ -89,24 +89,13 @@
 			: action && !action.on
 			? `${action.description}`
 			: "";
+	$: mobileButtonText =
+		songId === "straight" ? "add" : action && action.on ? "back" : "move";
 	$: actionVisible =
 		$actions && $currentActionIndex >= $actions.findIndex((d) => d === action);
 </script>
 
 <div class="instrument">
-	{#if mobile && action}
-		<div
-			class="interaction-layer"
-			style:height={`${$interactionHeight}px`}
-			style:width={`${$width}px`}
-			style:left={`${$xOffset}px`}
-			class:current
-			class:highlight={actionVisible && !current}
-			on:click={mobileAction}
-			on:keydown={mobileAction}
-		/>
-	{/if}
-
 	<div class="label">
 		{formatLabel(id)}
 	</div>
@@ -130,10 +119,12 @@
 			class:mobile
 			class:pulse={action === $currentAction && !$mq.reducedMotion}
 			class:visible={actionVisible}
-			on:click={doAction}
-			disabled={mobile || (songId === "straight" && action.on)}
+			on:click={mobile ? mobileAction : doAction}
+			disabled={songId === "straight" && action.on}
 		>
-			{@html buttonText.replace("hi-hat", "<br/>hi-hat")}
+			{@html mobile
+				? mobileButtonText
+				: buttonText.replace("hi-hat", "<br/>hi-hat")}
 		</button>
 	{/if}
 </div>
@@ -174,6 +165,9 @@
 	.action-btn.pulse {
 		animation: pulse 0.4s infinite alternate;
 	}
+	.action-btn:active {
+		transform: translate(5px, calc(-50% + 5px));
+	}
 	@keyframes pulse {
 		to {
 			transform: translate(0, -50%) scale(1.1);
@@ -182,36 +176,16 @@
 	.action-btn.visible {
 		visibility: visible;
 	}
-	.action-btn.mobile {
-		position: absolute;
-		right: 0;
-		visibility: hidden;
-	}
-	.interaction-layer {
-		position: absolute;
-		top: 0;
-		z-index: 1000;
-	}
-	.highlight {
-		background: var(--color-gray-300);
-		opacity: 0.1;
-	}
-	.current {
-		background: var(--yellow);
-		opacity: 0.2;
-	}
-	.highlight:hover,
-	.current:hover {
-		cursor: pointer;
-	}
-
 	@media (max-width: 600px) {
 		.label {
 			font-size: var(--12px);
 		}
 		.notes {
-			width: 85%;
-			margin-left: 0;
+			width: 70%;
+			margin-left: 1em;
+		}
+		.action-btn {
+			width: 14%;
 		}
 	}
 </style>

@@ -1,16 +1,15 @@
 <script>
+	import Track from "$components/IntroAnimation.Track.svelte";
 	import WavyLine from "$components/IntroAnimation.WavyLine.svelte";
 	import SimpleDemo from "$components/IntroAnimation.SimpleDemo.svelte";
-	import { scrollyStep, direction, soundOn } from "$stores/misc.js";
+	import { scrollyStep, direction } from "$stores/misc.js";
 	import { scaleLinear, range } from "d3";
 	import mq from "$stores/mq.js";
 
 	let width = 0;
-	let normalEl;
-	let drunkEl;
-	let normalSeek = 0;
-	let drunkSeek = 0;
-	let speed = 1;
+	let audioEls = [];
+	let seek = 0;
+	let durations = [];
 
 	const yOffset = 150;
 	const straightData = range(4, 28, 2);
@@ -19,23 +18,10 @@
 		7.7, 8.6, 9.3, 9.5, 9.67
 	].map((d) => d * (32 / 9.937958));
 
-	$: if (normalPlaying) normalSeek = 0;
-	$: if (drunkPlaying) drunkSeek = 0;
-
 	$: normalPlaying = $scrollyStep === 2;
 	$: drunkPlaying = $scrollyStep === 1 || $scrollyStep === 3;
-	$: normalPaused = !normalPlaying;
-	$: drunkPaused = !drunkPlaying;
-
 	$: beats = normalPlaying ? 28 : 32;
-	$: currentSeek = normalPlaying ? normalSeek : drunkPlaying ? drunkSeek : 0;
-	$: currentDuration = normalPlaying
-		? normalEl.duration - 1.2
-		: drunkPlaying
-		? drunkEl.duration - 2
-		: 0;
-	$: currentBeat = timeToBeat(currentSeek);
-
+	$: currentBeat = timeToBeat(seek);
 	$: visible = $scrollyStep !== undefined;
 	$: moving =
 		$scrollyStep !== 2 &&
@@ -46,8 +32,12 @@
 		$scrollyStep === 2 ? straightData : $scrollyStep === 3 ? wonkyData : [];
 
 	$: xScale = scaleLinear().domain([0, beats]).range([0, width]);
-	$: timeToBeat = scaleLinear().domain([0, currentDuration]).range([0, beats]);
-	$: drunkVolume = $scrollyStep === 1 ? 0.5 : 1;
+	$: duration = normalPlaying
+		? durations[0] - 1.2
+		: drunkPlaying
+		? durations[1] - 2
+		: 0;
+	$: timeToBeat = scaleLinear().domain([0, duration]).range([0, beats]);
 </script>
 
 <div class="wrapper" bind:clientWidth={width} class:visible>
@@ -61,25 +51,21 @@
 	</svg>
 </div>
 
-<audio
-	bind:this={normalEl}
-	bind:currentTime={normalSeek}
-	bind:paused={normalPaused}
+<Track
+	i={0}
 	src={"assets/sound/intro/normal.mp3"}
-	loop={true}
-	muted={!$soundOn}
-	preload="auto"
+	bind:audioEls
+	bind:seek
+	bind:durations
+	playing={normalPlaying}
 />
-<audio
-	bind:this={drunkEl}
-	bind:currentTime={drunkSeek}
-	bind:paused={drunkPaused}
-	bind:playbackRate={speed}
+<Track
+	i={1}
 	src={"assets/sound/intro/drunk.mp3"}
-	loop={true}
-	muted={!$soundOn}
-	preload="auto"
-	bind:volume={drunkVolume}
+	bind:audioEls
+	bind:seek
+	bind:durations
+	playing={drunkPlaying}
 />
 
 <style>

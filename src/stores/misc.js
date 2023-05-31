@@ -7,6 +7,7 @@ export const userMuted = writable(false);
 export const scrollyStep = writable(undefined);
 export const direction = writable("up");
 export const currentAudioId = writable(undefined);
+export const ios = writable(false);
 
 const everyOther = (arr) =>
 	arr.reduce((acc, d, i) => (i % 2 === 1 ? acc.concat(d) : acc), []);

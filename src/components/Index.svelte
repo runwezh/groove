@@ -4,12 +4,14 @@
 	import IntroAnimation from "$components/IntroAnimation.svelte";
 	import Footer from "$components/Footer.svelte";
 	import Section from "$components/Section.svelte";
-	import { started, soundOn, userMuted } from "$stores/misc.js";
+	import { started, soundOn, userMuted, ios } from "$stores/misc.js";
 	import copy from "$data/copy.json";
 
 	const sections = copy.sections;
 
 	onMount(() => {
+		$ios = !!navigator.userAgent.match(/iPhone|iPad|iPod/i);
+
 		document.addEventListener("visibilitychange", (event) => {
 			if (document.visibilityState == "visible") {
 				if (!$userMuted) $soundOn = true;
@@ -20,9 +22,8 @@
 	});
 </script>
 
-<IntroAnimation />
-
 <article class:started={$started}>
+	<IntroAnimation />
 	<Landing />
 
 	<div class="sections" class:started={$started}>
