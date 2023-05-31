@@ -1,4 +1,5 @@
 <script>
+	import Track from "$components/Circle.Track.svelte";
 	import Note from "$components/Circle.Note.svelte";
 	import Icon from "$components/helpers/Icon.svelte";
 	import { setContext } from "svelte";
@@ -6,8 +7,9 @@
 	import Range from "$components/helpers/Range.svelte";
 	import _ from "lodash";
 	import { writable } from "svelte/store";
-	import { currentAudioId, soundOn } from "$stores/misc.js";
+	import { currentAudioId } from "$stores/misc.js";
 	import mq from "$stores/mq.js";
+	import { previous } from "$stores/previous.js";
 
 	export let dots = [0];
 	export let beatsPerRotation = 1;
@@ -18,7 +20,11 @@
 
 	setContext("song", {
 		getCurrentBeat: () => currentBeat,
-		getIsPlaying: () => isPlaying
+		getIsPlaying: () => isPlaying,
+		getAudioEls: () => audioEls,
+		getDuration: () => duration,
+		getCurrentTrackI: () => currentTrackI,
+		getSeek: () => seek
 	});
 
 	const height = 300;
@@ -29,13 +35,15 @@
 	const isPlaying = writable(false);
 	const seek = writable(0);
 	const currentBeat = writable(0);
+	const audioEls = writable([]);
+	const duration = writable(0);
+	const currentTrackI = writable(0);
+	const prevTrackI = previous(currentTrackI);
 
-	let d;
-	let duration = 0;
-	let audioEls = [];
 	let currentDivision = +division;
 	let id = interactive ? "circle-interactive" : "circle";
 
+	$: $currentTrackI = options.findIndex((d) => d === currentDivision);
 	$: options = interactive ? [3, 5, 7, 9] : [currentDivision];
 	$: ratio = Math.ceil(currentDivision / 2) / currentDivision;
 	$: dotsData = interactive ? [0, ratio] : dots ? dots.map((d) => +d) : [];
@@ -45,18 +53,18 @@
 		.startAngle(beatToAngle(dotsData[0]) + Math.PI / 2)
 		.endAngle(beatToAngle(dotsData[dotsData.length - 1]) + Math.PI / 2);
 	$: timeToBeat = scaleLinear()
-		.domain([0, duration / measures / beatsPerMeasure || 0])
+		.domain([0, trimmedDuration / measures / beatsPerMeasure || 0])
 		.range([0, beatsPerRotation]);
 	$: beatToAngle = scaleLinear()
 		.domain([0, beatsPerRotation])
 		.range([-Math.PI / 2, (3 / 2) * Math.PI]); // to make 0 at the top
-	$: duration = d - 0.7;
+	$: trimmedDuration = $duration - 0.7;
 	$: $currentBeat = timeToBeat($seek) % beatsPerRotation;
-	$: if ($seek >= duration) {
+	$: if ($seek >= trimmedDuration && $isPlaying) {
 		reset();
 		play();
 	}
-	$: division, divisionChange();
+	$: $currentTrackI, divisionChange();
 	$: $currentAudioId, audioChange();
 	const audioChange = () => {
 		if ($currentAudioId && $currentAudioId !== id && $isPlaying) {
@@ -65,26 +73,28 @@
 	};
 
 	const divisionChange = () => {
-		audioEls.forEach((el) => {
-			el.currentTime = $seek;
-		});
+		if ($audioEls.length) {
+			$audioEls[$prevTrackI].pause();
+			const prevTime = $audioEls[$prevTrackI].currentTime;
+			$audioEls[$prevTrackI].currentTime = 0;
+
+			$audioEls[$currentTrackI].currentTime = prevTime;
+			$audioEls[$currentTrackI].play();
+		}
 	};
 
 	const pause = () => {
 		$isPlaying = false;
 		$currentAudioId = undefined;
-		audioEls.forEach((el) => el.pause());
+		if ($audioEls.length) $audioEls[$currentTrackI].pause();
 	};
 	const play = () => {
 		$isPlaying = true;
 		$currentAudioId = id;
-		audioEls.forEach((el) => {
-			el.currentTime = $seek;
-			el.play();
-		});
+		if ($audioEls.length) $audioEls[$currentTrackI].play();
 	};
 	const reset = () => {
-		$seek = 0;
+		if ($audioEls.length) $audioEls[$currentTrackI].currentTime = 0;
 	};
 </script>
 
@@ -159,18 +169,8 @@
 
 {#each options as option, i}
 	{@const src = `assets/sound/swing-percentage/${option}.mp3`}
-	{@const muted = option !== currentDivision || !$soundOn}
-	{#if i === 0}
-		<audio
-			bind:this={audioEls[i]}
-			bind:currentTime={$seek}
-			bind:duration={d}
-			{src}
-			{muted}
-		/>
-	{:else}
-		<audio bind:this={audioEls[i]} currentTime={$seek} {src} {muted} />
-	{/if}
+
+	<Track {i} {src} />
 {/each}
 
 <style>
