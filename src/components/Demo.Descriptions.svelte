@@ -71,12 +71,4 @@
 	.visible {
 		visibility: visible;
 	}
-	:global(span.mobile-only) {
-		display: inline;
-	}
-	@media (hover: hover) and (pointer: fine) {
-		:global(span.mobile-only) {
-			display: none;
-		}
-	}
 </style>

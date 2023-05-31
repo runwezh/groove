@@ -95,7 +95,7 @@
 	}
 	.step {
 		font-size: var(--20px);
-		margin: 40vh 0;
+		margin: 60vh 0;
 		padding: 1em;
 		opacity: 0.2;
 		transition: all calc(var(--1s) * 0.2) ease-out;
