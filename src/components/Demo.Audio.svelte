@@ -1,4 +1,5 @@
 <script>
+	import Track from "$components/Demo.Track.svelte";
 	import Icon from "$components/helpers/Icon.svelte";
 	import { currentAudioId, soundOn } from "$stores/misc.js";
 	import { getContext } from "svelte";
@@ -7,22 +8,20 @@
 	const {
 		songId,
 		autoplay,
+		getAudioEls,
 		getDuration,
 		getTrimmedDuration,
 		getSeek,
 		getPlayClicked,
 		getIsPlaying,
-		style,
-		getAudioEls,
-		getActions
+		style
 	} = getContext("song");
+	const audioEls = getAudioEls();
 	const duration = getDuration();
 	const trimmedDuration = getTrimmedDuration();
 	const seek = getSeek();
 	const playClicked = getPlayClicked();
 	const isPlaying = getIsPlaying();
-	const audioEls = getAudioEls();
-	const actions = getActions();
 
 	export let play;
 	export let pause;
@@ -52,7 +51,6 @@
 		}
 	};
 
-	$: currentVersion = $actions.map((d) => (d.on ? "1" : "0")).join("");
 	const versions = {
 		straight: ["0000", "1000", "1100", "1110", "1111"],
 		swing: ["00", "01", "10", "11"],
@@ -105,29 +103,11 @@
 	/>
 {:else}
 	{#each versions[songId] as version, i}
-		{@const leader = i === 0 || (songId === "straight" && i === 1)}
-		{@const muted = !$soundOn || currentVersion !== version}
-		{@const hasAudio = version !== "0000"}
-
-		{#if hasAudio}
-			{#if leader}
-				<audio
-					preload="none"
-					bind:this={$audioEls[i]}
-					bind:duration={d}
-					bind:currentTime={$seek}
-					src={`assets/sound/demo/${songId}/${version}.mp3`}
-					{muted}
-				/>
-			{:else}
-				<audio
-					preload="none"
-					bind:this={$audioEls[i]}
-					src={`assets/sound/demo/${songId}/${version}.mp3`}
-					{muted}
-				/>
-			{/if}
-		{/if}
+		<Track
+			{i}
+			src={`assets/sound/demo/${songId}/${version}.mp3`}
+			silent={songId === "straight" && version === "0000"}
+		/>
 	{/each}
 {/if}
 

@@ -7,10 +7,11 @@
 	import { setContext, onMount, tick } from "svelte";
 	import { scaleLinear, range } from "d3";
 	import { writable } from "svelte/store";
-	import { songData, currentAudioId } from "$stores/misc.js";
+	import { started, songData, currentAudioId } from "$stores/misc.js";
 	import viewport from "$stores/viewport.js";
 	import inView from "$actions/inView.js";
 	import _ from "lodash";
+	import { previous } from "$stores/previous.js";
 
 	export let songId;
 	export let notes = [];
@@ -55,6 +56,7 @@
 		getCurrentAction: () => currentAction,
 		getCurrentActionIndex: () => currentActionIndex,
 		getActions: () => actions,
+		getCurrentVersionI: () => currentVersionI,
 		style,
 		song,
 		artist
@@ -79,19 +81,28 @@
 	const playClicked = writable(false);
 	const currentAction = writable(undefined);
 	const currentActionIndex = writable(undefined);
+	const currentVersionI = writable(0);
+	const prevVersionI = previous(currentVersionI);
+
+	$: currentVersion = $actions.map((d) => (d.on ? "1" : "0")).join("");
+	$: $currentVersionI = versions[songId]?.indexOf(currentVersion);
+
+	const versions = {
+		straight: ["0000", "1000", "1100", "1110", "1111"],
+		swing: ["00", "01", "10", "11"],
+		shift: ["0", "1"],
+		dilla: ["00", "01", "10", "11"]
+	};
 	const order = ["bass", "synth", "hihat", "kick", "snare"];
 	let caption = { song: "", info: "" };
 
 	const reset = () => {
-		$seek = 0;
+		$audioEls[$currentVersionI].currentTime = 0;
 	};
 	const play = async () => {
-		$audioEls.forEach((el) => {
-			el.currentTime = $seek;
-		});
-		$audioEls.forEach((el) => {
-			el.play();
-		});
+		if (style === "real") $audioEls[0].play();
+		else $audioEls[$currentVersionI].play();
+
 		if (!$playClicked) {
 			$playClicked = true;
 			$currentAction = $actions[0];
@@ -102,7 +113,10 @@
 	};
 	const pause = () => {
 		$isPlaying = false;
-		$audioEls.forEach((el) => el.pause());
+
+		if (style === "real") $audioEls[0].pause();
+		else $audioEls[$currentVersionI].pause();
+
 		$currentAudioId = undefined;
 	};
 	const restartActions = () => {
@@ -115,8 +129,10 @@
 	};
 
 	const onExit = () => {
-		pause();
-		reset();
+		if ($started) {
+			pause();
+			reset();
+		}
 	};
 
 	const simplify = (instrument, style) => {
@@ -155,6 +171,18 @@
 	}
 	$: figcaption = `visualizing each part of ${caption.song} where ${caption.info}.`;
 	$: if ($viewport.height && $viewport.width) measure();
+	$: $currentVersionI, versionChange();
+
+	const versionChange = async () => {
+		if ($audioEls.length) {
+			$audioEls[$prevVersionI].pause();
+			const prevTime = $audioEls[$prevVersionI].currentTime;
+			$audioEls[$prevVersionI].currentTime = 0;
+
+			$audioEls[$currentVersionI].currentTime = prevTime;
+			$audioEls[$currentVersionI].play();
+		}
+	};
 
 	const measure = async () => {
 		await tick();

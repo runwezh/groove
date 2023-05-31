@@ -1,6 +1,6 @@
 <script>
 	import Note from "$components/Demo.Note.svelte";
-	import { getContext } from "svelte";
+	import { getContext, tick } from "svelte";
 	import { range } from "d3";
 	import _ from "lodash";
 	import viewport from "$stores/viewport.js";
@@ -12,8 +12,6 @@
 
 	const {
 		songId,
-		getAudioEls,
-		getSeek,
 		getAllParts,
 		beatsPerMeasure,
 		getXScale,
@@ -27,8 +25,6 @@
 		getActions
 	} = getContext("song");
 	const allParts = getAllParts();
-	const audioEls = getAudioEls();
-	const seek = getSeek();
 	const xScale = getXScale();
 	const instrumentStyles = getInstrumentStyles();
 	const highlightedNotes = getHighlightedNotes();
@@ -48,10 +44,6 @@
 	const formatLabel = (str) => _.upperFirst(str === "hihat" ? "hi-hat" : str);
 
 	const doAction = () => {
-		$audioEls.forEach((el) => {
-			el.currentTime = $seek;
-		});
-
 		if (action.on) {
 			$instrumentStyles[id] = originalStyle;
 			$highlightedNotes[id] = [];
