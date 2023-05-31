@@ -32,6 +32,14 @@
 		autoplay = false
 	} = $songData[songId];
 
+	const versions = {
+		straight: ["0000", "1000", "1100", "1110", "1111"],
+		swing: ["00", "01", "10", "11"],
+		shift: ["0", "1"],
+		dilla: ["00", "01", "10", "11"]
+	};
+	const order = ["bass", "synth", "hihat", "kick", "snare"];
+
 	setContext("song", {
 		songId,
 		beatsPerMeasure,
@@ -57,6 +65,7 @@
 		getCurrentActionIndex: () => currentActionIndex,
 		getActions: () => actions,
 		getCurrentVersionI: () => currentVersionI,
+		versions: versions[songId],
 		style,
 		song,
 		artist
@@ -87,13 +96,6 @@
 	$: currentVersion = $actions.map((d) => (d.on ? "1" : "0")).join("");
 	$: $currentVersionI = versions[songId]?.indexOf(currentVersion);
 
-	const versions = {
-		straight: ["0000", "1000", "1100", "1110", "1111"],
-		swing: ["00", "01", "10", "11"],
-		shift: ["0", "1"],
-		dilla: ["00", "01", "10", "11"]
-	};
-	const order = ["bass", "synth", "hihat", "kick", "snare"];
 	let caption = { song: "", info: "" };
 
 	const reset = () => {

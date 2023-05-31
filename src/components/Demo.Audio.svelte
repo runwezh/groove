@@ -14,7 +14,8 @@
 		getSeek,
 		getPlayClicked,
 		getIsPlaying,
-		style
+		style,
+		versions
 	} = getContext("song");
 	const audioEls = getAudioEls();
 	const duration = getDuration();
@@ -49,13 +50,6 @@
 			pause();
 			reset();
 		}
-	};
-
-	const versions = {
-		straight: ["0000", "1000", "1100", "1110", "1111"],
-		swing: ["00", "01", "10", "11"],
-		shift: ["0", "1"],
-		dilla: ["00", "01", "10", "11"]
 	};
 </script>
 
@@ -102,7 +96,7 @@
 		muted={!$soundOn}
 	/>
 {:else}
-	{#each versions[songId] as version, i}
+	{#each versions as version, i}
 		<Track
 			{i}
 			src={`assets/sound/demo/${songId}/${version}.mp3`}
