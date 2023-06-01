@@ -95,11 +95,9 @@
 	}
 	.step {
 		font-size: var(--20px);
-		margin: 60vh 0;
+		margin: 50vh 0;
 		padding: 1em;
 		opacity: 0.2;
-		transition: all calc(var(--1s) * 0.2) ease-out;
-		transform: scale(1);
 		transform-origin: center;
 		display: flex;
 		flex-direction: column;
@@ -132,6 +130,7 @@
 	@media (max-width: 600px) {
 		.step {
 			font-size: var(--18px);
+			margin: 40vh 0;
 		}
 		.quote {
 			font-size: 1.3em;

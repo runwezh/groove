@@ -14,18 +14,20 @@
 	const {
 		songId,
 		getAllParts,
+		getAudioEls,
 		beatsPerMeasure,
 		getXScale,
 		getInstrumentStyles,
 		getHighlightedNotes,
 		getWidth,
 		getXOffset,
-		getInteractionHeight,
 		getCurrentAction,
 		getCurrentActionIndex,
-		getActions
+		getActions,
+		getCurrentVersionI
 	} = getContext("song");
 	const allParts = getAllParts();
+	const audioEls = getAudioEls();
 	const xScale = getXScale();
 	const instrumentStyles = getInstrumentStyles();
 	const highlightedNotes = getHighlightedNotes();
@@ -34,8 +36,8 @@
 	const currentAction = getCurrentAction();
 	const currentActionIndex = getCurrentActionIndex();
 	const actions = getActions();
+	const currentVersionI = getCurrentVersionI();
 
-	let actionBtn;
 	let notesContainer;
 	let actionClickedOnce = false;
 	let originalData = data;
@@ -44,6 +46,8 @@
 	const formatLabel = (str) => _.upperFirst(str === "hihat" ? "hi-hat" : str);
 
 	const doAction = () => {
+		$audioEls[$currentVersionI].pause();
+
 		if (action.on) {
 			$instrumentStyles[id] = originalStyle;
 			$highlightedNotes[id] = [];
@@ -114,7 +118,6 @@
 
 	{#if action}
 		<button
-			bind:this={actionBtn}
 			class="action-btn"
 			class:mobile
 			class:pulse={action === $currentAction && !$mq.reducedMotion}
@@ -157,20 +160,13 @@
 		max-height: 100%;
 		flex-shrink: 0;
 		padding: 6px 0;
-		position: absolute;
-		right: 0;
-		top: 50%;
-		transform: translate(0, -50%);
 	}
 	.action-btn.pulse {
-		animation: pulse 0.4s infinite alternate;
-	}
-	.action-btn:active {
-		transform: translate(5px, calc(-50% + 5px));
+		animation: pulse calc(var(--1s) * 0.4) infinite alternate;
 	}
 	@keyframes pulse {
 		to {
-			transform: translate(0, -50%) scale(1.1);
+			transform: scale(1.1);
 		}
 	}
 	.action-btn.visible {
@@ -179,13 +175,14 @@
 	@media (max-width: 600px) {
 		.label {
 			font-size: var(--12px);
+			width: 16%;
 		}
 		.notes {
 			width: 70%;
 			margin-left: 1em;
 		}
 		.action-btn {
-			width: 14%;
+			width: 12%;
 		}
 	}
 </style>

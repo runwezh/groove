@@ -1,6 +1,6 @@
 <script>
 	import { soundOn } from "$stores/misc.js";
-	import { getContext } from "svelte";
+	import { getContext, tick } from "svelte";
 
 	export let i;
 	export let src;
