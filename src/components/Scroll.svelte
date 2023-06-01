@@ -104,6 +104,7 @@
 		justify-content: center;
 		background: rgb(30, 40, 45, 0.9);
 		text-align: left;
+		transition: opacity calc(var(--1s) * 0.5);
 	}
 	.step:last-child {
 		height: auto;
@@ -111,7 +112,6 @@
 	}
 	.active {
 		opacity: 1;
-		transform: scale(1.03);
 	}
 	.quote {
 		font-size: 1.8em;
