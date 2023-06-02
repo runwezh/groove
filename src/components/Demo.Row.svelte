@@ -125,9 +125,7 @@
 			on:click={mobile ? mobileAction : doAction}
 			disabled={songId === "straight" && action.on}
 		>
-			{@html mobile
-				? mobileButtonText
-				: buttonText.replace("hi-hat", "<br/>hi-hat")}
+			{@html mobile ? mobileButtonText : buttonText.replace("the", "the<br />")}
 		</button>
 	{/if}
 </div>
