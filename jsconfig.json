@@ -1,6 +1,15 @@
 {
 	"compilerOptions": {
+		"verbatimModuleSyntax": true,
 		"baseUrl": ".",
+		// 添加 TypeScript 编译选项
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"allowJs": true,
+		"checkJs": true,
+		"strict": true,
 		"paths": {
 			"$lib": [
 				"src"
@@ -36,7 +45,9 @@
 	},
 	"include": [
 		"src/**/*.js",
-		"src/**/*.svelte"
+		"src/**/*.svelte",
+		"src/**/*.ts",  // 添加 .ts 文件
+		"src/**/*.tsx"  // 添加 .tsx 文件
 	],
 	"exclude": [
 		"tasks/*.js"

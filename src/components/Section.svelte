@@ -11,6 +11,8 @@
 	export let id;
 	export let title;
 	export let chunks;
+	// 添加isPreview参数
+	export let isPreview = false;
 
 	const components = { Scroll, Demo, Song, Circle, Feeling, Image };
 </script>
@@ -46,7 +48,9 @@
 					{share}
 					{src}
 					{alt}
+					{isPreview} 
 				/>
+				<!-- 添加传递isPreview参数 -->
 			{/if}
 		</svelte:element>
 	{/each}

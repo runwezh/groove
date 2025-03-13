@@ -1,7 +1,7 @@
 <script>
 	import _ from "lodash";
 	import { scrollyStep, soundOn, ios } from "$stores/misc.js";
-
+	
 	export let text;
 	export let quoted;
 	export let id;
@@ -32,13 +32,39 @@
 
 	const srcs = {
 		"life-changing": "leaving_the_club_edited",
-		"undo-education": "no_fucks_edited"
+		"undo-education": "no_fucks_edited",
+		"future-arrived": null,
+		"machine-breathe": null
 	};
 	const emphases = {
 		"life-changing": _.range(15, 19),
-		"undo-education": _.range(14, 17)
+		"undo-education": _.range(14, 17),
+		"future-arrived": [],
+		"machine-breathe": [],
+		"tradition-evolving": []
 	};
-	const words = text.split(" ");
+
+	// 简化的分词方法 - 只处理标点符号和空格
+    let words;
+    if (text && text.match(/[\u4e00-\u9fa5]/g)) {
+        // 1. 处理标点符号 - 把每个标点符号变成独立词
+        const punctRegex = /([""''「」『』，。、；：？！…—·\s])/g;
+        const textWithSpaces = text.replace(punctRegex, " $1 ");
+        
+        // 2. 按空格分割
+        words = textWithSpaces.split(/\s+/).filter(Boolean);
+        
+        // 3. 移除空白元素
+        words = words.filter(w => w.trim() !== "");
+    } else if (text) {
+        // 非中文文本按空格分词
+        words = text.split(/\s+/).filter(Boolean);
+    } else {
+        words = [];
+    }
+    
+    console.log("简化分词结果：", words);
+
 	const data = {
 		"life-changing": [
 			0.05, 0.2, 0.3, 0.4, 0.55, 1, 1.3, 1.5, 1.8, 2.5, 3, 3.3, 3.5, 4, 4.1,
@@ -51,21 +77,54 @@
 			6.3, 6.7, 7.1, 8.2, 9, 9.3, 9.8, 10.3, 11.3, 11.5, 11.9, 12.2, 12.5, 19,
 			19.3, 19.5, 19.6, 19.8, 20.2, 20.5, 20.7, 21.3, 21.5, 21.9, 22.1, 22.3,
 			22.5, 22.7, 22.9, 23.2
-		]
+		],
+		"future-arrived": [],
+		"machine-breathe": []
 	};
+
+	// 检查和记录可能的问题
+    if (!data[id]) {
+        console.warn(`ID "${id}" 缺少时间数据配置`);
+    }
+    if (!emphases[id]) {
+        console.warn(`ID "${id}" 缺少强调配置`);
+    }
+
+	// 防御式检查 - 确保数据存在
+	const timing = id && data[id] ? data[id] : [];
+	
+	// 防御式循环，避免未定义的数据访问
+	let wordTiming = [];
+	if (words && words.length > 0) {
+		wordTiming = words.map((word, i) => {
+			// 确保不超出 timing 数组边界
+			const start = i < timing.length ? timing[i] : 0;
+			const end = i + 1 < timing.length ? timing[i + 1] : start + 0.3;
+			return { word, start, end };
+		});
+	}
+	
+	// 或者在使用 data[id] 的地方添加检查
+	const currentData = id && data[id] ? data[id] : [];
+	
+	// 创建安全的强调检查函数
+    const safeEmphasis = (idx) => emphases[id] ? emphases[id].includes(idx) : false;
 </script>
 
-<p class="quote">
-	{#each words as word, i}
-		{@const dark = seek >= data[id][i] || $ios}
-		{@const emphasis = emphases[id].includes(i)}
-		<span class:dark class:emphasis>{word} </span>
-	{/each}
-</p>
+<!-- 在模板中也添加防御式检查 -->
+{#if words && words.length > 0}
+	<p class="quote">
+		{#each wordTiming as { word, start, end }, i}
+			{@const dark = seek >= currentData[i] || $ios}
+			{@const emphasis = safeEmphasis(i)}
+			<span class:dark class:emphasis>{word} </span>
+		{/each}
+	</p>
+{/if}
 <p class="speaker">- {quoted}</p>
 <p class="source">{@html source}</p>
 
-{#if !$ios}
+{#if !$ios && srcs[id]}
 	<audio
 		bind:this={audioEl}
 		src={`assets/sound/intro/${srcs[id]}.mp3`}

@@ -65,6 +65,7 @@
 				transition:fade
 				id={i === 0 ? "start-of-story" : ""}
 			>
+			<!-- { console.log(text + " classname>>"+classname+" is quoted===="+quoted) } -->
 				{#if quoted}
 					<Quote text={paragraph} {quoted} {id} step={i} {source} />
 				{:else}

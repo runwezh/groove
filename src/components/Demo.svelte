@@ -285,7 +285,7 @@
 	.faded {
 		opacity: 0.2;
 	}
-	.dot {
+	/* .dot {
 		background: var(--color-gray-200);
 		position: absolute;
 		width: 5px;
@@ -293,7 +293,7 @@
 		border-radius: 2.5px;
 		transform: translate(-50%, -50%);
 		z-index: -1;
-	}
+	} */
 	.grid {
 		position: absolute;
 		top: 0;

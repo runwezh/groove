@@ -138,9 +138,9 @@
 		min-height: 80px;
 		position: relative;
 	}
-	.muted {
+	/* .muted {
 		opacity: 0.5;
-	}
+	} */
 	.notes {
 		position: relative;
 		width: 65%;
