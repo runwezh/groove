@@ -1,137 +1,134 @@
-<script>
+<script lang="ts">
+	import { onMount } from "svelte";
+	import { formatTime } from "$utils/formatTime";
+	import { xScale } from "$utils/xScale";
 	import Icon from "$components/helpers/Icon.svelte";
-	import { timeFormat, scaleLinear } from "d3";
-	import { currentAudioId, soundOn } from "$stores/misc.js";
-	import _ from "lodash";
+	import { timeFormat } from "d3";
+	import { scaleLinear } from "d3";
+	import { soundOn, userMuted } from "$stores/misc";
+	import lodash from "lodash";
+	import { Play, Pause } from 'lucide-svelte';
 
-	export let url;
-	export let song;
-	export let artist;
+	const { debounce } = lodash;
 
-	let audioEl;
-	let paused = true;
-	let duration;
-	let seek = 0;
+	// 添加浏览器环境检查
+	const isBrowser = typeof window !== 'undefined';
 
-	const clockStr = (sec) => {
-		const date = new Date(null);
-		date.setSeconds(sec);
-		const formatter = timeFormat("%M:%S");
-		return formatter(date);
+	export let url: string;
+	export let title: string;
+	export let description: string;
+
+	let audioEl: HTMLAudioElement;
+	let duration: number = 0;
+	let currentTime: number = 0;
+	let paused: boolean = true;
+	let muted: boolean = false;
+	let volume: number = 1;
+	let ended: boolean = false;
+
+	const clockStr = (time: number): string => {
+		const minutes = Math.floor(time / 60);
+		const seconds = Math.floor(time % 60);
+		return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 	};
 
-	const pausePlay = () => {
+	const handlePlayPause = () => {
+		if (!isBrowser || !audioEl) return;
+		
 		if (paused) {
 			audioEl.play();
-			$currentAudioId = _.kebabCase(song);
 		} else {
 			audioEl.pause();
-			$currentAudioId = undefined;
 		}
 	};
 
-	$: light = artist === "Sungazer";
-	$: xScale = scaleLinear().domain([0, duration]).range([0, 100]);
-	$: width = `${xScale(seek)}%`;
-	$: if (seek === duration && audioEl) {
-		seek = 0;
-		audioEl.pause();
+	function handleSeek(e: MouseEvent) {
+		if (!isBrowser || !audioEl) return;
+		
+		const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+		const percentage = (e.clientX - rect.left) / rect.width;
+		audioEl.currentTime = percentage * duration;
 	}
-	$: $currentAudioId, audioChange();
-	const audioChange = () => {
-		if ($currentAudioId && $currentAudioId !== _.kebabCase(song) && !paused) {
-			audioEl.pause();
-			seek = 0;
+
+	// 创建一个线性比例尺
+	const timeScale = scaleLinear().domain([0, 100]).range([0, 100]);
+	
+	$: if (duration) {
+		timeScale.domain([0, duration]);
+	}
+
+	$: {
+		if (isBrowser && audioEl && $soundOn && !$userMuted) {
+			audioEl.volume = volume;
+		} else if (isBrowser && audioEl) {
+			audioEl.volume = 0;
 		}
+	}
+
+	const audioChange = (e: Event): void => {
+		const target = e.target as HTMLAudioElement;
+		currentTime = target.currentTime;
+		duration = target.duration;
 	};
+
+	onMount(() => {
+		if (audioEl) {
+			audioEl.load();
+		}
+	});
+
+	const handleVolumeChange = debounce((e: Event): void => {
+		const target = e.target as HTMLInputElement;
+		volume = parseFloat(target.value);
+	}, 100);
 </script>
 
-<div class="container">
-	<div class="description"><strong>{song}</strong> by {artist}</div>
-
+<div class="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
+	{#if isBrowser}
 	<audio
-		src={url}
-		preload="auto"
 		bind:this={audioEl}
-		bind:paused
+		bind:currentTime
 		bind:duration
-		bind:currentTime={seek}
+		bind:ended
+		bind:paused
 		muted={!$soundOn}
-	/>
+		src={url}
+		on:timeupdate={audioChange}
+	></audio>
+	{/if}
 
-	<div class="audio-player">
-		<button on:click={pausePlay} aria-label={paused ? "play" : "pause"}>
-			{#if paused}
-				<Icon name="play" />
-			{:else}
-				<Icon name="pause" />
-			{/if}
-		</button>
-		<div class="time">{clockStr(seek)} / {clockStr(duration)}</div>
-		<div class="bar" class:light>
-			<div class="seek" style:width />
+	<div class="flex flex-col md:flex-row items-start gap-4">
+		<div class="w-full md:w-1/2">
+			<h2 class="text-xl font-bold mb-2">{title}</h2>
+			<p class="text-gray-600">{description}</p>
+		</div>
+
+		<div class="w-full md:w-1/2">
+			<div class="flex items-center gap-4">
+				<button
+					class="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+					on:click={handlePlayPause}
+					aria-label={paused ? '播放' : '暂停'}
+				>
+					<span class="block w-6 h-6 text-center leading-6">
+						{#if paused}
+							&#9654;
+						{:else}
+							&#9208;
+						{/if}
+					</span>
+				</button>
+
+				<div class="flex-1">
+					<div class="font-mono text-sm mb-1">{formatTime(currentTime)} / {formatTime(duration)}</div>
+					<div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+						<div
+							class="h-full bg-blue-500"
+							style="width: {(currentTime / duration) * 100}%"
+						></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
-
-<style>
-	.container {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin: 1.5em 0;
-	}
-	.description {
-		margin: 0 1em 0 0;
-		width: 50%;
-	}
-	.audio-player {
-		display: flex;
-		align-items: center;
-		width: 50%;
-	}
-	.time {
-		font-family: var(--mono);
-		font-size: var(--16px);
-		transform: translate(0, 5px);
-	}
-	.bar {
-		flex-grow: 1;
-		height: 6px;
-		background: var(--color-gray-800);
-		margin: 0 0.5em;
-		border-radius: 3px;
-		position: relative;
-	}
-	.bar.light {
-		background: var(--color-gray-300);
-	}
-	.seek {
-		background: var(--accent);
-		height: 6px;
-		border-radius: 3px;
-		position: absolute;
-		top: 0;
-		left: 0;
-	}
-	button {
-		margin-right: 1em;
-		height: 2.5em;
-		width: 2.7em;
-	}
-	@media (max-width: 600px) {
-		.container {
-			flex-direction: column;
-			align-items: flex-start;
-		}
-		.description {
-			margin: 0 0 1em 0;
-			width: auto;
-		}
-		.audio-player {
-			min-width: 200px;
-			width: 90%;
-		}
-	}
-</style>

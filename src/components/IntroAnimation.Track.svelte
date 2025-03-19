@@ -1,54 +1,68 @@
-<script>
-	import { soundOn } from "$stores/misc.js";
-	import { onMount } from "svelte";
+<script lang="ts">
+	import { soundOn } from "$stores/misc";
+	import { onMount, onDestroy } from "svelte";
 
-	export let i;
-	export let src;
-	export let audioEls;
-	export let playing;
-	export let seek;
-	export let durations;
+	export let i: number;
+	export let src: string;
+	export let audioEls: HTMLAudioElement[] = [];
+	export let seek = 0;
+	export let durations: number[] = [];
+	export let playing = false;
 
-	let f;
+	let currentTime = 0;
+	let ended = false;
 	let paused = true;
+	let animationFrame: number;
 
 	$: muted = !$soundOn;
 
-	$: if (playing && paused) {
-		audioEls[i].src = src;
-		audioEls[i].currentTime = 0;
-		audioEls[i].play();
-		paused = false;
-	} else if (!playing && !paused) {
-		audioEls[i].pause();
-		paused = true;
+	function handleTimeUpdate() {
+		seek = currentTime;
 	}
 
 	$: if (playing) {
-		trackTime();
+		audioEls[i]?.play();
+	} else {
+		audioEls[i]?.pause();
 	}
 
-	const trackTime = () => {
-		if (playing) {
+	$: if (playing) {
+		handleTrackTime();
+	}
+
+	const handleTrackTime = () => {
+		if (playing && audioEls[i]) {
 			seek = audioEls[i].currentTime;
-			f = requestAnimationFrame(trackTime);
+			animationFrame = requestAnimationFrame(handleTrackTime);
 		} else {
-			cancelAnimationFrame(f);
+			cancelAnimationFrame(animationFrame);
 		}
 	};
 
 	onMount(() => {
-		audioEls[i].addEventListener("ended", () => {
-			audioEls[i].currentTime = 0;
-			audioEls[i].play();
-		});
+		if (audioEls[i]) {
+			audioEls[i].addEventListener("ended", () => {
+				audioEls[i].currentTime = 0;
+				audioEls[i].play();
+			});
+		}
+	});
+
+	onDestroy(() => {
+		if (animationFrame) {
+			cancelAnimationFrame(animationFrame);
+		}
 	});
 </script>
 
 <audio
 	class="intro-audio"
 	bind:this={audioEls[i]}
+	bind:currentTime={seek}
 	bind:duration={durations[i]}
-	{src}
+	bind:ended
+	bind:paused={playing}
+	src={src}
+	on:timeupdate={handleTimeUpdate}
 	{muted}
-/>
+></audio>

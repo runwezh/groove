@@ -4,7 +4,7 @@
 	import IntroAnimation from "$components/IntroAnimation.svelte";
 	import Footer from "$components/Footer.svelte";
 	import Section from "$components/Section.svelte";
-	import { started, soundOn, userMuted, ios } from "$stores/misc.js";
+	import { started, soundOn, userMuted, ios } from "$stores/misc";
 	import defaultCopy from "$data/copy.json";
 	
 	// 添加预览模式标志
@@ -54,6 +54,7 @@
 			{:else if id === "notes"}
 				{#if !isPreview}
 					<iframe
+						title="Spotify 播放列表 - Wonky Grooves"
 						style="border-radius:12px"
 						src="https://open.spotify.com/embed/playlist/2lv10HmmIbXoknNEoNDt2s?utm_source=generator&theme=0"
 						width="100%"
@@ -62,8 +63,7 @@
 						allowfullscreen=""
 						allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
 						loading="lazy"
-						title="playlist of songs with wonky grooves"
-					/>
+					></iframe>
 				{:else}
 					<div class="preview-placeholder">
 						<p>Spotify 播放列表预览</p>

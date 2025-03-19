@@ -1,15 +1,25 @@
-<script>
+<script lang="ts">
 	import Track from "$components/IntroAnimation.Track.svelte";
 	import WavyLine from "$components/IntroAnimation.WavyLine.svelte";
 	import SimpleDemo from "$components/IntroAnimation.SimpleDemo.svelte";
-	import { scrollyStep, direction } from "$stores/misc.js";
+	import { scrollyStep, direction } from "$stores/misc";
 	import { scaleLinear, range } from "d3";
-	import mq from "$stores/mq.js";
+	import mq from "$stores/mq";
 
 	let width = 0;
-	let audioEls = [];
+	let audioEls: HTMLAudioElement[] = [];
 	let seek = 0;
-	let durations = [];
+	let durations: number[] = [];
+	
+	// 从 mq 中获取减少动画属性
+	let isReducedMotion = false;
+	
+	// 在客户端环境中更新减少动画状态
+	if (typeof window !== 'undefined' && mq.reducedMotion) {
+		mq.reducedMotion.subscribe((value: boolean) => {
+			isReducedMotion = value;
+		});
+	}
 
 	const yOffset = 150;
 	const straightData = range(4, 28, 2);
@@ -27,7 +37,7 @@
 		$scrollyStep !== 2 &&
 		$scrollyStep !== 3 &&
 		($scrollyStep !== undefined || $direction === "up") &&
-		!$mq.reducedMotion;
+		!isReducedMotion;
 	$: data =
 		$scrollyStep === 2 ? straightData : $scrollyStep === 3 ? wonkyData : [];
 

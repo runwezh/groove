@@ -1,10 +1,22 @@
-<script>
-	import inView from "$actions/inView.js";
-	import _ from "lodash";
-	import mq from "$stores/mq.js";
+<script lang="ts">
+	import inView from "$actions/inView";
+	import lodash from "lodash";
+	import mq from "$stores/mq";
+	
+	const { random } = lodash;
 
-	export let id;
-	export let title;
+	export let id: string;
+	export let title: string;
+	
+	// 从 mq 中获取减少动画属性
+	let isReducedMotion = false;
+	
+	// 在客户端环境中更新减少动画状态
+	if (typeof window !== 'undefined' && mq.reducedMotion) {
+		mq.reducedMotion.subscribe((value: boolean) => {
+			isReducedMotion = value;
+		});
+	}
 
 	let hasAnimation =
 		id === "straight" || id === "swing" || id === "shift" || id === "dilla";
@@ -33,12 +45,12 @@
 		{#each title.split(" ") as word, i}
 			<span class="word">
 				{#each word.split("") as letter, j}
-					{@const randomX = _.random(-50, 50)}
-					{@const randomY = _.random(-50, 50)}
-					{@const randomRotate = _.random(-30, 30)}
+					{@const randomX = random(-50, 50)}
+					{@const randomY = random(-50, 50)}
+					{@const randomRotate = random(-30, 30)}
 					<span
 						class="letter"
-						style={`--delay: ${$mq.reducedMotion ? 0 : _.random(0, 1000)}ms`}
+						style={`--delay: ${isReducedMotion ? 0 : random(0, 1000)}ms`}
 						style:transform={id !== "dilla"
 							? null
 							: !showTitle

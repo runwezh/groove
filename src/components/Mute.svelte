@@ -1,7 +1,7 @@
 <script>
 	import volumeOn from "$svg/volume-2.svg";
 	import volumeOff from "$svg/volume-x.svg";
-	import { soundOn, userMuted } from "$stores/misc.js";
+	import { soundOn, userMuted } from "$stores/misc";
 
 	export let label;
 

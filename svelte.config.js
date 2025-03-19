@@ -28,10 +28,28 @@ const config = {
 		paths: {
 			base
 		},
+		prerender: {
+			handleHttpError: ({ path, referrer, message, status }) => {
+				// 忽略所有 404 错误
+				if (status === 404) {
+					console.warn(`忽略 404 错误: ${path}`);
+					return;
+				}
+				
+				// 其他错误正常处理
+				console.warn(`${path} referred from ${referrer} 错误: ${message}`);
+				throw new Error(message);
+			},
+			handleMissingId: ({ id, path, referrer }) => {
+				// 忽略所有丢失的 ID 错误
+				console.warn(`忽略丢失的 ID "${id}" 错误: ${path}`);
+				return;
+			}
+		}
 	},
 	vitePlugin: {
-		experimental: {
-			inspector: { holdMode: true },
+		inspector: {
+			holdMode: true
 		}
 	},
 };

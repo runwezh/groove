@@ -1,7 +1,7 @@
 <script>
 	import WavyLine from "$components/Scroll.WavyLine.svelte";
 	import SimpleDemo from "$components/Scroll.SimpleDemo.svelte";
-	import { scrollyStep, direction, soundOn } from "$stores/misc.js";
+	import { scrollyStep, direction, soundOn } from "$stores/misc";
 	import { scaleLinear, range } from "d3";
 
 	const yOffset = 150;

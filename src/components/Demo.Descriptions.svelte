@@ -1,6 +1,6 @@
 <script>
 	import { getContext, onMount } from "svelte";
-	import viewport from "$stores/viewport.js";
+	import viewport from "$stores/viewport";
 
 	export let notes;
 
@@ -33,12 +33,11 @@
 		style:height={`${maxTextHeight + 18}px`}
 	>
 		{#each notes as note, i}
-			<div class="bar" class:active={i === $currentActionIndex} />
+			<div class="bar" class:active={i === $currentActionIndex}></div>
 			<div
 				bind:this={textEls[i]}
 				class="text"
-				class:visible={i === $currentActionIndex}
-			>
+				class:active={i === $currentActionIndex}>
 				{@html note}
 			</div>
 		{/each}

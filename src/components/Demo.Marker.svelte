@@ -1,25 +1,43 @@
-<script>
-	import { getContext } from "svelte";
-	import mq from "$stores/mq.js";
+<script lang="ts">
+	import { getContext, onMount } from "svelte";
+	import mq from "$stores/mq";
+	import type { MediaQueryStore } from "$stores/mq";
+	import type { Scale } from "d3";
+	import type { Writable } from "svelte/store";
+
+	interface SongContext {
+		getXScale: () => Writable<Scale<number, number>>;
+		getSeek: () => Writable<number>;
+		getCurrentBeat: () => Writable<number>;
+		getTimeToBeat: () => Writable<Scale<number, number>>;
+		getXOffset: () => Writable<number>;
+	}
 
 	const { getXScale, getSeek, getCurrentBeat, getTimeToBeat, getXOffset } =
-		getContext("song");
+		getContext<SongContext>("song");
 	const xScale = getXScale();
 	const beat = getCurrentBeat();
 	const seek = getSeek();
 	const timeToBeat = getTimeToBeat();
 	const xOffset = getXOffset();
 
-	let markerEl;
+	let markerEl: HTMLDivElement;
 	let moving = false;
+	let isReducedMotion = false;
+	
+	if (typeof window !== 'undefined' && mq.reducedMotion) {
+		mq.reducedMotion.subscribe((value: boolean) => {
+			isReducedMotion = value;
+		});
+	}
 
-	const onMouseDown = (e) => {
+	const onMouseDown = (e: MouseEvent): void => {
 		moving = true;
 	};
-	const onMouseUp = () => {
+	const onMouseUp = (): void => {
 		moving = false;
 	};
-	const onMouseMove = (e) => {
+	const onMouseMove = (e: MouseEvent): void => {
 		if (moving) {
 			const leftPx = markerEl.offsetLeft + e.movementX - $xOffset;
 			const newBeat = $xScale.invert(leftPx);
@@ -34,11 +52,14 @@
 <div
 	bind:this={markerEl}
 	class="marker"
-	class:visible={!$mq.reducedMotion}
-	style:left
+	class:visible={!isReducedMotion}
+	role="button"
+	tabindex="0"
+	aria-label="音频进度标记"
+	style:left={`${$xScale($seek)}px`}
 	on:mousedown={onMouseDown}
-/>
-<svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
+></div>
+<svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove}></svelte:window>
 
 <style>
 	.marker {

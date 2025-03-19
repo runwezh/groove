@@ -4,7 +4,7 @@
 	import Meta from "$components/Meta.svelte";
 	import Index from "$components/Index.svelte";
 	import copy from "$data/copy.json";
-	import version from "$utils/version.js";
+	import version from "$utils/version";
 
 	export let data;
 
@@ -21,5 +21,5 @@
 	setContext("data", data.data);
 </script>
 
-<Meta {title} {description} {url} {preloadFont} {keywords} />
-<Index />
+<Meta {title} {description} {url} {preloadFont} {keywords}></Meta>
+<Index></Index>

@@ -1,10 +1,10 @@
-<script>
+<script lang="ts">
 	import "$styles/app.css";
 	import Header from "$components/Header.svelte";
 	// 导入其他必要的组件
 	import { page } from '$app/stores';
 	
-	function navigateToEditor(event) {
+	function navigateToEditor(event: MouseEvent): void {
 		// 阻止事件冒泡和默认行为
 		event.preventDefault();
 		event.stopPropagation();
@@ -16,7 +16,7 @@
 	}
 </script>
 
-<Header />
+<Header></Header>
 
 <nav>
   <ul>
@@ -37,7 +37,7 @@
 </div> -->
 
 <main>
-  <slot />
+  <slot></slot>
 </main>
 
 <style>

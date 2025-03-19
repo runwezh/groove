@@ -21,7 +21,7 @@
   
   const dispatch = createEventDispatcher();
   let selectedPath: string[] = [];
-  let selectedType: string | null = null;
+  let selectedType: 'string' | 'number' | 'boolean' | 'object' | 'array' | null = null;
   let selectedValue: any = null;
   let isEmptyDocument = false;
   
@@ -37,7 +37,7 @@
   // 处理节点选择
   function handleNodeSelect(event: { detail: { path: string[]; type: string; value: any } }) {
     selectedPath = event.detail.path;
-    selectedType = event.detail.type;
+    selectedType = event.detail.type as 'string' | 'number' | 'boolean' | 'object' | 'array' | null;
     selectedValue = event.detail.value;
   }
   
@@ -102,7 +102,7 @@
   }
   
   // 添加新节点
-  function addNode(type) {
+  function addNode(type: 'section' | 'chunk' | 'component') {
     let newData = JSON.parse(JSON.stringify(data));
     let current = newData;
     
@@ -123,7 +123,7 @@
       });
     } else if (type === 'chunk') {
       if (selectedPath.length > 0 && selectedPath[0] === 'sections') {
-        const sectionIndex = selectedPath[1];
+        const sectionIndex = parseInt(selectedPath[1], 10);
         if (!newData.sections[sectionIndex].chunks) {
           newData.sections[sectionIndex].chunks = [];
         }
@@ -134,8 +134,8 @@
       }
     } else if (type === 'component') {
       if (selectedPath.length > 2 && selectedPath[0] === 'sections' && selectedPath[2] === 'chunks') {
-        const sectionIndex = selectedPath[1];
-        const chunkIndex = selectedPath[3];
+        const sectionIndex = parseInt(selectedPath[1], 10);
+        const chunkIndex = parseInt(selectedPath[3], 10);
         newData.sections[sectionIndex].chunks[chunkIndex] = {
           type: "div",
           component: "Demo",
@@ -163,7 +163,7 @@
     // 删除节点
     const lastKey = selectedPath[selectedPath.length - 1];
     if (Array.isArray(current)) {
-      current.splice(lastKey, 1);
+      current.splice(parseInt(lastKey, 10), 1);
     } else {
       delete current[lastKey];
     }
@@ -175,7 +175,14 @@
   }
   
   // 处理模板添加
-  function handleTemplateAdd(event) {
+  interface TemplateAddEvent {
+    detail: {
+      template: any;
+      path: string[];
+    }
+  }
+  
+  function handleTemplateAdd(event: TemplateAddEvent) {
     const { template, path } = event.detail;
     let newData = JSON.parse(JSON.stringify(data));
     
@@ -276,7 +283,7 @@
     flex-wrap: wrap;
   }
   
-  .action-button {
+  button {
     padding: 8px 12px;
     background-color: #4717f6;
     color: white;
@@ -290,26 +297,13 @@
     transition: background-color 0.2s;
   }
   
-  .action-button:hover {
+  button:hover {
     background-color: #3a13d6;
   }
   
-  .action-button.delete {
-    background-color: #e74c3c;
-  }
-  
-  .action-button.delete:hover {
-    background-color: #c0392b;
-  }
-  
-  .action-button:disabled {
+  button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
-  }
-  
-  .icon {
-    font-weight: bold;
-    font-size: 16px;
   }
   
   .tree-container {
@@ -325,68 +319,5 @@
     background-color: white;
     max-height: 40%;
     overflow-y: auto;
-  }
-  
-  .hint-panel {
-    padding: 20px;
-    text-align: center;
-    color: #666;
-    background: #f9f9f9;
-    border-top: 1px solid #eee;
-  }
-  
-  .template-panel {
-    padding: 12px;
-    border-top: 1px solid #ccc;
-    background-color: #f0f0f0;
-  }
-  
-  .template-panel h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1em;
-    color: #555;
-  }
-  
-  .empty-state {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  
-  .empty-message {
-    max-width: 400px;
-    margin-bottom: 30px;
-  }
-  
-  .empty-message h3 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .empty-message p {
-    color: #666;
-    margin-bottom: 20px;
-  }
-  
-  .primary-button {
-    padding: 12px 24px;
-    background-color: #4717f6;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .primary-button:hover {
-    background-color: #3a13d6;
   }
 </style>

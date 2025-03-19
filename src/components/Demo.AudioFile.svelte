@@ -1,5 +1,5 @@
 <script>
-	import { soundOn } from "$stores/misc.js";
+	import { soundOn } from "$stores/misc";
 	import { getContext } from "svelte";
 
 	const {

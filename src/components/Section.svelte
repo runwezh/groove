@@ -6,7 +6,7 @@
 	import Feeling from "$components/Feeling.svelte";
 	import Image from "$components/Image.svelte";
 	import Title from "$components/Section.Title.svelte";
-	import { started } from "$stores/misc.js";
+	import { started } from "$stores/misc";
 
 	export let id;
 	export let title;

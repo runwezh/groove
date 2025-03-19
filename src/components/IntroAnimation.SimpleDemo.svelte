@@ -1,5 +1,5 @@
 <script>
-	import viewport from "$stores/viewport.js";
+	import viewport from "$stores/viewport";
 
 	export let data;
 	export let xScale;

@@ -1,69 +1,64 @@
-<script>
-	import _ from "lodash";
-	import { scrollyStep, soundOn, ios } from "$stores/misc.js";
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import { scrollyStep, soundOn, ios } from '$stores/misc';
+	import _ from 'lodash';
 	
-	export let text;
-	export let quoted;
-	export let id;
-	export let step;
-	export let source;
+	export let text: string;
+	export let quoted: string;
+	export let id: string;
+	export let step: number;
+	export let source: string;
 
-	let audioEl;
-	let seek = 0;
-	let duration;
-	let paused;
-	let ended;
+	let audioEl: HTMLAudioElement;
+	let currentTime = 0;
+	let duration = 0;
+	let paused = true;
+	let ended = false;
+
+	type ValidQuoteId = 'life-changing' | 'undo-education' | 'future-arrived' | 'machine-breathe';
+
+	const srcs: Record<ValidQuoteId, string[]> = {
+		'life-changing': ['life-changing'],
+		'undo-education': ['undo-education'],
+		'future-arrived': [],
+		'machine-breathe': []
+	};
+
+	const emphases: Record<ValidQuoteId, number[]> = {
+		'life-changing': _.range(15, 19),
+		'undo-education': _.range(10, 15),
+		'future-arrived': [],
+		'machine-breathe': []
+	};
 
 	$: {
-		if (audioEl) {
-			if (step === $scrollyStep && !ended) start();
-			else if (step !== $scrollyStep) restart();
+		if ($scrollyStep !== step && audioEl) {
+			paused = true;
+			audioEl.pause();
+			currentTime = 0;
 		}
 	}
-	const start = () => {
-		audioEl.play();
-	};
-	const restart = () => {
-		ended = false;
-		paused = true;
-		audioEl.pause();
-		seek = 0;
-	};
-
-	const srcs = {
-		"life-changing": "leaving_the_club_edited",
-		"undo-education": "no_fucks_edited",
-		"future-arrived": null,
-		"machine-breathe": null
-	};
-	const emphases = {
-		"life-changing": _.range(15, 19),
-		"undo-education": _.range(14, 17),
-		"future-arrived": [],
-		"machine-breathe": [],
-		"tradition-evolving": []
-	};
 
 	// 简化的分词方法 - 只处理标点符号和空格
-    let words;
-    if (text && text.match(/[\u4e00-\u9fa5]/g)) {
-        // 1. 处理标点符号 - 把每个标点符号变成独立词
-        const punctRegex = /([""''「」『』，。、；：？！…—·\s])/g;
-        const textWithSpaces = text.replace(punctRegex, " $1 ");
-        
-        // 2. 按空格分割
-        words = textWithSpaces.split(/\s+/).filter(Boolean);
-        
-        // 3. 移除空白元素
-        words = words.filter(w => w.trim() !== "");
-    } else if (text) {
-        // 非中文文本按空格分词
-        words = text.split(/\s+/).filter(Boolean);
-    } else {
-        words = [];
-    }
-    
-    console.log("简化分词结果：", words);
+	let words;
+	if (text && text.match(/[\u4e00-\u9fa5]/g)) {
+		// 1. 处理标点符号 - 把每个标点符号变成独立词
+		const punctRegex = /([""''「」『』，。、；：？！…—·\s])/g;
+		const textWithSpaces = text.replace(punctRegex, " $1 ");
+		
+		// 2. 按空格分割
+		words = textWithSpaces.split(/\s+/).filter(Boolean);
+		
+		// 3. 移除空白元素
+		words = words.filter(w => w.trim() !== "");
+	} else if (text) {
+		// 非中文文本按空格分词
+		words = text.split(/\s+/).filter(Boolean);
+	} else {
+		words = [];
+	}
+	
+	console.log("简化分词结果：", words);
 
 	const data = {
 		"life-changing": [
@@ -83,12 +78,12 @@
 	};
 
 	// 检查和记录可能的问题
-    if (!data[id]) {
-        console.warn(`ID "${id}" 缺少时间数据配置`);
-    }
-    if (!emphases[id]) {
-        console.warn(`ID "${id}" 缺少强调配置`);
-    }
+	if (!data[id]) {
+		console.warn(`ID "${id}" 缺少时间数据配置`);
+	}
+	if (!emphases[id as ValidQuoteId]) {
+		console.warn(`ID "${id}" 缺少强调配置`);
+	}
 
 	// 防御式检查 - 确保数据存在
 	const timing = id && data[id] ? data[id] : [];
@@ -108,65 +103,54 @@
 	const currentData = id && data[id] ? data[id] : [];
 	
 	// 创建安全的强调检查函数
-    const safeEmphasis = (idx) => emphases[id] ? emphases[id].includes(idx) : false;
+	const safeEmphasis = (idx: number): boolean => {
+		const validId = id as ValidQuoteId;
+		return emphases[validId]?.includes(idx) ?? false;
+	};
+
+	onMount(() => {
+		const validId = id as ValidQuoteId;
+		if (!$ios && srcs[validId]?.length) {
+			audioEl.load();
+		}
+	});
 </script>
 
-<!-- 在模板中也添加防御式检查 -->
-{#if words && words.length > 0}
-	<p class="quote">
-		{#each wordTiming as { word, start, end }, i}
-			{@const dark = seek >= currentData[i] || $ios}
-			{@const emphasis = safeEmphasis(i)}
-			<span class:dark class:emphasis>{word} </span>
-		{/each}
-	</p>
-{/if}
-<p class="speaker">- {quoted}</p>
-<p class="source">{@html source}</p>
+<div class="quote-container">
+	<p class="quote">{text}</p>
+	{#if quoted}
+		<p class="speaker">{quoted}</p>
+	{/if}
+	{#if source}
+		<p class="source">{source}</p>
+	{/if}
+</div>
 
-{#if !$ios && srcs[id]}
+{#if !$ios && srcs[id as ValidQuoteId]?.length}
 	<audio
 		bind:this={audioEl}
-		src={`assets/sound/intro/${srcs[id]}.mp3`}
-		bind:currentTime={seek}
-		bind:duration
+		src={`assets/sound/intro/${srcs[id as ValidQuoteId][0]}.mp3`}
 		bind:paused
+		bind:currentTime
+		bind:duration
 		bind:ended
-		muted={!$soundOn}
-	/>
+		muted={!$soundOn}></audio>
 {/if}
 
 <style>
-	.quote {
-		font-size: 1.8em;
-		text-align: start;
-	}
-	.quote span {
-		transition: opacity calc(var(--1s) * 0.3);
-		opacity: 0.2;
-	}
-	.quote span.dark {
-		opacity: 1;
-	}
-	.emphasis {
-		font-weight: bold;
-	}
-	.speaker {
-		font-size: 1.2em;
-		color: var(--accent);
-		text-align: start;
-	}
-	.source {
-		font-size: var(--14px);
-		color: var(--color-gray-300);
-	}
-	:global(.source a) {
-		color: var(--color-gray-400);
+	.quote-container {
+		@apply flex flex-col gap-4;
 	}
 
-	@media (max-width: 600px) {
-		.quote {
-			font-size: 1.3em;
-		}
+	.quote {
+		@apply text-xl font-medium text-gray-800;
+	}
+
+	.speaker {
+		@apply text-lg text-blue-600;
+	}
+
+	.source {
+		@apply text-sm text-gray-600;
 	}
 </style>

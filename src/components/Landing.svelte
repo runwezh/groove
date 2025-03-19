@@ -2,7 +2,7 @@
 	import Mute from "$components/Mute.svelte";
 	import { tick, onMount } from "svelte";
 	import copy from "$data/copy.json";
-	import { started, scrollyStep, direction } from "$stores/misc.js";
+	import { started, scrollyStep, direction } from "$stores/misc";
 	import { fade } from "svelte/transition";
 
 	const { hed, dek, byline } = copy;

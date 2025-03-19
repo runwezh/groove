@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Scrolly from "$components/helpers/Scrolly.svelte";
 	import Quote from "$components/Quote.svelte";
 	import { fade } from "svelte/transition";
@@ -8,15 +8,19 @@
 		scrollyStep,
 		direction,
 		ios
-	} from "$stores/misc.js";
+	} from "$stores/misc";
 	import scrollY from "$stores/scrollY.js";
 	import { tweened } from "svelte/motion";
+	import { onMount } from "svelte";
 
 	export let steps;
 
 	let containerEl;
-	let club;
-	let paused;
+	let club: HTMLAudioElement;
+	let paused = true;
+	let currentTime = 0;
+	let duration = 0;
+	let ended = false;
 	const clubVolume = tweened(0, { duration: 1000 });
 
 	$: if ($started && club) {
@@ -50,6 +54,12 @@
 			}
 		}
 	};
+
+	onMount(() => {
+		if (!$ios) {
+			club.load();
+		}
+	});
 </script>
 
 <div class="scroll-container" bind:this={containerEl}>
@@ -80,11 +90,13 @@
 	<audio
 		bind:this={club}
 		bind:paused
-		src={`assets/sound/intro/club.mp3`}
+		bind:currentTime
+		bind:duration
+		bind:ended
+		src="assets/sound/intro/club.mp3"
 		loop={true}
 		muted={!$soundOn}
-		preload="auto"
-	/>
+		preload="auto"></audio>
 {/if}
 
 <style>

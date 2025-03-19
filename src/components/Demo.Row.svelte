@@ -4,8 +4,8 @@
 	import { getContext, tick } from "svelte";
 	import { range } from "d3";
 	import _ from "lodash";
-	import viewport from "$stores/viewport.js";
-	import mq from "$stores/mq.js";
+	import viewport from "$stores/viewport";
+	import mq from "$stores/mq";
 
 	export let id;
 	export let data;
@@ -112,7 +112,7 @@
 
 		{#each range(0, beatsPerMeasure, 0.5) as dot}
 			{@const left = $xScale(dot)}
-			<div class="dot" style:left={`${left}px`} />
+			<div class="dot" style:left={`${left}px`}></div>
 		{/each}
 	</div>
 

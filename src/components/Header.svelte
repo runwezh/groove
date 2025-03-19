@@ -1,7 +1,7 @@
 <script>
 	import Tip from "$components/helpers/Tip.svelte";
 	import wordmark from "$svg/wordmark.svg";
-	import viewport from "$stores/viewport.js";
+	import viewport from "$stores/viewport";
 
 	$: mobile = $viewport && $viewport.width < 600;
 </script>

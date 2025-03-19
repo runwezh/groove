@@ -5,7 +5,7 @@
 	import { browser } from "$app/environment";
 	import Icon from "$components/helpers/Icon.svelte";
 	import reducedMotion from "$stores/reducedMotion.js";
-	import mq from "$stores/mq.js";
+	import mq from "$stores/mq";
 
 	export let strokeWidth = "2px";
 	export let showLabel = false;

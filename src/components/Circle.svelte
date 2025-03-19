@@ -2,14 +2,29 @@
 	import Track from "$components/Circle.Track.svelte";
 	import Note from "$components/Circle.Note.svelte";
 	import Icon from "$components/helpers/Icon.svelte";
-	import { setContext } from "svelte";
+	import { setContext, onMount } from "svelte";
 	import { scaleLinear, range, arc } from "d3";
 	import Range from "$components/helpers/Range.svelte";
-	import _ from "lodash";
+	import lodash from "lodash";
 	import { writable } from "svelte/store";
-	import { currentAudioId } from "$stores/misc.js";
-	import mq from "$stores/mq.js";
-	import { previous } from "$stores/previous.js";
+	import { currentAudioId } from "$stores/misc";
+	import mq from "$stores/mq";
+	import { previous } from "$stores/previous";
+
+	const { round } = lodash;
+
+	// 添加浏览器环境检查
+	const isBrowser = typeof window !== 'undefined';
+
+	// 减少动画标志
+	let isReducedMotion = false;
+
+	// 在客户端环境中更新减少动画状态
+	if (isBrowser && mq.reducedMotion) {
+		mq.reducedMotion.subscribe((value) => {
+			isReducedMotion = value;
+		});
+	}
 
 	export let dots = [0];
 	export let beatsPerRotation = 1;
@@ -60,19 +75,22 @@
 		.range([-Math.PI / 2, (3 / 2) * Math.PI]); // to make 0 at the top
 	$: trimmedDuration = $duration - 0.7;
 	$: $currentBeat = timeToBeat($seek) % beatsPerRotation;
-	$: if ($seek >= trimmedDuration && $isPlaying) {
+	$: if (isBrowser && $seek >= trimmedDuration && $isPlaying) {
 		reset();
 		play();
 	}
-	$: $currentTrackI, divisionChange();
-	$: $currentAudioId, audioChange();
+	$: if (isBrowser) $currentTrackI, divisionChange();
+	$: if (isBrowser) $currentAudioId, audioChange();
+
 	const audioChange = () => {
+		if (!isBrowser) return;
 		if ($currentAudioId && $currentAudioId !== id && $isPlaying) {
 			pause();
 		}
 	};
 
 	const divisionChange = () => {
+		if (!isBrowser) return;
 		if ($audioEls.length) {
 			$audioEls[$prevTrackI].pause();
 			const prevTime = $audioEls[$prevTrackI].currentTime;
@@ -84,16 +102,19 @@
 	};
 
 	const pause = () => {
+		if (!isBrowser) return;
 		$isPlaying = false;
 		$currentAudioId = undefined;
 		if ($audioEls.length) $audioEls[$currentTrackI].pause();
 	};
 	const play = () => {
+		if (!isBrowser) return;
 		$isPlaying = true;
 		$currentAudioId = id;
 		if ($audioEls.length) $audioEls[$currentTrackI].play();
 	};
 	const reset = () => {
+		if (!isBrowser) return;
 		if ($audioEls.length) $audioEls[$currentTrackI].currentTime = 0;
 	};
 </script>
@@ -129,7 +150,7 @@
 
 			<line
 				class="marker"
-				class:visible={!$mq.reducedMotion}
+				class:visible={!isReducedMotion}
 				x1={0}
 				y1={0}
 				x2={x(beatToAngle(timeToBeat($seek)))}
@@ -157,7 +178,7 @@
 					step={2}
 					showTicks={true}
 					ticksAbove={options.map(
-						(d) => `${_.round((Math.ceil(d / 2) / d) * 100, 1)}%`
+						(d) => `${round((Math.ceil(d / 2) / d) * 100, 1)}%`
 					)}
 					bind:value={currentDivision}
 					dotColor={"var(--accent-light)"}

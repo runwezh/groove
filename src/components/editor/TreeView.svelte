@@ -1,67 +1,78 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte';
   
-  export let data = {};
-  export let path = [];
-  export let expanded = true;
+  export let data: any;
+  export let path: (string | number)[] = [];
   
   const dispatch = createEventDispatcher();
+  let expanded = false;
   
-  function getNodeType(value) {
+  function toggleExpand() {
+    expanded = !expanded;
+  }
+  
+  function getNodeType(value: any): string {
     if (value === null) return 'null';
     if (Array.isArray(value)) return 'array';
     return typeof value;
   }
   
-  function handleNodeClick(key, value, fullPath) {
+  function handleNodeClick(key: string | number, value: any, fullPath: (string | number)[]) {
     dispatch('select', {
       path: fullPath,
       type: getNodeType(value),
-      value: value
+      value
     });
-  }
-  
-  function toggleExpand() {
-    expanded = !expanded;
   }
 </script>
 
 <div class="tree-node">
   {#if Object.keys(data).length > 0 || Array.isArray(data)}
-    <div class="node-header" on:click={toggleExpand}>
+    <div 
+      class="node-header" 
+      role="button"
+      tabindex="0"
+      on:click={toggleExpand}
+      on:keydown={e => e.key === 'Enter' && toggleExpand()}
+    >
       <span class="expander">{expanded ? '▼' : '►'}</span>
       {#if path.length > 0}
         <span class="node-key">{path[path.length - 1]}:</span>
-      {:else}
-        <span class="node-key">root</span>
       {/if}
     </div>
-    
     {#if expanded}
       <div class="node-children">
         {#if Array.isArray(data)}
           {#each data as item, index}
-            <div class="array-item" on:click|stopPropagation={() => handleNodeClick(index, item, [...path, index])}>
+            <div 
+              class="array-item" 
+              role="button"
+              tabindex="0"
+              on:click|stopPropagation={() => handleNodeClick(index, item, [...path, index])}
+              on:keydown={e => e.key === 'Enter' && handleNodeClick(index, item, [...path, index])}
+            >
               {#if typeof item === 'object' && item !== null}
                 <svelte:self data={item} path={[...path, index]} />
               {:else}
-                <div class="leaf-node">
-                  <span class="node-key">{index}:</span>
-                  <span class="node-value">{JSON.stringify(item)}</span>
-                </div>
+                <span class="node-key">{index}:</span>
+                <span class="node-value">{JSON.stringify(item)}</span>
               {/if}
             </div>
           {/each}
         {:else}
           {#each Object.entries(data) as [key, value]}
-            <div class="object-item" on:click|stopPropagation={() => handleNodeClick(key, value, [...path, key])}>
+            <div 
+              class="object-item" 
+              role="button"
+              tabindex="0"
+              on:click|stopPropagation={() => handleNodeClick(key, value, [...path, key])}
+              on:keydown={e => e.key === 'Enter' && handleNodeClick(key, value, [...path, key])}
+            >
               {#if typeof value === 'object' && value !== null}
                 <svelte:self data={value} path={[...path, key]} />
               {:else}
-                <div class="leaf-node">
-                  <span class="node-key">{key}:</span>
-                  <span class="node-value">{JSON.stringify(value)}</span>
-                </div>
+                <span class="node-key">{key}:</span>
+                <span class="node-value">{JSON.stringify(value)}</span>
               {/if}
             </div>
           {/each}
@@ -69,7 +80,13 @@
       </div>
     {/if}
   {:else}
-    <div class="leaf-node" on:click={() => handleNodeClick(path[path.length - 1], data, path)}>
+    <div 
+      class="leaf-node" 
+      role="button"
+      tabindex="0"
+      on:click={() => handleNodeClick(path[path.length - 1], data, path)}
+      on:keydown={e => e.key === 'Enter' && handleNodeClick(path[path.length - 1], data, path)}
+    >
       <span class="node-key">{path[path.length - 1] || 'root'}:</span>
       <span class="node-value">{JSON.stringify(data)}</span>
     </div>

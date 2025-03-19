@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
 	import Track from "$components/Demo.Track.svelte";
 	import Icon from "$components/helpers/Icon.svelte";
-	import { currentAudioId, soundOn } from "$stores/misc.js";
-	import { getContext } from "svelte";
-	import mq from "$stores/mq.js";
+	import { currentAudioId, soundOn } from "$stores/misc";
+	import { getContext, onMount } from "svelte";
+	import mq from "$stores/mq";
 
 	const {
 		songId,
@@ -30,11 +30,29 @@
 	export let restartActions;
 
 	let d = 0;
-	$: $duration = d;
+	let t = 0;
+	let paused = true;
+	
+	// 减少动画标志
+	let isReducedMotion = false;
+	
+	// 在客户端环境中更新减少动画状态
+	if (typeof window !== 'undefined' && mq.reducedMotion) {
+		mq.reducedMotion.subscribe((value: boolean) => {
+			isReducedMotion = value;
+		});
+	}
 
+	onMount(() => {
+		if (audioEls[0]) {
+			audioEls[0] = audioEls[0];
+		}
+	});
+
+	$: $duration = d;
 	$: trimOff = songId === "heart" ? 300 : songId === "money" ? 500 : 1300;
 	$: $trimmedDuration = $duration * 1000 - trimOff;
-	$: pulse = !$playClicked && style !== "real" && !$mq.reducedMotion;
+	$: pulse = !$playClicked && style !== "real" && !isReducedMotion;
 	$: if ($duration && $seek * 1000 > $trimmedDuration) {
 		reset();
 		play();
@@ -90,11 +108,12 @@
 	<audio
 		preload="none"
 		bind:duration={d}
-		bind:currentTime={$seek}
-		bind:this={$audioEls[0]}
+		bind:currentTime={t}
+		bind:paused
+		bind:this={audioEls[0]}
 		src={`assets/sound/real-songs/${songId}.mp3`}
 		muted={!$soundOn}
-	/>
+	></audio>
 {:else}
 	{#each versions as version, i}
 		<Track

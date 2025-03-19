@@ -153,12 +153,12 @@ import example from "$actions/action.js";
 
 ### Stores
 
-These are located in `src/lib/stores`. You can put custom ones in `src/lib/stores/misc.js` or create unique files for more complex ones.
+These are located in `src/lib/stores`. You can put custom ones in `src/lib/stores/misc` or create unique files for more complex ones.
 
 ```js
 // Usage
 import example from "$stores/example.js";
-import { example } from "$stores/misc.js";
+import { example } from "$stores/misc";
 ```
 
 * `mq`: returns an object of media queries booleans if they are enabled or not. You can modify them in the js file.

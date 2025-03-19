@@ -7,11 +7,14 @@
 	import { setContext, onMount, tick } from "svelte";
 	import { scaleLinear, range } from "d3";
 	import { writable } from "svelte/store";
-	import { started, songData, currentAudioId } from "$stores/misc.js";
-	import viewport from "$stores/viewport.js";
-	import inView from "$actions/inView.js";
+	import { started, songData, currentAudioId } from "$stores/misc";
+	import viewport from "$stores/viewport";
+	import inView from "$actions/inView";
 	import _ from "lodash";
-	import { previous } from "$stores/previous.js";
+	import { previous } from "$stores/previous";
+
+	// 添加浏览器环境检查
+	const isBrowser = typeof window !== 'undefined';
 
 	export let songId;
 	export let notes = [];
@@ -20,17 +23,46 @@
 	export let artist;
 	export let year;
 
-	const {
-		parts,
-		defaultStyles,
-		actionsData,
-		beatsPerMeasure = 4,
-		measures = 1,
-		highlighted = {},
-		gridlines = true,
-		marker = true,
-		autoplay = false
-	} = $songData[songId];
+	// 设置默认值，避免服务器端渲染问题
+	const defaultParts = [];
+	const defaultStylesObj = {};
+	const defaultActionsData = [];
+	const defaultBeatsPerMeasure = 4;
+	const defaultMeasures = 1;
+	const defaultHighlighted = {};
+	const defaultGridlines = true;
+	const defaultMarker = true;
+	const defaultAutoplay = false;
+
+	// 提取数据并提供默认值
+	const getData = () => {
+		if (!$songData || !$songData[songId]) {
+			return {
+				parts: defaultParts,
+				defaultStyles: defaultStylesObj,
+				actionsData: defaultActionsData,
+				beatsPerMeasure: defaultBeatsPerMeasure,
+				measures: defaultMeasures,
+				highlighted: defaultHighlighted,
+				gridlines: defaultGridlines,
+				marker: defaultMarker,
+				autoplay: defaultAutoplay
+			};
+		}
+		
+		return $songData[songId];
+	};
+	
+	$: songDataItem = getData();
+	$: parts = songDataItem.parts || defaultParts;
+	$: stylesObj = songDataItem.defaultStyles || defaultStylesObj;
+	$: actionsData = songDataItem.actionsData || defaultActionsData;
+	$: beatsPerMeasure = songDataItem.beatsPerMeasure || defaultBeatsPerMeasure;
+	$: measures = songDataItem.measures || defaultMeasures;
+	$: highlighted = songDataItem.highlighted || defaultHighlighted;
+	$: gridlines = songDataItem.gridlines !== undefined ? songDataItem.gridlines : defaultGridlines;
+	$: marker = songDataItem.marker !== undefined ? songDataItem.marker : defaultMarker;
+	$: autoplay = songDataItem.autoplay !== undefined ? songDataItem.autoplay : defaultAutoplay;
 
 	const versions = {
 		straight: ["0000", "1000", "1100", "1110", "1111"],
@@ -75,12 +107,12 @@
 	const duration = writable(0);
 	const trimmedDuration = writable(0);
 	const seek = writable(0);
-	const allParts = writable(parts);
+	const allParts = writable(parts || []);
 	const currentBeat = writable(0);
 	const timeToBeat = writable(undefined);
 	const xScale = writable(undefined);
-	const actions = writable(actionsData.map((d) => ({ ...d, on: false })));
-	const instrumentStyles = writable({ ...defaultStyles });
+	const actions = writable((actionsData || []).map((d) => ({ ...d, on: false })));
+	const instrumentStyles = writable({ ...stylesObj });
 	const highlightedNotes = writable(highlighted);
 	const isPlaying = writable(false);
 	const width = writable(0);
@@ -127,7 +159,7 @@
 		$currentAction = $actions[0];
 		$currentActionIndex = 0;
 		$highlightedNotes = [];
-		$instrumentStyles = { ...defaultStyles };
+		$instrumentStyles = { ...stylesObj };
 		reset();
 	};
 
@@ -188,6 +220,8 @@
 	};
 
 	const measure = async () => {
+		if (typeof window === 'undefined') return;
+		
 		await tick();
 		const noteEl = document.querySelector(
 			"div#straight-demo figure .instrument .notes"
@@ -210,14 +244,14 @@
 	{/if}
 
 	<div class="descriptions" class:faded>
-		<Descriptions {notes} />
+		<Descriptions {notes}></Descriptions>
 	</div>
 
 	<figure bind:clientHeight={$height} class:faded use:inView on:exit={onExit}>
 		<figcaption class="sr-only" aria-live="polite">{figcaption}</figcaption>
 
 		{#if marker}
-			<Marker />
+			<Marker></Marker>
 		{/if}
 
 		{#if gridlines}
@@ -234,7 +268,7 @@
 						class:thick
 						style:left={`${left}px`}
 						style:height={`${$height}px`}
-					/>
+					></div>
 				{/each}
 			</div>
 		{/if}
