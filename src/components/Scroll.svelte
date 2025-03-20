@@ -11,6 +11,7 @@
 	} from "$stores/misc.js";
 	import scrollY from "$stores/scrollY.js";
 	import { tweened } from "svelte/motion";
+	import { base } from '$app/paths';
 
 	export let steps;
 
@@ -80,7 +81,7 @@
 	<audio
 		bind:this={club}
 		bind:paused
-		src={`assets/sound/intro/club.mp3`}
+		src={`${base}/assets/sound/intro/club.mp3`}
 		loop={true}
 		muted={!$soundOn}
 		preload="auto"

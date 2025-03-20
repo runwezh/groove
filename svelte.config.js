@@ -24,10 +24,23 @@ const preprocess = sveltePreprocess({
 const config = {
 	preprocess,
 	kit: {
-		adapter: adapterStatic(),
+		adapter: adapterStatic({
+			fallback: 'index.html',
+			assets: 'build',
+			pages: 'build'
+		}),
 		paths: {
 			base
 		},
+		prerender: {
+			entries: ['*'],
+			handleHttpError: ({ path, referrer, message }) => {
+				if (message.includes('does not begin with `base`')) {
+					return;
+				}
+				console.warn(`${path} 引用自 ${referrer}: ${message}`);
+			}
+		}
 	},
 	vitePlugin: {
 		experimental: {

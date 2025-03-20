@@ -5,15 +5,16 @@
 	import Index from "$components/Index.svelte";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
+	import { base } from '$app/paths';
 
 	export let data;
 
 	version();
 
 	const preloadFont = [
-		"https://pudding.cool/assets/fonts/national/National2Web-Regular.woff2",
-		"https://pudding.cool/assets/fonts/national/National2Web-Bold.woff2",
-		"https://pudding.cool/assets/fonts/nicolatte/Nicolatte-Regular.otf"
+		`${base}/assets/fonts/national/National2Web-Regular.woff2`,
+		`${base}/assets/fonts/national/National2Web-Bold.woff2`,
+		`${base}/assets/fonts/nicolatte/Nicolatte-Regular.otf`
 	];
 
 	const { title, description, url, keywords } = copy;

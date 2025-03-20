@@ -5,6 +5,7 @@
 	import { scrollyStep, direction } from "$stores/misc.js";
 	import { scaleLinear, range } from "d3";
 	import mq from "$stores/mq.js";
+	import { base } from '$app/paths';
 
 	let width = 0;
 	let audioEls = [];
@@ -53,7 +54,7 @@
 
 <Track
 	i={0}
-	src={"assets/sound/intro/normal.mp3"}
+	src={`${base}/assets/sound/intro/normal.mp3`}
 	bind:audioEls
 	bind:seek
 	bind:durations
@@ -61,7 +62,7 @@
 />
 <Track
 	i={1}
-	src={"assets/sound/intro/drunk.mp3"}
+	src={`${base}/assets/sound/intro/drunk.mp3`}
 	bind:audioEls
 	bind:seek
 	bind:durations

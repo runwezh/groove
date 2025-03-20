@@ -1,6 +1,7 @@
 <script>
 	import _ from "lodash";
 	import { scrollyStep, soundOn, ios } from "$stores/misc.js";
+	import { base } from '$app/paths';
 	
 	export let text;
 	export let quoted;
@@ -127,7 +128,7 @@
 {#if !$ios && srcs[id]}
 	<audio
 		bind:this={audioEl}
-		src={`assets/sound/intro/${srcs[id]}.mp3`}
+		src={`${base}/assets/sound/intro/${srcs[id]}.mp3`}
 		bind:currentTime={seek}
 		bind:duration
 		bind:paused

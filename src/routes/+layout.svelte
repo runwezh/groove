@@ -36,7 +36,7 @@
   当前路径: {$page.url.pathname}
 </div> -->
 
-<main>
+<main id="content">
   <slot />
 </main>
 

@@ -1,9 +1,10 @@
 <script>
+	import { base } from '$app/paths';
 	export let src;
 	export let alt;
 </script>
 
-<img src={`assets/img/${src}`} {alt} />
+<img src={`${base}/assets/img/${src}`} {alt} />
 
 <style>
 	img {

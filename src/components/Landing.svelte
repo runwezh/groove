@@ -4,6 +4,7 @@
 	import copy from "$data/copy.json";
 	import { started, scrollyStep, direction } from "$stores/misc.js";
 	import { fade } from "svelte/transition";
+	import { base } from '$app/paths';
 
 	const { hed, dek, byline } = copy;
 
@@ -36,7 +37,7 @@
 		<div class="dek">{@html dek}</div>
 
 		<img
-			src="assets/img/header.png"
+			src={`${base}/assets/img/header.png`}
 			alt="illustration of erykah badu, j dilla on his drum machine, and stevie wonder"
 		/>
 

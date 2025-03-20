@@ -4,6 +4,7 @@
 	import { currentAudioId, soundOn } from "$stores/misc.js";
 	import { getContext } from "svelte";
 	import mq from "$stores/mq.js";
+	import { base } from '$app/paths';
 
 	const {
 		songId,
@@ -92,14 +93,14 @@
 		bind:duration={d}
 		bind:currentTime={$seek}
 		bind:this={$audioEls[0]}
-		src={`assets/sound/real-songs/${songId}.mp3`}
+		src={`${base}/assets/sound/real-songs/${songId}.mp3`}
 		muted={!$soundOn}
 	/>
 {:else}
 	{#each versions as version, i}
 		<Track
 			{i}
-			src={`assets/sound/demo/${songId}/${version}.mp3`}
+			src={`${base}/assets/sound/demo/${songId}/${version}.mp3`}
 			silent={songId === "straight" && version === "0000"}
 		/>
 	{/each}
