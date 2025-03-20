@@ -297,40 +297,24 @@
     flex-wrap: wrap;
   }
   
-  .action-button {
+  .actions button {
     padding: 8px 12px;
     background-color: #4717f6;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
     font-size: 14px;
     transition: background-color 0.2s;
   }
   
-  .action-button:hover {
+  .actions button:hover {
     background-color: #3a13d6;
   }
   
-  .action-button.delete {
-    background-color: #e74c3c;
-  }
-  
-  .action-button.delete:hover {
-    background-color: #c0392b;
-  }
-  
-  .action-button:disabled {
+  .actions button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
-  }
-  
-  .icon {
-    font-weight: bold;
-    font-size: 16px;
   }
   
   .tree-container {
@@ -348,66 +332,16 @@
     overflow-y: auto;
   }
   
-  .hint-panel {
-    padding: 20px;
-    text-align: center;
-    color: #666;
-    background: #f9f9f9;
-    border-top: 1px solid #eee;
-  }
-  
-  .template-panel {
-    padding: 12px;
-    border-top: 1px solid #ccc;
-    background-color: #f0f0f0;
-  }
-  
-  .template-panel h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1em;
-    color: #555;
-  }
-  
-  .empty-state {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  
-  .empty-message {
-    max-width: 400px;
-    margin-bottom: 30px;
-  }
-  
-  .empty-message h3 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .empty-message p {
-    color: #666;
-    margin-bottom: 20px;
-  }
-  
-  .primary-button {
-    padding: 12px 24px;
-    background-color: #4717f6;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .primary-button:hover {
-    background-color: #3a13d6;
-  }
+  /* 删除以下未使用的CSS选择器:
+  - .icon
+  - .hint-panel
+  - .template-panel
+  - .template-panel h3
+  - .empty-state
+  - .empty-message
+  - .empty-message h3
+  - .empty-message p
+  - .primary-button
+  - .primary-button:hover
+  */
 </style>
