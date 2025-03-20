@@ -1,12 +1,12 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { generateTemplate } from '../../utils/templateGenerator';
   
-  export let currentPath = [];
+  export let currentPath: (string | number)[] = [];
   
   const dispatch = createEventDispatcher();
   let selectedTemplate = 'paragraph';
-  let templateOptions = {};
+  let templateOptions: Record<string, any> = {};
   
   // 可用的模板类型
   const templateTypes = [
@@ -30,18 +30,21 @@
   
   // 添加模板
   function addTemplate() {
+    // @ts-ignore - 假设generateTemplate有另一个重载版本
     const template = generateTemplate(selectedTemplate, templateOptions);
     dispatch('add', { template, path: currentPath });
   }
   
   // 更新列表类型
-  function updateListType(event) {
-    templateOptions = { ...templateOptions, listType: event.target.value };
+  function updateListType(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    templateOptions = { ...templateOptions, listType: target.value };
   }
   
   // 更新组件名称
-  function updateComponentName(event) {
-    templateOptions = { ...templateOptions, componentName: event.target.value };
+  function updateComponentName(event: Event) {
+    const target = event.target as HTMLInputElement;
+    templateOptions = { ...templateOptions, componentName: target.value };
   }
 </script>
 

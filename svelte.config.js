@@ -47,11 +47,6 @@ const config = {
 			}
 		}
 	},
-	vitePlugin: {
-		inspector: {
-			holdMode: true
-		}
-	},
 };
 
 export default config;

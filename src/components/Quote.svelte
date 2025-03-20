@@ -122,14 +122,16 @@
 		<p class="speaker">{quoted}</p>
 	{/if}
 	{#if source}
-		<p class="source">{source}</p>
+		<p class="source">
+			{@html source}
+		</p>
 	{/if}
 </div>
 
-{#if !$ios && srcs[id as ValidQuoteId]?.length}
+{#if !$ios && srcs[id]?.length}
 	<audio
 		bind:this={audioEl}
-		src={`assets/sound/intro/${srcs[id as ValidQuoteId][0]}.mp3`}
+		src={`assets/sound/intro/${srcs[id][0]}.mp3`}
 		bind:paused
 		bind:currentTime
 		bind:duration
