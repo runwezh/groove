@@ -116,7 +116,8 @@
       placeholder="在此编辑 JSON 数据..."
       on:input={(e) => {
         // 确保输入事件正常处理
-        editorValue = e.target.value;
+        const inputElement = e.currentTarget;
+        editorValue = inputElement.value;
       }}
     ></textarea>
   </div>

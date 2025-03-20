@@ -16,12 +16,23 @@
     [key: string]: any;
   }
   
+  interface SelectEvent {
+    path: (string | number)[];
+    type: string;
+    value: any;
+  }
+
+  interface TemplateEvent {
+    template: any;
+    path: (string | number)[];
+  }
+  
   // 接收 store 而不是普通对象
   export let jsonData;
   
   const dispatch = createEventDispatcher();
   let selectedPath: string[] = [];
-  let selectedType: string | null = null;
+  let selectedType: 'string' | 'number' | 'boolean' | 'object' | 'array' | null = null;
   let selectedValue: any = null;
   let isEmptyDocument = false;
   
@@ -35,9 +46,19 @@
   $: data = $jsonData;
   
   // 处理节点选择
-  function handleNodeSelect(event: { detail: { path: string[]; type: string; value: any } }) {
-    selectedPath = event.detail.path;
-    selectedType = event.detail.type;
+  function handleNodeSelect(event: CustomEvent<SelectEvent>) {
+    selectedPath = event.detail.path.map(p => String(p));
+    
+    // 转换类型为FieldEditor可接受的类型
+    const nodeType = event.detail.type;
+    if (nodeType === 'string' || nodeType === 'number' || nodeType === 'boolean' || 
+        nodeType === 'object' || nodeType === 'array') {
+      selectedType = nodeType;
+    } else {
+      // 默认为字符串类型
+      selectedType = 'string';
+    }
+    
     selectedValue = event.detail.value;
   }
   
@@ -102,7 +123,7 @@
   }
   
   // 添加新节点
-  function addNode(type) {
+  function addNode(type: string) {
     let newData = JSON.parse(JSON.stringify(data));
     let current = newData;
     
@@ -163,7 +184,7 @@
     // 删除节点
     const lastKey = selectedPath[selectedPath.length - 1];
     if (Array.isArray(current)) {
-      current.splice(lastKey, 1);
+      current.splice(Number(lastKey), 1);
     } else {
       delete current[lastKey];
     }
@@ -175,7 +196,7 @@
   }
   
   // 处理模板添加
-  function handleTemplateAdd(event) {
+  function handleTemplateAdd(event: CustomEvent<TemplateEvent>) {
     const { template, path } = event.detail;
     let newData = JSON.parse(JSON.stringify(data));
     

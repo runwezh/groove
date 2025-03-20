@@ -1,19 +1,19 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte';
   
-  export let data = {};
-  export let path = [];
+  export let data: any = {};
+  export let path: (string | number)[] = [];
   export let expanded = true;
   
   const dispatch = createEventDispatcher();
   
-  function getNodeType(value) {
+  function getNodeType(value: any): string {
     if (value === null) return 'null';
     if (Array.isArray(value)) return 'array';
     return typeof value;
   }
   
-  function handleNodeClick(key, value, fullPath) {
+  function handleNodeClick(key: string | number, value: any, fullPath: (string | number)[]) {
     dispatch('select', {
       path: fullPath,
       type: getNodeType(value),

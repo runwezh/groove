@@ -7,7 +7,7 @@
   
   const dispatch = createEventDispatcher();
   let editValue = JSON.stringify(value, null, 2);
-let error: string | null = null;
+  let error: string | null = null;
   
   // 当值变化时更新编辑值
   $: {
@@ -48,6 +48,12 @@ let error: string | null = null;
       error = e instanceof Error ? e.message : String(e);
     }
   }
+  
+  function handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      updateValue();
+    }
+  }
 </script>
 
 <div class="field-editor-container">
@@ -62,7 +68,7 @@ let error: string | null = null;
       type="text" 
       bind:value={editValue} 
       on:blur={updateValue}
-      on:keydown={(e) => e.key === 'Enter' && updateValue()}
+      on:keydown={handleKeyDown}
     />
   {:else if type === 'boolean'}
     <select bind:value={editValue} on:change={updateValue}>
@@ -80,7 +86,7 @@ let error: string | null = null;
       type="text" 
       bind:value={editValue} 
       on:blur={updateValue}
-      on:keydown={(e) => e.key === 'Enter' && updateValue()}
+      on:keydown={handleKeyDown}
     />
   {/if}
   
