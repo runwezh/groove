@@ -28,6 +28,17 @@ const config = {
 		paths: {
 			base
 		},
+		alias: {
+			'$lib': 'src',
+			'$actions': 'src/actions',
+			'$components': 'src/components',
+			'$data': 'src/data',
+			'$routes': 'src/routes',
+			'$stores': 'src/stores',
+			'$styles': 'src/styles',
+			'$svg': 'src/svg',
+			'$utils': 'src/utils'
+		},
 		prerender: {
 			handleHttpError: ({ path, referrer, message, status }) => {
 				// 忽略所有 404 错误
