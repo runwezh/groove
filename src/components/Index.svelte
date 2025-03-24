@@ -39,9 +39,9 @@
 </script>
 
 <article class:started={$started} class:preview={isPreview}>
-	{#if !isPreview}
+	<!-- {#if !isPreview}
 		<IntroAnimation />
-	{/if}
+	{/if} -->
 	<Landing />
 
 	<div class="sections" class:started={$started}>
